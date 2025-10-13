@@ -279,7 +279,7 @@ export default function DashboardPage() {
                         <CardTitle className='flex items-center gap-2'><GitMerge className='w-5 h-5' />Decision Tree Snapshot</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <DecisionTreeSnapshot />
+                        <DecisionTreeSnapshot tree={data.decisionTree} />
                     </CardContent>
                 </Card>
             </div>

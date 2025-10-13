@@ -44,3 +44,19 @@ export type ChartDataPoint = {
   actual: number;
   prediction: number;
 };
+
+export type LeafNode = {
+  type: 'leaf';
+  value: string | number;
+  samples: number;
+};
+
+export type DecisionNode = {
+  type: 'node';
+  feature: string;
+  threshold: number;
+  samples: number;
+  children: [DecisionTree, DecisionTree];
+};
+
+export type DecisionTree = DecisionNode | LeafNode;

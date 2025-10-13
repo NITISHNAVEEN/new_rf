@@ -7,6 +7,7 @@ import type {
   FeatureImportance,
   Prediction,
   ChartDataPoint,
+  DecisionTree,
 } from '@/lib/types';
 import housingDataset from '@/lib/data/california-housing.json';
 import wineDataset from '@/lib/data/wine-quality.json';
@@ -84,6 +85,7 @@ type Data = {
   baselineMetrics: (Metrics & { confusionMatrix?: number[][] }) | null;
   baselineFeatureImportance: FeatureImportance[];
   baselineChartData: ChartDataPoint[] | null;
+  decisionTree: DecisionTree | null;
 };
 
 type Action =
@@ -119,6 +121,31 @@ const reducer = (state: State, action: Action): State => {
     default:
       return state;
   }
+};
+
+const generateMockTree = (features: string[], depth: number = 0, maxDepth: number = 2): DecisionTree => {
+    if (depth === maxDepth || Math.random() < 0.4) {
+        const value = Math.random() > 0.5 ? 'Class 1' : 'Class 0';
+        return {
+            type: 'leaf',
+            value,
+            samples: Math.floor(Math.random() * 50 + 10)
+        };
+    }
+
+    const feature = features[Math.floor(Math.random() * features.length)];
+    const threshold = (Math.random() * 10 + 5).toFixed(2);
+    
+    return {
+        type: 'node',
+        feature,
+        threshold: parseFloat(threshold),
+        samples: Math.floor(Math.random() * 200 + 50),
+        children: [
+            generateMockTree(features, depth + 1, maxDepth),
+            generateMockTree(features, depth + 1, maxDepth)
+        ]
+    };
 };
 
 const mockTrainModel = async (
@@ -186,8 +213,9 @@ const mockTrainModel = async (
   });
   
   const chartData = history.map(p => ({ actual: p.actual, prediction: p.prediction }));
+  const decisionTree = generateMockTree(selectedFeatures);
 
-  return { metrics, featureImportance, history, chartData };
+  return { metrics, featureImportance, history, chartData, decisionTree };
 };
 
 export const useRandomForest = () => {
@@ -202,6 +230,7 @@ export const useRandomForest = () => {
     baselineMetrics: null,
     baselineFeatureImportance: [],
     baselineChartData: null,
+    decisionTree: null,
   });
   const [status, setStatus] = useState<Status>('idle');
   const { toast } = useToast();
@@ -209,7 +238,7 @@ export const useRandomForest = () => {
 
   useEffect(() => {
     const newDataset = state.task === 'regression' ? housingDataset : wineDataset;
-    setData(d => ({...d, dataset: newDataset, baselineMetrics: null, metrics: null}));
+    setData(d => ({...d, dataset: newDataset, baselineMetrics: null, metrics: null, decisionTree: null}));
     dispatch({ type: 'SET_HYPERPARAMETERS', payload: BASELINE_HYPERPARAMETERS });
   }, [state.task]);
 
@@ -230,6 +259,7 @@ export const useRandomForest = () => {
             featureImportance: d.featureImportance.length ? d.featureImportance : trainedData.featureImportance,
             chartData: d.chartData ? d.chartData : trainedData.chartData,
             history: d.history.length ? d.history : trainedData.history,
+            decisionTree: d.decisionTree ? d.decisionTree : trainedData.decisionTree,
              }));
         } else {
             setData(d => ({ ...d, ...trainedData, insights: '' }));
