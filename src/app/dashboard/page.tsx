@@ -1,6 +1,6 @@
 'use client';
 
-import { BarChart3, Target, PanelLeft, LineChart, BeakerIcon, AreaChart, LayoutGrid, Lightbulb, GitMerge, BrainCircuit, Activity } from 'lucide-react';
+import { BarChart3, Target, PanelLeft, LineChart, BeakerIcon, AreaChart, Lightbulb, GitMerge, BrainCircuit, Activity, TestTube2 } from 'lucide-react';
 import { useRandomForest } from '@/hooks/use-random-forest';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -28,6 +28,7 @@ import { PredictionErrorHistogram } from '@/components/prediction-error-histogra
 import { CumulativeErrorChart } from '@/components/cumulative-error-chart';
 import { RocCurveChart } from '@/components/roc-curve-chart';
 import { PrecisionRecallCurveChart } from '@/components/precision-recall-curve-chart';
+import { RealTimePrediction } from '@/components/real-time-prediction';
 
 
 export default function DashboardPage() {
@@ -139,6 +140,7 @@ export default function DashboardPage() {
             <TabsTrigger value="explore">Explore</TabsTrigger>
             <TabsTrigger value="insights">Insights</TabsTrigger>
             <TabsTrigger value="performance">Performance</TabsTrigger>
+            <TabsTrigger value="prediction">Prediction</TabsTrigger>
           </TabsList>
         </div>
         <TabsContent value="dashboard" className="py-4">
@@ -339,6 +341,13 @@ export default function DashboardPage() {
                     </Card>
                 </div>
             )}
+        </TabsContent>
+        <TabsContent value="prediction" className="py-4">
+            <RealTimePrediction 
+                features={state.selectedFeatures} 
+                taskType={state.task} 
+                isLoading={isLoading} 
+            />
         </TabsContent>
       </Tabs>
     );
