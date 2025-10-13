@@ -2,6 +2,7 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { TaskType } from "@/lib/types";
 import { useMemo } from "react";
+import { ChartContainer } from "./ui/chart";
 
 interface SummaryStatisticsProps {
     dataset: Record<string, any>[];
@@ -18,7 +19,7 @@ function calculateNumericStats(data: number[]) {
     const mean = sum / n;
     const mid = Math.floor(n / 2);
     const median = n % 2 === 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid];
-    const std = Math.sqrt(data.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / (n - 1));
+    const std = Math.sqrt(data.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / (n - 1)) || 0;
     const min = sorted[0];
     const max = sorted[n - 1];
     
@@ -50,7 +51,7 @@ export function SummaryStatistics({ dataset, task, targetColumn }: SummaryStatis
     }, [dataset, task, targetColumn]);
 
     return (
-        <div>
+        <ChartContainer config={{}} className="h-auto w-full">
             <h3 className="font-semibold mb-2">Numeric Features</h3>
             <Table>
                 <TableHeader>
@@ -98,6 +99,6 @@ export function SummaryStatistics({ dataset, task, targetColumn }: SummaryStatis
                     </Table>
                 </div>
             )}
-        </div>
+        </ChartContainer>
     );
 }
