@@ -9,15 +9,17 @@ import { Skeleton } from './ui/skeleton';
 import { Button } from './ui/button';
 import type { Prediction, TaskType } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
 interface ExplainPredictionProps {
   prediction?: Prediction;
   featureNames: string[];
   taskType: TaskType;
   isLoading: boolean;
+  cardClassName?: string;
 }
 
-export function ExplainPrediction({ prediction, featureNames, taskType, isLoading }: ExplainPredictionProps) {
+export function ExplainPrediction({ prediction, featureNames, taskType, isLoading, cardClassName }: ExplainPredictionProps) {
   const [explanation, setExplanation] = useState<string>('');
   const [isExplaining, setIsExplaining] = useState(false);
   const { toast } = useToast();
@@ -64,7 +66,7 @@ export function ExplainPrediction({ prediction, featureNames, taskType, isLoadin
   }
 
   return (
-    <Card>
+    <Card className={cn(cardClassName)}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">Explain Prediction</CardTitle>
         <Bot className="h-4 w-4 text-muted-foreground" />
@@ -76,7 +78,7 @@ export function ExplainPrediction({ prediction, featureNames, taskType, isLoadin
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="outline" className="w-full" disabled={!prediction}>
-                Explain a Prediction
+                Explain Latest Prediction
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
@@ -85,7 +87,7 @@ export function ExplainPrediction({ prediction, featureNames, taskType, isLoadin
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <p className="text-sm text-muted-foreground">
-                  Here is an explanation for a prediction from the latest model run.
+                  Here is an explanation for the first prediction from the latest model run.
                 </p>
                 
                 <div className="rounded-md border bg-muted/50 p-3">

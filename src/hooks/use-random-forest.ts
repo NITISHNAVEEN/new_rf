@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useReducer, useCallback } from 'react';
+import { useState, useReducer, useCallback, useEffect } from 'react';
 import type {
   TaskType,
   Hyperparameters,
@@ -15,19 +15,22 @@ import { useToast } from '@/hooks/use-toast';
 
 type Status = 'idle' | 'loading' | 'success' | 'error';
 
+const BASELINE_HYPERPARAMETERS: Hyperparameters = {
+  n_estimators: 100,
+  max_depth: 10,
+  min_samples_split: 2,
+  min_samples_leaf: 1,
+  max_features: 'sqrt',
+  bootstrap: true,
+  min_impurity_decrease: 0.0,
+  criterion: 'gini',
+  class_weight: null,
+};
+
+
 const regressionInitialState = {
   task: 'regression' as TaskType,
-  hyperparameters: {
-    n_estimators: 100,
-    max_depth: 10,
-    min_samples_split: 2,
-    min_samples_leaf: 1,
-    max_features: 'sqrt' as 'sqrt' | 'log2' | null,
-    bootstrap: true,
-    min_impurity_decrease: 0.0,
-    criterion: 'gini' as 'gini' | 'entropy',
-    class_weight: null as 'balanced' | 'balanced_subsample' | null,
-  },
+  hyperparameters: BASELINE_HYPERPARAMETERS,
   selectedFeatures: [
     'MedInc',
     'HouseAge',
@@ -39,21 +42,12 @@ const regressionInitialState = {
     'Longitude',
   ],
   targetColumn: 'MedHouseVal',
+  testSize: 0.2,
 };
 
 const classificationInitialState = {
   task: 'classification' as TaskType,
-  hyperparameters: {
-    n_estimators: 100,
-    max_depth: 10,
-    min_samples_split: 2,
-    min_samples_leaf: 1,
-    max_features: 'sqrt' as 'sqrt' | 'log2' | null,
-    bootstrap: true,
-    min_impurity_decrease: 0.0,
-    criterion: 'gini' as 'gini' | 'entropy',
-    class_weight: null as 'balanced' | 'balanced_subsample' | null,
-  },
+  hyperparameters: BASELINE_HYPERPARAMETERS,
   selectedFeatures: [
     'fixed_acidity',
     'volatile_acidity',
@@ -68,6 +62,7 @@ const classificationInitialState = {
     'alcohol',
   ],
   targetColumn: 'quality',
+  testSize: 0.2,
 };
 
 
@@ -76,6 +71,7 @@ type State = {
   hyperparameters: Hyperparameters;
   selectedFeatures: string[];
   targetColumn: string;
+  testSize: number;
 };
 
 type Data = {
@@ -85,13 +81,17 @@ type Data = {
   history: Prediction[];
   chartData: ChartDataPoint[] | null;
   insights: string;
+  baselineMetrics: (Metrics & { confusionMatrix?: number[][] }) | null;
+  baselineFeatureImportance: FeatureImportance[];
+  baselineChartData: ChartDataPoint[] | null;
 };
 
 type Action =
   | { type: 'SET_TASK'; payload: TaskType }
   | { type: 'SET_HYPERPARAMETERS'; payload: Partial<Hyperparameters> }
   | { type: 'SET_SELECTED_FEATURES'; payload: string[] }
-  | { type: 'SET_TARGET_COLUMN'; payload: string };
+  | { type: 'SET_TARGET_COLUMN'; payload: string }
+  | { type: 'SET_TEST_SIZE'; payload: number };
 
 const initialState: State = regressionInitialState;
 
@@ -114,37 +114,39 @@ const reducer = (state: State, action: Action): State => {
       const newFeatures = allHeaders.filter(h => h !== action.payload);
       return { ...state, targetColumn: action.payload, selectedFeatures: newFeatures };
     }
+    case 'SET_TEST_SIZE':
+        return { ...state, testSize: action.payload };
     default:
       return state;
   }
 };
 
-// Mock function to simulate model training
 const mockTrainModel = async (
   state: State,
-  dataset: Record<string, any>[]
-): Promise<Omit<Data, 'dataset'>> => {
+  dataset: Record<string, any>[],
+  isBaseline: boolean = false,
+): Promise<Omit<Data, 'dataset' | 'insights' | 'baselineMetrics' | 'baselineFeatureImportance' | 'baselineChartData'>> => {
   await new Promise((res) => setTimeout(res, 1500));
 
   const { task, selectedFeatures, targetColumn } = state;
+  const hyperparameters = isBaseline ? BASELINE_HYPERPARAMETERS : state.hyperparameters;
 
-  if (Math.random() < 0.1) {
+  if (Math.random() < 0.1 && !isBaseline) {
     throw new Error('Model training failed. Please try adjusting parameters.');
   }
 
-  // Generate mock metrics
   let metrics: Data['metrics'];
   if (task === 'regression') {
     metrics = {
-      r2: Math.random() * 0.2 + 0.75, // 0.75 - 0.95
-      rmse: Math.random() * 0.2 + 0.3, // 0.3 - 0.5
-      mae: Math.random() * 0.2 + 0.2, // 0.2 - 0.4
+      r2: Math.random() * 0.2 + 0.75,
+      rmse: Math.random() * 0.2 + 0.3,
+      mae: Math.random() * 0.2 + 0.2,
     };
   } else {
     metrics = {
-      accuracy: Math.random() * 0.1 + 0.88, // 0.88 - 0.98
-      precision: Math.random() * 0.1 + 0.87, // 0.87 - 0.97
-      recall: Math.random() * 0.1 + 0.89, // 0.89 - 0.99
+      accuracy: Math.random() * 0.1 + 0.88,
+      precision: Math.random() * 0.1 + 0.87,
+      recall: Math.random() * 0.1 + 0.89,
       confusionMatrix: [
         [Math.floor(Math.random() * 10 + 85), Math.floor(Math.random() * 5 + 1)],
         [Math.floor(Math.random() * 5 + 2), Math.floor(Math.random() * 10 + 90)],
@@ -152,7 +154,6 @@ const mockTrainModel = async (
     };
   }
 
-  // Generate mock feature importance
   const featureImportance = selectedFeatures
     .map((feature) => ({
       feature,
@@ -160,14 +161,12 @@ const mockTrainModel = async (
     }))
     .sort((a, b) => b.importance - a.importance);
 
-  // Generate mock predictions
   const history: Prediction[] = dataset.slice(0, 15).map((row, i) => {
     const actual = row[targetColumn];
     let prediction: number;
     if (task === 'regression') {
-      prediction = actual * (Math.random() * 0.4 + 0.8); // prediction is within 20% of actual
+      prediction = actual * (Math.random() * 0.4 + 0.8);
     } else {
-        // Simple classification mock: if alcohol > 10, predict 1, else 0
         const threshold = 10;
         prediction = row['alcohol'] > threshold ? (Math.random() > 0.1 ? 1 : 0) : (Math.random() > 0.9 ? 1 : 0);
     }
@@ -188,7 +187,7 @@ const mockTrainModel = async (
   
   const chartData = history.map(p => ({ actual: p.actual, prediction: p.prediction }));
 
-  return { metrics, featureImportance, history, chartData, insights: '' };
+  return { metrics, featureImportance, history, chartData };
 };
 
 export const useRandomForest = () => {
@@ -200,70 +199,95 @@ export const useRandomForest = () => {
     history: [],
     chartData: null,
     insights: '',
+    baselineMetrics: null,
+    baselineFeatureImportance: [],
+    baselineChartData: null,
   });
   const [status, setStatus] = useState<Status>('idle');
   const { toast } = useToast();
+  const [isDebouncing, setIsDebouncing] = useState(false);
 
   useEffect(() => {
     const newDataset = state.task === 'regression' ? housingDataset : wineDataset;
-    setData(d => ({...d, dataset: newDataset}));
+    setData(d => ({...d, dataset: newDataset, baselineMetrics: null, metrics: null}));
+    dispatch({ type: 'SET_HYPERPARAMETERS', payload: BASELINE_HYPERPARAMETERS });
   }, [state.task]);
 
   const handleStateChange = <T extends Action['type']>(type: T) => (payload: Extract<Action, { type: T }>['payload']) => {
     dispatch({ type, payload } as Action);
   };
   
+  const trainModel = useCallback(async (isBaseline = false) => {
+      setStatus('loading');
+      try {
+        const currentDataset = state.task === 'regression' ? housingDataset : wineDataset;
+        const trainedData = await mockTrainModel(state, currentDataset, isBaseline);
+        
+        if (isBaseline) {
+            setData(d => ({ ...d, baselineMetrics: trainedData.metrics, baselineFeatureImportance: trainedData.featureImportance, baselineChartData: trainedData.chartData,
+            // Also set the main view to baseline if it's the first run
+            metrics: d.metrics ? d.metrics : trainedData.metrics,
+            featureImportance: d.featureImportance.length ? d.featureImportance : trainedData.featureImportance,
+            chartData: d.chartData ? d.chartData : trainedData.chartData,
+            history: d.history.length ? d.history : trainedData.history,
+             }));
+        } else {
+            setData(d => ({ ...d, ...trainedData, insights: '' }));
+
+            const featureImportancesForAI = trainedData.featureImportance.reduce((acc, item) => {
+                acc[item.feature] = item.importance;
+                return acc;
+            }, {} as Record<string, number>);
+
+            getFeatureImportanceInsights({
+                featureImportances: featureImportancesForAI,
+                targetColumn: state.targetColumn,
+            }).then(insights => {
+                setData(d => ({ ...d, insights }));
+            }).catch(err => {
+                console.error("AI insight generation failed:", err);
+                setData(d => ({ ...d, insights: 'Could not generate AI insights.' }));
+            });
+        }
+
+        setStatus('success');
+        toast({ title: `Model Trained Successfully`, description: `${isBaseline ? 'Baseline' : 'Tuned'} model results are ready.` });
+      } catch (error) {
+        setStatus('error');
+        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
+        toast({ title: 'Training Error', description: errorMessage, variant: 'destructive' });
+         if (isBaseline) {
+             setData(d => ({ ...d, baselineMetrics: null, baselineFeatureImportance: [] }));
+         } else {
+            setData(d => ({ ...d, metrics: null, featureImportance: [], history: [] }));
+         }
+      }
+    }, [state, toast]);
+    
   const actions = {
     setTask: handleStateChange('SET_TASK'),
     setHyperparameters: handleStateChange('SET_HYPERPARAMETERS'),
     setSelectedFeatures: handleStateChange('SET_SELECTED_FEATURES'),
     setTargetColumn: handleStateChange('SET_TARGET_COLUMN'),
-    trainModel: useCallback(async () => {
-      setStatus('loading');
-      try {
-        const currentDataset = state.task === 'regression' ? housingDataset : wineDataset;
-        const trainedData = await mockTrainModel(state, currentDataset);
-        setData(d => ({ ...d, ...trainedData, insights: '' }));
-
-        const featureImportancesForAI = trainedData.featureImportance.reduce((acc, item) => {
-            acc[item.feature] = item.importance;
-            return acc;
-        }, {} as Record<string, number>);
-
-        getFeatureImportanceInsights({
-            featureImportances: featureImportancesForAI,
-            targetColumn: state.targetColumn,
-        }).then(insights => {
-            setData(d => ({ ...d, insights }));
-        }).catch(err => {
-            console.error("AI insight generation failed:", err);
-            setData(d => ({ ...d, insights: 'Could not generate AI insights.' }));
-        });
-
-        setStatus('success');
-        toast({ title: 'Model Trained Successfully', description: 'Dashboard has been updated with new results.' });
-      } catch (error) {
-        setStatus('error');
-        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
-        toast({ title: 'Training Error', description: errorMessage, variant: 'destructive' });
-        setData(d => ({ ...d, metrics: null, featureImportance: [], history: [] }));
-      }
-    }, [state, toast]),
+    setTestSize: handleStateChange('SET_TEST_SIZE'),
+    trainModel: () => trainModel(false),
+    trainBaselineModel: () => trainModel(true),
   };
 
-  // Debounced retraining
   useEffect(() => {
-    if (status === 'idle') return; // Don't train on initial load
+    if (status === 'idle' && !data.baselineMetrics) return;
 
+    setIsDebouncing(true);
     const handler = setTimeout(() => {
-      actions.trainModel();
-    }, 1000); // 1-second debounce
+        setIsDebouncing(false);
+        trainModel(false);
+    }, 1200);
 
     return () => {
       clearTimeout(handler);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.hyperparameters, state.selectedFeatures, state.targetColumn, state.task]);
+  }, [state.hyperparameters, state.targetColumn, state.testSize]);
 
   return { state, data, status, actions };
 };

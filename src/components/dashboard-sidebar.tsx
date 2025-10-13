@@ -9,15 +9,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { SidebarContent, SidebarFooter, SidebarHeader, SidebarGroup, SidebarGroupLabel, SidebarGroupContent } from '@/components/ui/sidebar';
+import { SidebarContent, SidebarFooter, SidebarHeader, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarSeparator } from '@/components/ui/sidebar';
 
 type DashboardSidebarProps = ReturnType<typeof useRandomForest> & {
   datasetHeaders: string[];
 };
 
 export function DashboardSidebar({ state, actions, status, datasetHeaders }: DashboardSidebarProps) {
-  const { hyperparameters, task } = state;
-  const { setHyperparameters } = actions;
+  const { hyperparameters, task, testSize } = state;
+  const { setHyperparameters, setTestSize } = actions;
 
   const HelpTooltip = ({ children }: { children: React.ReactNode }) => (
     <Tooltip>
@@ -63,7 +63,7 @@ export function DashboardSidebar({ state, actions, status, datasetHeaders }: Das
           </SidebarGroup>
 
           <SidebarGroup>
-            <SidebarGroupLabel>Data</SidebarGroupLabel>
+            <SidebarGroupLabel>Data Configuration</SidebarGroupLabel>
             <SidebarGroupContent className="space-y-4">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
@@ -90,11 +90,33 @@ export function DashboardSidebar({ state, actions, status, datasetHeaders }: Das
                   </div>
                   <p className="text-sm text-muted-foreground">All columns except the target are used as features.</p>
                 </div>
+                <div className="space-y-2">
+                    <div className="flex justify-between">
+                        <div className="flex items-center gap-2">
+                            <Label>Test Set Size</Label>
+                            <HelpTooltip>The proportion of the dataset to include in the test split.</HelpTooltip>
+                        </div>
+                        <span className="text-sm text-muted-foreground">{Math.round(testSize * 100)}%</span>
+                    </div>
+                    <Slider
+                        value={[testSize]}
+                        onValueChange={([value]) => setTestSize(value)}
+                        min={0.1} max={0.5} step={0.05}
+                    />
+                </div>
             </SidebarGroupContent>
           </SidebarGroup>
+          
+          <SidebarSeparator />
+          
+          <div className='p-2'>
+            <Button variant="outline" className="w-full" onClick={actions.trainBaselineModel} disabled={status === 'loading'}>
+                {status === 'loading' ? 'Training...' : 'Train Baseline Model'}
+            </Button>
+          </div>
 
           <SidebarGroup>
-            <SidebarGroupLabel>Hyperparameters</SidebarGroupLabel>
+            <SidebarGroupLabel>Hyperparameter Tuning</SidebarGroupLabel>
             <SidebarGroupContent className="space-y-6">
               <div className="space-y-2">
                 <div className="flex justify-between">
@@ -241,7 +263,7 @@ export function DashboardSidebar({ state, actions, status, datasetHeaders }: Das
       <SidebarFooter className="border-t p-2">
         <Button onClick={actions.trainModel} disabled={status === 'loading'}>
           {status === 'loading' && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {status === 'loading' ? 'Training...' : 'Train Model'}
+          {status === 'loading' ? 'Training...' : 'Train Tuned Model'}
         </Button>
       </SidebarFooter>
     </>
