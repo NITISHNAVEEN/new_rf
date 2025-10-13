@@ -12,20 +12,20 @@ export type Hyperparameters = {
   class_weight: 'balanced' | 'balanced_subsample' | null;
 };
 
-export type RegressionMetrics = {
+export type RegressionMetric = {
   r2: number;
   rmse: number;
   mae: number;
 };
 
-export type ClassificationMetrics = {
+export type ClassificationMetric = {
   accuracy: number;
   precision: number;
   recall: number;
   confusionMatrix: number[][];
 };
 
-export type Metrics = RegressionMetrics | ClassificationMetrics;
+export type Metric = RegressionMetric | ClassificationMetric;
 
 export type FeatureImportance = {
   feature: string;

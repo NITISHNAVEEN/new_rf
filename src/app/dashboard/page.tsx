@@ -14,59 +14,67 @@ import { ConfusionMatrix } from '@/components/confusion-matrix';
 import { ExplainPrediction } from '@/components/explain-prediction';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Metric, RegressionMetric, ClassificationMetric } from '@/lib/types';
 
 export default function DashboardPage() {
   const { state, data, status, actions } = useRandomForest();
   const isLoading = status === 'loading';
 
-  const renderKpiCards = (metrics: typeof data.metrics, baselineMetrics: typeof data.baselineMetrics) => {
+  const renderKpiCards = (
+    metrics: Metric | null,
+    baselineMetrics: Metric | null
+  ) => {
     if (state.task === 'regression') {
+      const regMetrics = metrics as RegressionMetric | null;
+      const baseRegMetrics = baselineMetrics as RegressionMetric | null;
       return (
         <>
           <KpiCard
             title="R² Score"
-            value={metrics?.r2?.toFixed(3)}
-            baselineValue={baselineMetrics?.r2?.toFixed(3)}
+            value={regMetrics?.r2?.toFixed(3)}
+            baselineValue={baseRegMetrics?.r2?.toFixed(3)}
             icon={<Target className="size-4 text-muted-foreground" />}
             isLoading={isLoading}
           />
           <KpiCard
             title="RMSE"
-            value={metrics?.rmse?.toFixed(3)}
-            baselineValue={baselineMetrics?.rmse?.toFixed(3)}
+            value={regMetrics?.rmse?.toFixed(3)}
+            baselineValue={baseRegMetrics?.rmse?.toFixed(3)}
             icon={<LineChart className="size-4 text-muted-foreground" />}
             isLoading={isLoading}
           />
           <KpiCard
             title="MAE"
-            value={metrics?.mae?.toFixed(3)}
-            baselineValue={baselineMetrics?.mae?.toFixed(3)}
+            value={regMetrics?.mae?.toFixed(3)}
+            baselineValue={baseRegMetrics?.mae?.toFixed(3)}
             icon={<BeakerIcon className="size-4 text-muted-foreground" />}
             isLoading={isLoading}
           />
         </>
       );
     }
+    const classMetrics = metrics as ClassificationMetric | null;
+    const baseClassMetrics = baselineMetrics as ClassificationMetric | null;
     return (
       <>
         <KpiCard
           title="Accuracy"
-          value={metrics?.accuracy?.toFixed(3)}
-          baselineValue={baselineMetrics?.accuracy?.toFixed(3)}
+          value={classMetrics?.accuracy?.toFixed(3)}
+          baselineValue={baseClassMetrics?.accuracy?.toFixed(3)}
           icon={<Target className="size-4 text-muted-foreground" />}
           isLoading={isLoading}
         />
         <KpiCard
           title="Precision"
-          value={metrics?.precision?.toFixed(3)}
-          baselineValue={baselineMetrics?.precision?.toFixed(3)}
+          value={classMetrics?.precision?.toFixed(3)}
+          baselineValue={baseClassMetrics?.precision?.toFixed(3)}
           icon={<LineChart className="size-4 text-muted-foreground" />}
           isLoading={isLoading}
         />
         <KpiCard
           title="Recall"
-          value={metrics?.recall?.toFixed(3)}
-          baselineValue={baselineMetrics?.recall?.toFixed(3)}
+          value={classMetrics?.recall?.toFixed(3)}
+          baselineValue={baseClassMetrics?.recall?.toFixed(3)}
           icon={<BeakerIcon className="size-4 text-muted-foreground" />}
           isLoading={isLoading}
         />
@@ -107,8 +115,10 @@ export default function DashboardPage() {
         );
     }
 
+    const currentTabValue = (data.metrics && data.baselineMetrics) ? (data.metrics === data.baselineMetrics ? "baseline" : "tuned") : "tuned";
+
     return (
-      <Tabs defaultValue="tuned" className="grid w-full gap-4 md:gap-8">
+      <Tabs defaultValue={currentTabValue} className="grid w-full gap-4 md:gap-8">
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
             <div className="flex items-center md:col-span-2 lg:col-span-1">
                 { data.baselineMetrics && (
@@ -150,7 +160,7 @@ export default function DashboardPage() {
                     ) : state.task === 'regression' ? (
                         <PredictionPlot data={data.chartData} />
                     ) : (
-                        <ConfusionMatrix data={data.metrics?.confusionMatrix} />
+                        <ConfusionMatrix data={(data.metrics as ClassificationMetric)?.confusionMatrix} />
                     )}
                     </CardContent>
                 </Card>
@@ -195,7 +205,7 @@ export default function DashboardPage() {
                         {state.task === 'regression' ? (
                             <PredictionPlot data={data.baselineChartData} />
                         ) : (
-                            <ConfusionMatrix data={data.baselineMetrics?.confusionMatrix} />
+                            <ConfusionMatrix data={(data.baselineMetrics as ClassificationMetric)?.confusionMatrix} />
                         )}
                         </CardContent>
                     </Card>
