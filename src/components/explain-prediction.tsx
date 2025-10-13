@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Skeleton } from './ui/skeleton';
 import { Button } from './ui/button';
 import type { Prediction, TaskType } from '@/lib/types';
-import { useToast } from './ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 interface ExplainPredictionProps {
   history: Prediction[];

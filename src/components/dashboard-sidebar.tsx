@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Slider } from '@/components/ui/slider';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { SidebarContent, SidebarFooter, SidebarHeader, SidebarGroup, SidebarGroupLabel, SidebarGroupContent } from '@/components/ui/sidebar';
-import { useToast } from './ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 type DashboardSidebarProps = ReturnType<typeof useRandomForest> & {
   datasetHeaders: string[];

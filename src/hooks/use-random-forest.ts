@@ -10,7 +10,7 @@ import type {
 } from '@/lib/types';
 import defaultDataset from '@/lib/data/california-housing.json';
 import { getFeatureImportanceInsights } from '@/lib/actions';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 type Status = 'idle' | 'loading' | 'success' | 'error';
 
