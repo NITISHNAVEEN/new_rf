@@ -5,6 +5,11 @@ export type Hyperparameters = {
   max_depth: number;
   min_samples_split: number;
   min_samples_leaf: number;
+  max_features: 'sqrt' | 'log2' | null;
+  bootstrap: boolean;
+  min_impurity_decrease: number;
+  criterion: 'gini' | 'entropy';
+  class_weight: 'balanced' | 'balanced_subsample' | null;
 };
 
 export type RegressionMetrics = {

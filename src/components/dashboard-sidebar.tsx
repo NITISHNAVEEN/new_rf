@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
+import { Switch } from '@/components/ui/switch';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { SidebarContent, SidebarFooter, SidebarHeader, SidebarGroup, SidebarGroupLabel, SidebarGroupContent } from '@/components/ui/sidebar';
 
@@ -15,6 +16,9 @@ type DashboardSidebarProps = ReturnType<typeof useRandomForest> & {
 };
 
 export function DashboardSidebar({ state, actions, status, datasetHeaders }: DashboardSidebarProps) {
+  const { hyperparameters, task } = state;
+  const { setHyperparameters } = actions;
+
   return (
     <>
       <SidebarHeader className="border-b">
@@ -27,7 +31,7 @@ export function DashboardSidebar({ state, actions, status, datasetHeaders }: Das
             <SidebarGroupContent>
               <div className="flex items-center space-x-2">
                 <RadioGroup
-                  value={state.task}
+                  value={task}
                   onValueChange={(value) => actions.setTask(value as 'regression' | 'classification')}
                   className="flex"
                 >
@@ -79,47 +83,114 @@ export function DashboardSidebar({ state, actions, status, datasetHeaders }: Das
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <Label>Number of Trees</Label>
-                  <span className="text-sm text-muted-foreground">{state.hyperparameters.n_estimators}</span>
+                  <span className="text-sm text-muted-foreground">{hyperparameters.n_estimators}</span>
                 </div>
                 <Slider
-                  value={[state.hyperparameters.n_estimators]}
-                  onValueChange={([value]) => actions.setHyperparameters({ n_estimators: value })}
+                  value={[hyperparameters.n_estimators]}
+                  onValueChange={([value]) => setHyperparameters({ n_estimators: value })}
                   min={10} max={500} step={10}
                 />
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <Label>Max Depth</Label>
-                  <span className="text-sm text-muted-foreground">{state.hyperparameters.max_depth || 'None'}</span>
+                  <span className="text-sm text-muted-foreground">{hyperparameters.max_depth || 'None'}</span>
                 </div>
                 <Slider
-                  value={[state.hyperparameters.max_depth]}
-                  onValueChange={([value]) => actions.setHyperparameters({ max_depth: value })}
+                  value={[hyperparameters.max_depth]}
+                  onValueChange={([value]) => setHyperparameters({ max_depth: value })}
                   min={1} max={50} step={1}
                 />
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <Label>Min Samples Split</Label>
-                  <span className="text-sm text-muted-foreground">{state.hyperparameters.min_samples_split}</span>
+                  <span className="text-sm text-muted-foreground">{hyperparameters.min_samples_split}</span>
                 </div>
                 <Slider
-                  value={[state.hyperparameters.min_samples_split]}
-                  onValueChange={([value]) => actions.setHyperparameters({ min_samples_split: value })}
+                  value={[hyperparameters.min_samples_split]}
+                  onValueChange={([value]) => setHyperparameters({ min_samples_split: value })}
                   min={2} max={20} step={1}
                 />
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <Label>Min Samples Leaf</Label>
-                  <span className="text-sm text-muted-foreground">{state.hyperparameters.min_samples_leaf}</span>
+                  <span className="text-sm text-muted-foreground">{hyperparameters.min_samples_leaf}</span>
                 </div>
                 <Slider
-                  value={[state.hyperparameters.min_samples_leaf]}
-                  onValueChange={([value]) => actions.setHyperparameters({ min_samples_leaf: value })}
+                  value={[hyperparameters.min_samples_leaf]}
+                  onValueChange={([value]) => setHyperparameters({ min_samples_leaf: value })}
                   min={1} max={20} step={1}
                 />
               </div>
+               <div className="space-y-2">
+                <Label>Max Features</Label>
+                <Select
+                    value={hyperparameters.max_features ?? ''}
+                    onValueChange={(value) => setHyperparameters({ max_features: value as 'sqrt' | 'log2' | null })}
+                >
+                    <SelectTrigger><SelectValue placeholder="Select..." /></SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="sqrt">Square Root</SelectItem>
+                        <SelectItem value="log2">Log2</SelectItem>
+                        <SelectItem value="null">None (All Features)</SelectItem>
+                    </SelectContent>
+                </Select>
+              </div>
+              <div className="flex items-center justify-between">
+                <Label>Bootstrap Samples</Label>
+                <Switch
+                  checked={hyperparameters.bootstrap}
+                  onCheckedChange={(checked) => setHyperparameters({ bootstrap: checked })}
+                />
+              </div>
+
+              {task === 'regression' && (
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <Label>Min Impurity Decrease</Label>
+                    <span className="text-sm text-muted-foreground">{hyperparameters.min_impurity_decrease.toFixed(2)}</span>
+                  </div>
+                  <Slider
+                    value={[hyperparameters.min_impurity_decrease]}
+                    onValueChange={([value]) => setHyperparameters({ min_impurity_decrease: value })}
+                    min={0} max={0.5} step={0.01}
+                  />
+                </div>
+              )}
+
+              {task === 'classification' && (
+                <>
+                    <div className="space-y-2">
+                        <Label>Criterion</Label>
+                        <Select
+                            value={hyperparameters.criterion}
+                            onValueChange={(value) => setHyperparameters({ criterion: value as 'gini' | 'entropy' })}
+                        >
+                            <SelectTrigger><SelectValue /></SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="gini">Gini</SelectItem>
+                                <SelectItem value="entropy">Entropy</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="space-y-2">
+                        <Label>Class Weight</Label>
+                        <Select
+                            value={hyperparameters.class_weight ?? 'null'}
+                            onValueChange={(value) => setHyperparameters({ class_weight: value === 'null' ? null : value as 'balanced' | 'balanced_subsample' })}
+                        >
+                            <SelectTrigger><SelectValue /></SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="null">None</SelectItem>
+                                <SelectItem value="balanced">Balanced</SelectItem>
+                                <SelectItem value="balanced_subsample">Balanced Subsample</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </>
+              )}
             </SidebarGroupContent>
           </SidebarGroup>
         </TooltipProvider>

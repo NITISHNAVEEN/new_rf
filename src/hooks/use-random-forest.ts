@@ -22,6 +22,11 @@ const regressionInitialState = {
     max_depth: 10,
     min_samples_split: 2,
     min_samples_leaf: 1,
+    max_features: 'sqrt' as 'sqrt' | 'log2' | null,
+    bootstrap: true,
+    min_impurity_decrease: 0.0,
+    criterion: 'gini' as 'gini' | 'entropy',
+    class_weight: null as 'balanced' | 'balanced_subsample' | null,
   },
   selectedFeatures: [
     'MedInc',
@@ -43,6 +48,11 @@ const classificationInitialState = {
     max_depth: 10,
     min_samples_split: 2,
     min_samples_leaf: 1,
+    max_features: 'sqrt' as 'sqrt' | 'log2' | null,
+    bootstrap: true,
+    min_impurity_decrease: 0.0,
+    criterion: 'gini' as 'gini' | 'entropy',
+    class_weight: null as 'balanced' | 'balanced_subsample' | null,
   },
   selectedFeatures: [
     'fixed_acidity',
@@ -253,7 +263,7 @@ export const useRandomForest = () => {
       clearTimeout(handler);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.hyperparameters, state.selectedFeatures, state.targetColumn, state.task]); // Retrain on these changes
+  }, [state.hyperparameters, state.selectedFeatures, state.targetColumn, state.task]);
 
   return { state, data, status, actions };
 };
