@@ -1,0 +1,167 @@
+[
+  {
+    "MedInc": 8.3252,
+    "HouseAge": 41,
+    "AveRooms": 6.9841,
+    "AveBedrms": 1.0238,
+    "Population": 322,
+    "AveOccup": 2.5556,
+    "Latitude": 37.88,
+    "Longitude": -122.23,
+    "MedHouseVal": 4.526
+  },
+  {
+    "MedInc": 8.3014,
+    "HouseAge": 21,
+    "AveRooms": 6.2381,
+    "AveBedrms": 0.9719,
+    "Population": 2401,
+    "AveOccup": 2.1098,
+    "Latitude": 37.86,
+    "Longitude": -122.22,
+    "MedHouseVal": 3.585
+  },
+  {
+    "MedInc": 7.2574,
+    "HouseAge": 52,
+    "AveRooms": 8.2881,
+    "AveBedrms": 1.0734,
+    "Population": 496,
+    "AveOccup": 2.8023,
+    "Latitude": 37.85,
+    "Longitude": -122.24,
+    "MedHouseVal": 3.521
+  },
+  {
+    "MedInc": 5.6431,
+    "HouseAge": 52,
+    "AveRooms": 5.8174,
+    "AveBedrms": 1.0731,
+    "Population": 558,
+    "AveOccup": 2.5479,
+    "Latitude": 37.85,
+    "Longitude": -122.25,
+    "MedHouseVal": 3.413
+  },
+  {
+    "MedInc": 3.8462,
+    "HouseAge": 52,
+    "AveRooms": 6.2818,
+    "AveBedrms": 1.0811,
+    "Population": 565,
+    "AveOccup": 2.1815,
+    "Latitude": 37.85,
+    "Longitude": -122.25,
+    "MedHouseVal": 3.422
+  },
+  {
+    "MedInc": 4.0368,
+    "HouseAge": 52,
+    "AveRooms": 4.7616,
+    "AveBedrms": 1.1036,
+    "Population": 413,
+    "AveOccup": 2.1399,
+    "Latitude": 37.85,
+    "Longitude": -122.25,
+    "MedHouseVal": 2.697
+  },
+  {
+    "MedInc": 3.6591,
+    "HouseAge": 52,
+    "AveRooms": 4.9319,
+    "AveBedrms": 0.9514,
+    "Population": 1094,
+    "AveOccup": 2.1284,
+    "Latitude": 37.84,
+    "Longitude": -122.25,
+    "MedHouseVal": 2.992
+  },
+  {
+    "MedInc": 3.12,
+    "HouseAge": 52,
+    "AveRooms": 4.7975,
+    "AveBedrms": 1.0618,
+    "Population": 1157,
+    "AveOccup": 2.0227,
+    "Latitude": 37.84,
+    "Longitude": -122.25,
+    "MedHouseVal": 2.414
+  },
+  {
+    "MedInc": 2.0804,
+    "HouseAge": 42,
+    "AveRooms": 4.2941,
+    "AveBedrms": 1.1176,
+    "Population": 1206,
+    "AveOccup": 2.0269,
+    "Latitude": 37.84,
+    "Longitude": -122.26,
+    "MedHouseVal": 2.267
+  },
+  {
+    "MedInc": 3.6912,
+    "HouseAge": 52,
+    "AveRooms": 4.9706,
+    "AveBedrms": 1.0268,
+    "Population": 1551,
+    "AveOccup": 2.1723,
+    "Latitude": 37.84,
+    "Longitude": -122.25,
+    "MedHouseVal": 2.611
+  },
+  {
+    "MedInc": 3.2031,
+    "HouseAge": 52,
+    "AveRooms": 5.4776,
+    "AveBedrms": 1.0796,
+    "Population": 910,
+    "AveOccup": 2.2637,
+    "Latitude": 37.85,
+    "Longitude": -122.26,
+    "MedHouseVal": 2.815
+  },
+  {
+    "MedInc": 3.2705,
+    "HouseAge": 52,
+    "AveRooms": 4.7725,
+    "AveBedrms": 1.0245,
+    "Population": 1427,
+    "AveOccup": 2.2579,
+    "Latitude": 37.85,
+    "Longitude": -122.26,
+    "MedHouseVal": 2.418
+  },
+  {
+    "MedInc": 3.075,
+    "HouseAge": 52,
+    "AveRooms": 5.3226,
+    "AveBedrms": 1.0128,
+    "Population": 1017,
+    "AveOccup": 2.3925,
+    "Latitude": 37.85,
+    "Longitude": -122.26,
+    "MedHouseVal": 2.135
+  },
+  {
+    "MedInc": 2.6736,
+    "HouseAge": 52,
+    "AveRooms": 4.0,
+    "AveBedrms": 1.0977,
+    "Population": 1212,
+    "AveOccup": 2.1263,
+    "Latitude": 37.84,
+    "Longitude": -122.26,
+    "MedHouseVal": 1.913
+  },
+  {
+    "MedInc": 2.4038,
+    "HouseAge": 52,
+    "AveRooms": 4.4756,
+    "AveBedrms": 1.0483,
+    "Population": 697,
+    "AveOccup": 2.5254,
+    "Latitude": 37.85,
+    "Longitude": -122.26,
+    "MedHouseVal": 1.592
+  }
+]
