@@ -82,8 +82,8 @@ export default function DashboardPage() {
             icon={<BarChart3 className="size-4 text-muted-foreground" />}
             isLoading={isLoading && !data.insights}
           />
-          <ExplainPrediction 
-            history={data.history} 
+          <ExplainPrediction
+            prediction={data.history[0]}
             featureNames={state.selectedFeatures}
             taskType={state.task}
             isLoading={isLoading}
