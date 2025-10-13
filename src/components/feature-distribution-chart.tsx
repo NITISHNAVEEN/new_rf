@@ -68,15 +68,13 @@ export function FeatureDistributionChart({ dataset, features }: FeatureDistribut
                 </Select>
             </div>
             <div className="h-[300px] w-full">
-                <ChartContainer config={{}} className="h-full w-full">
-                    <BarChart data={histogramData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" angle={-45} textAnchor="end" height={60} interval={Math.floor(histogramData.length/10)} tick={{ fontSize: 12 }} />
-                        <YAxis />
-                        <ChartTooltip content={<ChartTooltipContent />} />
-                        <Bar dataKey="value" fill="hsl(var(--primary))" />
-                    </BarChart>
-                </ChartContainer>
+                <BarChart data={histogramData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" angle={-45} textAnchor="end" height={60} interval={Math.floor(histogramData.length/10)} tick={{ fontSize: 12 }} />
+                    <YAxis />
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <Bar dataKey="value" fill="hsl(var(--primary))" />
+                </BarChart>
             </div>
         </div>
     );

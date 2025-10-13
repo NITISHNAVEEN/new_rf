@@ -1,6 +1,6 @@
 'use client';
 
-import { BarChart3, Target, PanelLeft, LineChart, BeakerIcon, AreaChart, LayoutGrid } from 'lucide-react';
+import { BarChart3, Target, PanelLeft, LineChart, BeakerIcon, AreaChart, LayoutGrid, Lightbulb } from 'lucide-react';
 import { useRandomForest } from '@/hooks/use-random-forest';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,6 +20,7 @@ import { CorrelationHeatmap } from '@/components/correlation-heatmap';
 import { SummaryStatistics } from '@/components/summary-statistics';
 import { PairPlot } from '@/components/pair-plot';
 import { MissingValuesChart } from '@/components/missing-values-chart';
+import { PartialDependencePlot } from '@/components/partial-dependence-plot';
 
 export default function DashboardPage() {
   const { state, data, status, actions } = useRandomForest();
@@ -128,6 +129,7 @@ export default function DashboardPage() {
           <TabsList>
             <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
             <TabsTrigger value="explore">Explore</TabsTrigger>
+            <TabsTrigger value="insights">Insights</TabsTrigger>
           </TabsList>
         </div>
         <TabsContent value="dashboard" className="py-4">
@@ -210,7 +212,9 @@ export default function DashboardPage() {
                         <CardTitle>Summary Statistics</CardTitle>
                     </CardHeader>
                     <CardContent>
+                      <ChartContainer config={{}} className="h-auto w-full">
                         <SummaryStatistics dataset={data.dataset} task={state.task} targetColumn={state.targetColumn} />
+                      </ChartContainer>
                     </CardContent>
                 </Card>
                  <Card>
@@ -226,10 +230,12 @@ export default function DashboardPage() {
                         <CardTitle>Feature Distributions</CardTitle>
                     </CardHeader>
                     <CardContent>
+                      <ChartContainer config={{}} className="h-[300px] w-full">
                         <FeatureDistributionChart 
                           dataset={data.dataset} 
                           features={state.selectedFeatures} 
                         />
+                      </ChartContainer>
                     </CardContent>
                 </Card>
                 <Card>
@@ -249,6 +255,22 @@ export default function DashboardPage() {
                     </CardContent>
                 </Card>
              </div>
+        </TabsContent>
+        <TabsContent value="insights" className="py-4">
+            <div className="grid grid-cols-1 gap-4 md:gap-8">
+                <Card>
+                    <CardHeader>
+                        <CardTitle className='flex items-center gap-2'><Lightbulb className='w-5 h-5' />Partial Dependence Plot</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <PartialDependencePlot
+                            dataset={data.dataset}
+                            features={state.selectedFeatures}
+                            task={state.task}
+                        />
+                    </CardContent>
+                </Card>
+            </div>
         </TabsContent>
       </Tabs>
     );
