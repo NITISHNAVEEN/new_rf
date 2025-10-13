@@ -1,6 +1,6 @@
 'use client';
 
-import { BarChart3, Target, PanelLeft, LineChart, BeakerIcon } from 'lucide-react';
+import { BarChart3, Target, PanelLeft, LineChart, BeakerIcon, AreaChart, LayoutGrid } from 'lucide-react';
 import { useRandomForest } from '@/hooks/use-random-forest';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,6 +15,8 @@ import { ExplainPrediction } from '@/components/explain-prediction';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Metric, RegressionMetric, ClassificationMetric } from '@/lib/types';
+import { FeatureDistributionChart } from '@/components/feature-distribution-chart';
+import { CorrelationHeatmap } from '@/components/correlation-heatmap';
 
 export default function DashboardPage() {
   const { state, data, status, actions } = useRandomForest();
@@ -118,77 +120,110 @@ export default function DashboardPage() {
     const hasBaseline = data.baselineMetrics !== null;
     
     return (
-        <div className="grid w-full gap-4 md:gap-8">
-            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-                {renderKpiCards(data.metrics, data.baselineMetrics)}
-            </div>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7 md:gap-8">
-                <Card className="lg:col-span-4">
-                    <CardHeader>
-                    <CardTitle>Feature Importance</CardTitle>
-                    </CardHeader>
-                    <CardContent className="pl-2">
-                    {isLoading && !data.featureImportance.length ? (
-                        <Skeleton className="h-[250px] md:h-[350px]" />
-                    ) : (
-                        <FeatureImportanceChart 
-                            tunedData={data.featureImportance}
-                            baselineData={data.baselineFeatureImportance}
-                        />
-                    )}
-                    </CardContent>
-                </Card>
-                <Card className="lg:col-span-3">
-                     <CardHeader>
-                        <CardTitle>
-                            {state.task === 'regression' ? 'Prediction vs. Actual' : 'Confusion Matrix'}
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className="pl-2">
-                    {isLoading && (!data.chartData && !data.metrics) ? (
-                        <Skeleton className="h-[250px] md:h-[350px]" />
-                    ) : state.task === 'regression' ? (
-                        <PredictionPlot 
-                            tunedData={data.chartData}
-                            baselineData={data.baselineChartData}
-                         />
-                    ) : (
-                        <Tabs defaultValue="tuned" className="w-full">
-                            {hasBaseline && (
-                                <TabsList className="grid w-full grid-cols-2 mb-4">
-                                    <TabsTrigger value="tuned">Tuned</TabsTrigger>
-                                    <TabsTrigger value="baseline">Baseline</TabsTrigger>
-                                </TabsList>
-                            )}
-                            <TabsContent value="tuned">
-                                <ConfusionMatrix data={(data.metrics as ClassificationMetric)?.confusionMatrix} />
-                            </TabsContent>
-                            <TabsContent value="baseline">
-                                <ConfusionMatrix data={(data.baselineMetrics as ClassificationMetric)?.confusionMatrix} />
-                            </TabsContent>
-                        </Tabs>
-                    )}
-                    </CardContent>
-                </Card>
-            </div>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7 md:gap-8">
-                <KpiCard
-                    title="Feature Importance Insights"
-                    value={data.insights}
-                    isInsight
-                    icon={<BarChart3 className="size-4 text-muted-foreground" />}
-                    isLoading={isLoading && !data.insights}
-                    cardClassName='lg:col-span-4'
-                />
-                    <ExplainPrediction
-                    prediction={data.history[0]}
-                    featureNames={state.selectedFeatures}
-                    taskType={state.task}
-                    isLoading={isLoading}
-                    cardClassName='lg:col-span-3'
-                />
-            </div>
+      <Tabs defaultValue="dashboard">
+        <div className="flex items-center">
+          <TabsList>
+            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+            <TabsTrigger value="explore">Explore</TabsTrigger>
+          </TabsList>
         </div>
+        <TabsContent value="dashboard" className="py-4">
+            <div className="grid w-full gap-4 md:gap-8">
+                <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+                    {renderKpiCards(data.metrics, data.baselineMetrics)}
+                </div>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7 md:gap-8">
+                    <Card className="lg:col-span-4">
+                        <CardHeader>
+                        <CardTitle>Feature Importance</CardTitle>
+                        </CardHeader>
+                        <CardContent className="pl-2">
+                        {isLoading && !data.featureImportance.length ? (
+                            <Skeleton className="h-[250px] md:h-[350px]" />
+                        ) : (
+                            <FeatureImportanceChart 
+                                tunedData={data.featureImportance}
+                                baselineData={data.baselineFeatureImportance}
+                            />
+                        )}
+                        </CardContent>
+                    </Card>
+                    <Card className="lg:col-span-3">
+                         <CardHeader>
+                            <CardTitle>
+                                {state.task === 'regression' ? 'Prediction vs. Actual' : 'Confusion Matrix'}
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="pl-2">
+                        {isLoading && (!data.chartData && !data.metrics) ? (
+                            <Skeleton className="h-[250px] md:h-[350px]" />
+                        ) : state.task === 'regression' ? (
+                            <PredictionPlot 
+                                tunedData={data.chartData}
+                                baselineData={data.baselineChartData}
+                             />
+                        ) : (
+                            <Tabs defaultValue="tuned" className="w-full">
+                                {hasBaseline && (
+                                    <TabsList className="grid w-full grid-cols-2 mb-4">
+                                        <TabsTrigger value="tuned">Tuned</TabsTrigger>
+                                        <TabsTrigger value="baseline">Baseline</TabsTrigger>
+                                    </TabsList>
+                                )}
+                                <TabsContent value="tuned">
+                                    <ConfusionMatrix data={(data.metrics as ClassificationMetric)?.confusionMatrix} />
+                                </TabsContent>
+                                <TabsContent value="baseline">
+                                    <ConfusionMatrix data={(data.baselineMetrics as ClassificationMetric)?.confusionMatrix} />
+                                </TabsContent>
+                            </Tabs>
+                        )}
+                        </CardContent>
+                    </Card>
+                </div>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7 md:gap-8">
+                    <KpiCard
+                        title="Feature Importance Insights"
+                        value={data.insights}
+                        isInsight
+                        icon={<BarChart3 className="size-4 text-muted-foreground" />}
+                        isLoading={isLoading && !data.insights}
+                        cardClassName='lg:col-span-4'
+                    />
+                        <ExplainPrediction
+                        prediction={data.history[0]}
+                        featureNames={state.selectedFeatures}
+                        taskType={state.task}
+                        isLoading={isLoading}
+                        cardClassName='lg:col-span-3'
+                    />
+                </div>
+            </div>
+        </TabsContent>
+        <TabsContent value="explore" className="py-4">
+             <div className="grid grid-cols-1 gap-4 md:gap-8">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Feature Distributions</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <FeatureDistributionChart 
+                          dataset={data.dataset} 
+                          features={state.selectedFeatures} 
+                        />
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Correlation Heatmap</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <CorrelationHeatmap dataset={data.dataset} />
+                    </CardContent>
+                </Card>
+             </div>
+        </TabsContent>
+      </Tabs>
     );
   };
 
