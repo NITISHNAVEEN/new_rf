@@ -8,11 +8,58 @@ import type {
   Prediction,
   ChartDataPoint,
 } from '@/lib/types';
-import defaultDataset from '@/lib/data/california-housing.json';
+import housingDataset from '@/lib/data/california-housing.json';
+import wineDataset from '@/lib/data/wine-quality.json';
 import { getFeatureImportanceInsights } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
 
 type Status = 'idle' | 'loading' | 'success' | 'error';
+
+const regressionInitialState = {
+  task: 'regression' as TaskType,
+  hyperparameters: {
+    n_estimators: 100,
+    max_depth: 10,
+    min_samples_split: 2,
+    min_samples_leaf: 1,
+  },
+  selectedFeatures: [
+    'MedInc',
+    'HouseAge',
+    'AveRooms',
+    'AveBedrms',
+    'Population',
+    'AveOccup',
+    'Latitude',
+    'Longitude',
+  ],
+  targetColumn: 'MedHouseVal',
+};
+
+const classificationInitialState = {
+  task: 'classification' as TaskType,
+  hyperparameters: {
+    n_estimators: 100,
+    max_depth: 10,
+    min_samples_split: 2,
+    min_samples_leaf: 1,
+  },
+  selectedFeatures: [
+    'fixed_acidity',
+    'volatile_acidity',
+    'citric_acid',
+    'residual_sugar',
+    'chlorides',
+    'free_sulfur_dioxide',
+    'total_sulfur_dioxide',
+    'density',
+    'pH',
+    'sulphates',
+    'alcohol',
+  ],
+  targetColumn: 'quality',
+};
+
 
 type State = {
   task: TaskType;
@@ -36,42 +83,24 @@ type Action =
   | { type: 'SET_SELECTED_FEATURES'; payload: string[] }
   | { type: 'SET_TARGET_COLUMN'; payload: string };
 
-const initialState: State = {
-  task: 'regression',
-  hyperparameters: {
-    n_estimators: 100,
-    max_depth: 10,
-    min_samples_split: 2,
-    min_samples_leaf: 1,
-  },
-  selectedFeatures: [
-    'MedInc',
-    'HouseAge',
-    'AveRooms',
-    'AveBedrms',
-    'Population',
-    'AveOccup',
-    'Latitude',
-    'Longitude',
-  ],
-  targetColumn: 'MedHouseVal',
-};
+const initialState: State = regressionInitialState;
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'SET_TASK': {
-      const isRegression = action.payload === 'regression';
-      const newTarget = isRegression ? 'MedHouseVal' : 'HouseAge';
-      const allHeaders = Object.keys(defaultDataset[0] ?? {});
-      const newFeatures = allHeaders.filter(h => h !== newTarget);
-      return { ...state, task: action.payload, targetColumn: newTarget, selectedFeatures: newFeatures };
+        if (action.payload === 'regression') {
+            return regressionInitialState;
+        } else {
+            return classificationInitialState;
+        }
     }
     case 'SET_HYPERPARAMETERS':
       return { ...state, hyperparameters: { ...state.hyperparameters, ...action.payload } };
     case 'SET_SELECTED_FEATURES':
       return { ...state, selectedFeatures: action.payload };
     case 'SET_TARGET_COLUMN': {
-      const allHeaders = Object.keys(defaultDataset[0] ?? {});
+      const currentDataset = state.task === 'regression' ? housingDataset : wineDataset;
+      const allHeaders = Object.keys(currentDataset[0] ?? {});
       const newFeatures = allHeaders.filter(h => h !== action.payload);
       return { ...state, targetColumn: action.payload, selectedFeatures: newFeatures };
     }
@@ -128,10 +157,9 @@ const mockTrainModel = async (
     if (task === 'regression') {
       prediction = actual * (Math.random() * 0.4 + 0.8); // prediction is within 20% of actual
     } else {
-        // Simple classification mock: if MedInc > 4, predict 1, else 0 (adjusting for HouseAge)
-        const threshold = 40;
-        prediction = row['MedInc'] > 4 ? (Math.random() > 0.1 ? 1 : 0) : (Math.random() > 0.9 ? 1 : 0);
-        // This is a dummy classification on 'HouseAge', where 1 is "Old" (>40) and 0 is "New"
+        // Simple classification mock: if alcohol > 10, predict 1, else 0
+        const threshold = 10;
+        prediction = row['alcohol'] > threshold ? (Math.random() > 0.1 ? 1 : 0) : (Math.random() > 0.9 ? 1 : 0);
     }
 
     const features = selectedFeatures.reduce((acc, feat) => {
@@ -143,7 +171,7 @@ const mockTrainModel = async (
       id: `pred_${Date.now()}_${i}`,
       date: new Date().toISOString(),
       features,
-      actual: task === 'classification' ? (actual > 40 ? 1 : 0) : actual,
+      actual: actual,
       prediction: task === 'classification' ? prediction : parseFloat(prediction.toFixed(3)),
     };
   });
@@ -156,7 +184,7 @@ const mockTrainModel = async (
 export const useRandomForest = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [data, setData] = useState<Data>({
-    dataset: defaultDataset,
+    dataset: housingDataset,
     metrics: null,
     featureImportance: [],
     history: [],
@@ -165,6 +193,11 @@ export const useRandomForest = () => {
   });
   const [status, setStatus] = useState<Status>('idle');
   const { toast } = useToast();
+
+  useEffect(() => {
+    const newDataset = state.task === 'regression' ? housingDataset : wineDataset;
+    setData(d => ({...d, dataset: newDataset}));
+  }, [state.task]);
 
   const handleStateChange = <T extends Action['type']>(type: T) => (payload: Extract<Action, { type: T }>['payload']) => {
     dispatch({ type, payload } as Action);
@@ -178,7 +211,8 @@ export const useRandomForest = () => {
     trainModel: useCallback(async () => {
       setStatus('loading');
       try {
-        const trainedData = await mockTrainModel(state, data.dataset);
+        const currentDataset = state.task === 'regression' ? housingDataset : wineDataset;
+        const trainedData = await mockTrainModel(state, currentDataset);
         setData(d => ({ ...d, ...trainedData, insights: '' }));
 
         const featureImportancesForAI = trainedData.featureImportance.reduce((acc, item) => {
@@ -204,7 +238,7 @@ export const useRandomForest = () => {
         toast({ title: 'Training Error', description: errorMessage, variant: 'destructive' });
         setData(d => ({ ...d, metrics: null, featureImportance: [], history: [] }));
       }
-    }, [state, data.dataset, toast]),
+    }, [state, toast]),
   };
 
   // Debounced retraining
