@@ -93,9 +93,9 @@ export function CorrelationHeatmap({ dataset, task, targetColumn }: CorrelationH
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead></TableHead>
+                        <TableHead className="min-h-[100px]"></TableHead>
                         {headers.map(header => (
-                            <TableHead key={header} className="text-center transform -rotate-45">
+                            <TableHead key={header} className="text-center transform -rotate-45 min-h-[100px] h-24">
                                 {header}
                             </TableHead>
                         ))}
