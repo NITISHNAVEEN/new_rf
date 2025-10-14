@@ -26,29 +26,15 @@ function calculateNumericStats(data: number[]) {
     return { mean, median, std, min, max };
 }
 
-function calculateClassCounts(data: any[]) {
-    return data.reduce((acc, val) => {
-        acc[val] = (acc[val] || 0) + 1;
-        return acc;
-    }, {} as Record<string, number>);
-}
-
 export function SummaryStatistics({ dataset, task, targetColumn }: SummaryStatisticsProps) {
-    const stats = useMemo(() => {
+    const numericStats = useMemo(() => {
+        if (!dataset || dataset.length === 0) return [];
         const numericFeatures = Object.keys(dataset[0] || {}).filter(key => typeof dataset[0][key] === 'number' && key !== targetColumn);
-        const numericStats = numericFeatures.map(feature => {
+        return numericFeatures.map(feature => {
             const data = dataset.map(row => row[feature]);
             return { feature, ...calculateNumericStats(data) };
         });
-
-        let classCounts: Record<string, number> | null = null;
-        if (task === 'classification') {
-            const targetData = dataset.map(row => row[targetColumn]);
-            classCounts = calculateClassCounts(targetData);
-        }
-
-        return { numericStats, classCounts };
-    }, [dataset, task, targetColumn]);
+    }, [dataset, targetColumn]);
 
     return (
         <ChartContainer config={{}} className="h-auto w-full">
@@ -65,7 +51,7 @@ export function SummaryStatistics({ dataset, task, targetColumn }: SummaryStatis
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {stats.numericStats.map(stat => (
+                    {numericStats.map(stat => (
                         <TableRow key={stat.feature}>
                             <TableCell>{stat.feature}</TableCell>
                             <TableCell>{stat.mean.toFixed(2)}</TableCell>
@@ -77,28 +63,6 @@ export function SummaryStatistics({ dataset, task, targetColumn }: SummaryStatis
                     ))}
                 </TableBody>
             </Table>
-            
-            {stats.classCounts && (
-                <div className="mt-4">
-                    <h3 className="font-semibold mb-2">Target Distribution (Classification)</h3>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Class</TableHead>
-                                <TableHead>Count</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {Object.entries(stats.classCounts).map(([className, count]) => (
-                                <TableRow key={className}>
-                                    <TableCell>{className}</TableCell>
-                                    <TableCell>{count}</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </div>
-            )}
         </ChartContainer>
     );
 }
