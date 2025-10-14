@@ -285,6 +285,32 @@ const mockTrainModel = async (
   return { metrics, featureImportance, history, chartData, decisionTree, rocCurveData, prCurveData, pdpData };
 };
 
+const mockPredict = (
+    values: Record<string, number>,
+    hyperparameters: Hyperparameters,
+    taskType: TaskType
+): Prediction => {
+  const seed = createSeed(hyperparameters, taskType + 'predict');
+  let prediction: number;
+
+  if (taskType === 'regression') {
+    prediction = Object.values(values).reduce((sum, v, i) => sum + v * pseudoRandom(seed + i), 0) / 
+                 (Object.keys(values).length || 1);
+    prediction = (prediction % 5) + pseudoRandom(seed+1) * 2;
+  } else {
+    const score = Object.values(values).reduce((sum, v, i) => sum + v * pseudoRandom(seed + i), 0);
+    prediction = score > 50 ? 1 : 0;
+  }
+
+  return {
+    id: `pred_${Date.now()}`,
+    date: new Date().toISOString(),
+    features: values,
+    actual: -1, // No actual value for real-time prediction
+    prediction: taskType === 'regression' ? parseFloat(prediction.toFixed(3)) : prediction,
+  };
+};
+
 export const useRandomForest = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [data, setData] = useState<Data>({
@@ -376,6 +402,11 @@ export const useRandomForest = () => {
       }
     }, [state, toast]);
     
+    const predict = useCallback(async (values: Record<string, number>): Promise<Prediction> => {
+        await new Promise(res => setTimeout(res, 1000));
+        return mockPredict(values, state.hyperparameters, state.task);
+    }, [state.hyperparameters, state.task]);
+
   const actions = {
     setTask: handleStateChange('SET_TASK'),
     setHyperparameters: handleStateChange('SET_HYPERPARAMETERS'),
@@ -384,18 +415,19 @@ export const useRandomForest = () => {
     setTestSize: handleStateChange('SET_TEST_SIZE'),
     trainModel: () => trainModel(false),
     trainBaselineModel: () => trainModel(true),
+    predict,
   };
 
   useEffect(() => {
-    if (status === 'idle' && !data.baselineMetrics) return;
-    if (JSON.stringify(state.hyperparameters) === JSON.stringify(BASELINE_HYPERPARAMETERS)) return;
+    // Do not auto-train on first load if baseline is not present
+    if (!data.baselineMetrics) return;
+    
+    if (JSON.stringify(state.hyperparameters) === JSON.stringify(BASELINE_HYPERPARAMETERS) && data.metrics === data.baselineMetrics) return;
 
     setIsDebouncing(true);
     const handler = setTimeout(() => {
         setIsDebouncing(false);
-        if (data.baselineMetrics) {
-           trainModel(false);
-        }
+        trainModel(false);
     }, 1200);
 
     return () => {
@@ -406,5 +438,3 @@ export const useRandomForest = () => {
 
   return { state, data, status, actions };
 };
-
-    

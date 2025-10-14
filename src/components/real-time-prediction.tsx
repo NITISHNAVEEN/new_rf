@@ -16,9 +16,10 @@ interface RealTimePredictionProps {
   features: string[];
   taskType: TaskType;
   isLoading: boolean;
+  onPredict: (values: Record<string, number>) => Promise<Prediction>;
 }
 
-export function RealTimePrediction({ features, taskType, isLoading }: RealTimePredictionProps) {
+export function RealTimePrediction({ features, taskType, isLoading, onPredict }: RealTimePredictionProps) {
   const [predictionResult, setPredictionResult] = useState<Prediction | null>(null);
   const [isPredicting, setIsPredicting] = useState(false);
 
@@ -41,24 +42,8 @@ export function RealTimePrediction({ features, taskType, isLoading }: RealTimePr
 
   const onSubmit = async (values: FormValues) => {
     setIsPredicting(true);
-    await new Promise(res => setTimeout(res, 1000)); // Simulate API call
-
-    let prediction: number;
-    if (taskType === 'regression') {
-        // Simple mock logic for regression
-        prediction = (values['MedInc'] || 0) * 0.5 + (values['HouseAge'] || 0) * 0.01;
-    } else {
-        // Simple mock logic for classification
-        prediction = (values['alcohol'] || 0) > 10.5 ? 1 : 0;
-    }
-
-    setPredictionResult({
-      id: `pred_${Date.now()}`,
-      date: new Date().toISOString(),
-      features: values,
-      actual: -1, // No actual value for real-time prediction
-      prediction: taskType === 'regression' ? parseFloat(prediction.toFixed(3)) : prediction,
-    });
+    const result = await onPredict(values);
+    setPredictionResult(result);
     setIsPredicting(false);
   };
 

@@ -103,7 +103,7 @@ export default function DashboardPage() {
       return (
         <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
           <div className="flex flex-col items-center gap-4 text-center">
-             <div className="flex items-center justify-center rounded-full bg-primary/10 p-6">
+            <div className="flex items-center justify-center rounded-full bg-primary/10 p-6">
                 <Image src="/logo.png" alt="Logo" width={40} height={40} />
             </div>
             <h3 className="text-2xl font-bold tracking-tight">Welcome to Forest Insights</h3>
@@ -352,7 +352,8 @@ export default function DashboardPage() {
             <RealTimePrediction 
                 features={state.selectedFeatures} 
                 taskType={state.task} 
-                isLoading={isLoading} 
+                isLoading={isLoading || !data.metrics}
+                onPredict={actions.predict}
             />
         </TabsContent>
       </Tabs>
@@ -386,5 +387,3 @@ export default function DashboardPage() {
     </>
   );
 }
-
-    
