@@ -1,6 +1,6 @@
 'use client';
 
-import { BarChart3, Target, PanelLeft, LineChart, BeakerIcon, AreaChart, Lightbulb, GitMerge, BrainCircuit, Activity, TestTube2 } from 'lucide-react';
+import { TreePine, BarChart3, Target, PanelLeft, LineChart, BeakerIcon, AreaChart, Lightbulb, GitMerge, BrainCircuit, Activity, TestTube2 } from 'lucide-react';
 import { useRandomForest } from '@/hooks/use-random-forest';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -101,7 +101,10 @@ export default function DashboardPage() {
     if (status === 'idle' && !data.metrics) {
       return (
         <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
-          <div className="flex flex-col items-center gap-2 text-center">
+          <div className="flex flex-col items-center gap-4 text-center">
+             <div className="flex items-center justify-center rounded-full bg-primary/10 p-6">
+                <TreePine className="h-10 w-10 text-primary" />
+            </div>
             <h3 className="text-2xl font-bold tracking-tight">Welcome to Forest Insights</h3>
             <p className="text-muted-foreground">
               Train a baseline model or adjust parameters in the sidebar to begin.
@@ -131,6 +134,7 @@ export default function DashboardPage() {
     }
 
     const hasBaseline = data.baselineMetrics !== null;
+    const isTuned = JSON.stringify(data.metrics) !== JSON.stringify(data.baselineMetrics);
     
     return (
       <Tabs defaultValue="dashboard">
@@ -160,6 +164,7 @@ export default function DashboardPage() {
                             <FeatureImportanceChart 
                                 tunedData={data.featureImportance}
                                 baselineData={data.baselineFeatureImportance}
+                                showTuned={isTuned}
                             />
                         )}
                         </CardContent>
@@ -380,5 +385,3 @@ export default function DashboardPage() {
     </>
   );
 }
-
-    
