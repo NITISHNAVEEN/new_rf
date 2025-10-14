@@ -247,12 +247,10 @@ export default function DashboardPage() {
                         <CardTitle>Feature Distributions</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <ChartContainer config={{}} className="h-auto w-full">
                         <FeatureDistributionChart 
                           dataset={data.dataset} 
                           features={state.selectedFeatures} 
                         />
-                      </ChartContainer>
                     </CardContent>
                 </Card>
                 <Card className="mb-8">
@@ -386,3 +384,5 @@ export default function DashboardPage() {
     </>
   );
 }
+
+    
