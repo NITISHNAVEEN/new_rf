@@ -152,7 +152,7 @@ export function CorrelationHeatmap({ dataset, task, targetColumn }: CorrelationH
                                                         {value.toFixed(2)}
                                                     </div>
                                                 </TooltipTrigger>
-                                                <TooltipContent>
+                                                <TooltipContent className="max-w-xs">
                                                     {getCorrelationDescription(value, rowHeader, colHeader)}
                                                 </TooltipContent>
                                             </Tooltip>
