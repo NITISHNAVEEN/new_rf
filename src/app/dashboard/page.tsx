@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import Image from 'next/image';
@@ -177,7 +176,7 @@ export default function DashboardPage() {
                             <CardTitle>
                                 {state.task === 'regression' ? 'Prediction vs. Actual' : 'Confusion Matrix'}
                             </CardTitle>
-                             <CardDescription>
+                            <CardDescription>
                                 {state.task === 'regression'
                                 ? "This plot compares the model's predictions against the actual values."
                                 : "This table shows the performance of the classification model."}
@@ -261,15 +260,17 @@ export default function DashboardPage() {
                         />
                     </CardContent>
                 </Card>
-                <Card className="mb-8">
-                    <CardHeader>
-                        <CardTitle>Correlation Heatmap</CardTitle>
-                        <CardDescription>A heatmap showing the correlation between numeric features.</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <CorrelationHeatmap dataset={data.dataset} task={state.task} targetColumn={state.targetColumn} />
-                    </CardContent>
-                </Card>
+                <div className="mb-8">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Correlation Heatmap</CardTitle>
+                            <CardDescription>A heatmap showing the correlation between numeric features.</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <CorrelationHeatmap dataset={data.dataset} task={state.task} targetColumn={state.targetColumn} />
+                        </CardContent>
+                    </Card>
+                </div>
                  <Card>
                     <CardHeader>
                         <CardTitle>Pair Plot</CardTitle>
@@ -286,7 +287,7 @@ export default function DashboardPage() {
                 <Card className='lg:col-span-2'>
                     <CardHeader>
                         <CardTitle className='flex items-center gap-2'><Lightbulb className='w-5 h-5' />Partial Dependence Plot</CardTitle>
-                        <CardDescription>Shows the marginal effect of a feature on the predicted outcome of a machine learning model.</CardDescription>
+                        <CardDescription>Shows the marginal effect of a feature on the predicted outcome of a machine learning model. Select a feature to see its effect on the prediction.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <PartialDependencePlot
@@ -401,7 +402,3 @@ export default function DashboardPage() {
     </>
   );
 }
-
-    
-
-    
