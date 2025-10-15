@@ -10,6 +10,7 @@ import type {
   DecisionTree,
   CurveDataPoint,
   PdpData,
+  DecisionNode,
 } from '@/lib/types';
 import housingDataset from '@/lib/data/california-housing.json';
 import wineDataset from '@/lib/data/wine-quality.json';
@@ -133,18 +134,20 @@ const pseudoRandom = (seed: number) => {
     return x - Math.floor(x);
 };
 
-const generateMockTree = (features: string[], task: TaskType, depth: number = 0, maxDepth: number = 2, seed = 1): DecisionTree => {
+const generateMockTree = (features: string[], task: TaskType, depth: number = 0, maxDepth: number = 3, seed = 1): DecisionTree => {
     const nodeSeed = seed + depth * 10;
     const isLeaf = depth === maxDepth || pseudoRandom(nodeSeed) < 0.4;
     const samples = Math.floor(pseudoRandom(nodeSeed * 6) * (200 / (depth + 1)) + 50);
 
     let value: number[];
     let impurity: number;
+    let criterion: DecisionNode['criterion'] = 'MSE';
 
     if (task === 'regression') {
         const baseValue = pseudoRandom(nodeSeed * 2) * 3 + 1; // e.g. 1-4
         impurity = pseudoRandom(nodeSeed * 3); // MSE
         value = [baseValue];
+        criterion = 'MSE';
     } else { // classification
         const class1Samples = Math.floor(pseudoRandom(nodeSeed * 2) * samples);
         const class0Samples = samples - class1Samples;
@@ -152,6 +155,7 @@ const generateMockTree = (features: string[], task: TaskType, depth: number = 0,
         const p1 = class1Samples / samples;
         impurity = 1 - (p0**2 + p1**2); // Gini
         value = [class0Samples, class1Samples];
+        criterion = 'Gini';
     }
 
     if (isLeaf) {
@@ -172,6 +176,7 @@ const generateMockTree = (features: string[], task: TaskType, depth: number = 0,
         samples: samples,
         impurity,
         value,
+        criterion,
         children: [
             generateMockTree(features, task, depth + 1, maxDepth, seed + 1),
             generateMockTree(features, task, depth + 1, maxDepth, seed + 2)
@@ -196,6 +201,7 @@ const generateRocCurveData = (seed: number): CurveDataPoint[] => {
         const x = i / 10;
         // Ensure TPR (y) is always >= FPR (x) and is monotonically increasing
         let newY = lastY + pseudoRandom(seed + i) * (1 - lastY) * 0.5;
+        newY = Math.max(newY, lastY); // Ensure monotonic
         if (newY < x) {
           newY = x + pseudoRandom(seed - i) * (1-x)*0.2;
         }
@@ -203,22 +209,32 @@ const generateRocCurveData = (seed: number): CurveDataPoint[] => {
         data.push({ x, y: lastY });
     }
     data.push({ x: 1, y: 1 });
-    // Sort by x to be safe
-    return data.sort((a,b) => a.x - b.x).map(p => ({ x: p.x, y: Math.max(p.x, p.y)}));
+    
+    // Make sure y is always >= x
+    return data.map(p => ({ x: p.x, y: Math.max(p.x, p.y) })).sort((a,b) => a.x - b.x);
 };
 
 const generatePrCurveData = (seed: number): CurveDataPoint[] => {
-    const data: CurveDataPoint[] = [{ x: 0, y: 1.0 }];
-    let lastY = 1.0;
-    const baselinePrecision = 0.5 + pseudoRandom(seed) * 0.2; // A baseline for a decent model
+    const data: CurveDataPoint[] = [];
+    let lastPrecision = 1.0;
 
-    for (let i = 1; i <= 10; i++) {
-        const x = i / 10; // Recall
-        // Precision tends to drop as recall increases. The drop is not linear.
-        const dropFactor = Math.pow(x, 1.5);
-        const drop = pseudoRandom(seed + i) * 0.3 * dropFactor;
-        lastY = Math.max(baselinePrecision - drop, 0.1);
-        data.push({ x, y: Math.min(1, lastY + pseudoRandom(seed-i)*0.1) });
+    // Start with high precision at low recall
+    data.push({ x: 0.0, y: 1.0 });
+    data.push({ x: 0.1, y: 0.98 + pseudoRandom(seed - 1) * 0.02 });
+
+    for (let i = 2; i <= 10; i++) {
+        const recall = i / 10;
+        // Precision tends to drop as recall increases.
+        const dropFactor = Math.pow(recall, 1.5);
+        const drop = pseudoRandom(seed + i) * 0.4 * dropFactor;
+        let newPrecision = lastPrecision - drop;
+        
+        // Add some noise to make it less smooth
+        newPrecision += (pseudoRandom(seed - i) - 0.5) * 0.1;
+        newPrecision = Math.max(0, Math.min(lastPrecision, newPrecision)); // Ensure it's non-increasing
+
+        data.push({ x: recall, y: newPrecision });
+        lastPrecision = newPrecision;
     }
     
     // Ensure the curve ends at a reasonable point.
@@ -226,6 +242,7 @@ const generatePrCurveData = (seed: number): CurveDataPoint[] => {
 
     return data.sort((a,b) => a.x - b.x);
 };
+
 
 const generatePdpData = (features: string[], dataset: Record<string, any>[], task: TaskType, seed: number): PdpData => {
     const pdp: PdpData = {};
@@ -288,8 +305,8 @@ const mockTrainModel = async (
         [Math.floor(2 + pseudoRandom(seed * 6) * 5), Math.floor(90 + pseudoRandom(seed * 7) * 10)],
       ],
     };
-    rocCurveData = generateRocCurveData(seed + 1000);
-    prCurveData = generatePrCurveData(seed + 2000);
+    rocCurveData = generateRocCurveData(seed);
+    prCurveData = generatePrCurveData(seed);
   }
 
   const featureImportance = selectedFeatures
@@ -326,7 +343,7 @@ const mockTrainModel = async (
   });
   
   const chartData = history.map(p => ({ actual: p.actual, prediction: p.prediction }));
-  const decisionTree = generateMockTree(selectedFeatures, task, 0, 2, seed);
+  const decisionTree = generateMockTree(selectedFeatures, task, 0, 3, seed);
   const pdpData = generatePdpData(selectedFeatures, dataset, task, seed);
 
   return { metrics, featureImportance, history, chartData, decisionTree, rocCurveData, prCurveData, pdpData };
