@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useMemo } from "react";
 import type { TaskType } from "@/lib/types";
 
@@ -81,43 +82,88 @@ function getColor(value: number) {
   return `rgba(${R}, ${G}, ${B}, ${alpha})`;
 }
 
+const getCorrelationDescription = (value: number, feature1: string, feature2: string) => {
+    const correlationValue = value.toFixed(2);
+    if (feature1 === feature2) {
+        return `Feature '${feature1}' has a perfect correlation with itself.`;
+    }
+
+    let description = '';
+    if (value > 0.7) {
+        description = 'Strong positive correlation: when one feature increases, the other tends to increase as well.';
+    } else if (value > 0.3) {
+        description = 'Moderate positive correlation: a tendency for both features to increase together.';
+    } else if (value > -0.3) {
+        description = 'Weak or no correlation: little to no linear relationship between the features.';
+    } else if (value > -0.7) {
+        description = 'Moderate negative correlation: a tendency for one feature to increase as the other decreases.';
+    } else {
+        description = 'Strong negative correlation: when one feature increases, the other tends to decrease.';
+    }
+
+    return (
+        <div>
+            <p className="font-bold">Correlation ({feature1} & {feature2}): {correlationValue}</p>
+            <p>{description}</p>
+        </div>
+    );
+};
+
 export function CorrelationHeatmap({ dataset, task, targetColumn }: CorrelationHeatmapProps) {
     const correlationMatrix = useMemo(() => calculateCorrelationMatrix(dataset, task, targetColumn), [dataset, task, targetColumn]);
     const headers = Object.keys(correlationMatrix);
 
     return (
-        <div className="overflow-x-auto">
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead className="min-w-[100px]"></TableHead>
-                        {headers.map(header => (
-                            <TableHead key={header} className="text-center transform -rotate-45 h-32">
-                                {header}
-                            </TableHead>
-                        ))}
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {headers.map(rowHeader => (
-                        <TableRow key={rowHeader}>
-                            <TableHead>{rowHeader}</TableHead>
-                            {headers.map(colHeader => (
-                                <TableCell
-                                    key={`${rowHeader}-${colHeader}`}
-                                    className="text-center font-medium"
-                                    style={{
-                                        backgroundColor: getColor(correlationMatrix[rowHeader][colHeader]),
-                                        color: Math.abs(correlationMatrix[rowHeader][colHeader]) > 0.5 ? 'white' : 'black'
-                                    }}
-                                >
-                                    {correlationMatrix[rowHeader][colHeader].toFixed(2)}
-                                </TableCell>
+        <TooltipProvider>
+            <div className="overflow-x-auto">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead className="min-w-[100px]"></TableHead>
+                            {headers.map(header => (
+                                <TableHead key={header} className="text-center transform -rotate-45 h-32">
+                                    {header}
+                                </TableHead>
                             ))}
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </div>
+                    </TableHeader>
+                    <TableBody>
+                        {headers.map(rowHeader => (
+                            <TableRow key={rowHeader}>
+                                <TableHead>{rowHeader}</TableHead>
+                                {headers.map(colHeader => {
+                                    const value = correlationMatrix[rowHeader][colHeader];
+                                    return (
+                                        <TableCell
+                                            key={`${rowHeader}-${colHeader}`}
+                                            style={{
+                                                backgroundColor: getColor(value),
+                                            }}
+                                            className="p-0"
+                                        >
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <div
+                                                        className="w-full h-full p-4 text-center font-medium"
+                                                        style={{
+                                                            color: Math.abs(value) > 0.5 ? 'white' : 'black'
+                                                        }}
+                                                    >
+                                                        {value.toFixed(2)}
+                                                    </div>
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    {getCorrelationDescription(value, rowHeader, colHeader)}
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TableCell>
+                                    );
+                                })}
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </div>
+        </TooltipProvider>
     );
 }
