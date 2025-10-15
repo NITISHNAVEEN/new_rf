@@ -57,6 +57,7 @@ export type DecisionNode = {
   threshold: number;
   samples: number;
   impurity: number;
+  criterion: 'MSE' | 'Gini' | 'Entropy';
   value: number[]; // For regression: [value]. For classification: [class1_count, class2_count, ...]
   children: [DecisionTree, DecisionTree];
 };

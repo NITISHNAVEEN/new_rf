@@ -134,7 +134,14 @@ const pseudoRandom = (seed: number) => {
     return x - Math.floor(x);
 };
 
-const generateMockTree = (features: string[], task: TaskType, depth: number = 0, maxDepth: number = 3, seed = 1): DecisionTree => {
+const generateMockTree = (
+    features: string[],
+    task: TaskType,
+    hyperparameters: Hyperparameters,
+    depth: number = 0,
+    maxDepth: number = 3,
+    seed = 1
+): DecisionTree => {
     const nodeSeed = seed + depth * 10;
     const isLeaf = depth === maxDepth || pseudoRandom(nodeSeed) < 0.4;
     const samples = Math.floor(pseudoRandom(nodeSeed * 6) * (200 / (depth + 1)) + 50);
@@ -153,9 +160,15 @@ const generateMockTree = (features: string[], task: TaskType, depth: number = 0,
         const class0Samples = samples - class1Samples;
         const p0 = class0Samples / samples;
         const p1 = class1Samples / samples;
-        impurity = 1 - (p0**2 + p1**2); // Gini
+        
+        if (hyperparameters.criterion === 'entropy') {
+            impurity = - (p0 * Math.log2(p0 || 1)) - (p1 * Math.log2(p1 || 1));
+            criterion = 'Entropy';
+        } else { // gini
+            impurity = 1 - (p0**2 + p1**2);
+            criterion = 'Gini';
+        }
         value = [class0Samples, class1Samples];
-        criterion = 'Gini';
     }
 
     if (isLeaf) {
@@ -178,8 +191,8 @@ const generateMockTree = (features: string[], task: TaskType, depth: number = 0,
         value,
         criterion,
         children: [
-            generateMockTree(features, task, depth + 1, maxDepth, seed + 1),
-            generateMockTree(features, task, depth + 1, maxDepth, seed + 2)
+            generateMockTree(features, task, hyperparameters, depth + 1, maxDepth, seed + 1),
+            generateMockTree(features, task, hyperparameters, depth + 1, maxDepth, seed + 2)
         ]
     };
 };
@@ -277,7 +290,7 @@ const mockTrainModel = async (
 ): Promise<Omit<Data, 'dataset' | 'insights' | 'baselineMetrics' | 'baselineFeatureImportance' | 'baselineChartData'>> => {
   await new Promise((res) => setTimeout(res, 1500));
 
-  const { task, selectedFeatures, targetColumn } = state;
+  const { task, selectedFeatures } = state;
   const hyperparameters = isBaseline ? BASELINE_HYPERPARAMETERS : state.hyperparameters;
 
   const seed = createSeed(hyperparameters, task);
@@ -317,7 +330,7 @@ const mockTrainModel = async (
     .sort((a, b) => b.importance - a.importance);
 
   const history: Prediction[] = dataset.slice(0, 15).map((row, i) => {
-    const actual = row[targetColumn];
+    const actual = row[state.targetColumn];
     let prediction: number;
     const predSeed = seed + i;
 
@@ -343,7 +356,7 @@ const mockTrainModel = async (
   });
   
   const chartData = history.map(p => ({ actual: p.actual, prediction: p.prediction }));
-  const decisionTree = generateMockTree(selectedFeatures, task, 0, 3, seed);
+  const decisionTree = generateMockTree(selectedFeatures, task, hyperparameters, 0, 3, seed);
   const pdpData = generatePdpData(selectedFeatures, dataset, task, seed);
 
   return { metrics, featureImportance, history, chartData, decisionTree, rocCurveData, prCurveData, pdpData };
@@ -422,6 +435,10 @@ export const useRandomForest = () => {
         const trainedData = await mockTrainModel(state, currentDataset, isBaseline);
         
         const updateInsights = (featureImportance: FeatureImportance[]) => {
+            if (featureImportance.length === 0) {
+                setData(d => ({ ...d, insights: 'Could not generate AI insights.' }));
+                return;
+            }
             const featureImportancesForAI = featureImportance.reduce((acc, item) => {
                 acc[item.feature] = item.importance;
                 return acc;

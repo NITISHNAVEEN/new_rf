@@ -2,6 +2,7 @@
 
 import React from 'react';
 import type { DecisionTree, DecisionNode, LeafNode, TaskType } from '@/lib/types';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface NodeDisplayProps {
     node: DecisionNode | LeafNode;
@@ -14,18 +15,18 @@ const NodeDisplay: React.FC<NodeDisplayProps> = ({ node, taskType }) => {
     const getRegressionDisplay = (n: DecisionNode | LeafNode) => {
         const value = `Value: ${n.value[0].toFixed(2)}`;
         if (isLeaf) return value;
-        const criterion = `MSE: ${(n as DecisionNode).impurity.toFixed(2)}`;
+        const criterion = `${(n as DecisionNode).criterion}: ${(n as DecisionNode).impurity.toFixed(2)}`;
         return `${criterion}\n${value}`;
     };
 
     const getClassificationDisplay = (n: DecisionNode | LeafNode) => {
         const values = `Samples: [${n.value.join(', ')}]`;
         if (isLeaf) return `Class: ${n.value.indexOf(Math.max(...n.value))}\n${values}`;
-        const criterion = `Gini: ${(n as DecisionNode).impurity.toFixed(2)}`;
+        const criterion = `${(n as DecisionNode).criterion}: ${(n as DecisionNode).impurity.toFixed(2)}`;
         return `${criterion}\n${values}`;
     };
 
-    const text = isLeaf ? '' : `${node.feature} <= ${'threshold' in node ? node.threshold.toFixed(2) : ''}`;
+    const text = isLeaf ? '' : `${(node as DecisionNode).feature} <= ${'threshold' in node ? (node as DecisionNode).threshold.toFixed(2) : ''}`;
     const samples = `Total Samples: ${node.samples}`;
     const valueDisplay = taskType === 'regression' ? getRegressionDisplay(node) : getClassificationDisplay(node);
     
@@ -95,12 +96,30 @@ export function DecisionTreeSnapshot({ tree, taskType }: { tree: DecisionTree | 
             <p className="text-sm text-muted-foreground mb-4">
                 This is a simplified visualization of a single decision tree from the forest. It shows how the model splits data based on feature values to arrive at a prediction.
             </p>
-            <div className="font-sans flex justify-center">
-               {tree.type === 'node'
-                    ? <TreeBranch node={tree as DecisionNode} taskType={taskType} />
-                    : <NodeDisplay node={tree} taskType={taskType} />
-                }
-            </div>
+            <TooltipProvider>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <div className="font-sans flex justify-center cursor-help">
+                           {tree.type === 'node'
+                                ? <TreeBranch node={tree as DecisionNode} taskType={taskType} />
+                                : <NodeDisplay node={tree} taskType={taskType} />
+                            }
+                        </div>
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-md">
+                        <p className="font-bold mb-2">Understanding the Decision Tree</p>
+                        <ul className="list-disc list-inside text-xs space-y-1">
+                            <li>Each box is a node in the tree.</li>
+                            <li>The top node is the root. Nodes at the bottom are leaves.</li>
+                            <li>Decision nodes (non-leaves) show the feature and threshold used to split the data.</li>
+                            <li>Leaf nodes show the final prediction for that branch.</li>
+                            <li>For classification, `Gini` or `Entropy` measures node impurity. For regression, `MSE` (Mean Squared Error) is used.</li>
+                            <li>`Samples` is the number of data points in that node.</li>
+                            <li>`Value` in regression nodes is the average prediction. In classification, it shows the count of samples for each class.</li>
+                        </ul>
+                    </TooltipContent>
+                </Tooltip>
+            </TooltipProvider>
         </div>
     );
 }
