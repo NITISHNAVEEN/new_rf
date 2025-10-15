@@ -169,14 +169,33 @@ const createSeed = (hyperparameters: Hyperparameters, salt: string = '') => {
     return seed;
 };
 
-const generateCurveData = (seed: number): CurveDataPoint[] => {
+const generateRocCurveData = (seed: number): CurveDataPoint[] => {
     const data: CurveDataPoint[] = [{ x: 0, y: 0 }];
     let lastY = 0;
     for (let i = 1; i <= 10; i++) {
-        lastY += pseudoRandom(seed + i) * 0.1;
-        data.push({ x: i / 10, y: Math.min(lastY, 1) });
+        const x = i / 10;
+        // Ensure y is always >= x and non-decreasing
+        const jump = pseudoRandom(seed + i) * (1 - lastY) * 0.5;
+        lastY = Math.min(lastY + jump, 1);
+        if (lastY < x) {
+          lastY = x + pseudoRandom(seed - i) * (1-x)*0.2;
+        }
+        data.push({ x: x, y: lastY });
     }
     data.push({ x: 1, y: 1 });
+    return data.sort((a,b) => a.x - b.x);
+};
+
+const generatePrCurveData = (seed: number): CurveDataPoint[] => {
+    const data: CurveDataPoint[] = [{ x: 0, y: 1 }];
+    let lastY = 1;
+    for (let i = 1; i <= 10; i++) {
+        const x = i / 10;
+        const drop = pseudoRandom(seed + i) * lastY * 0.2;
+        lastY = Math.max(0, lastY - drop);
+        data.push({ x: x, y: lastY });
+    }
+    data.push({ x: 1, y: data[data.length-1].y * pseudoRandom(seed) });
     return data.sort((a,b) => a.x - b.x);
 };
 
@@ -241,8 +260,8 @@ const mockTrainModel = async (
         [Math.floor(2 + pseudoRandom(seed * 6) * 5), Math.floor(90 + pseudoRandom(seed * 7) * 10)],
       ],
     };
-    rocCurveData = generateCurveData(seed + 1000);
-    prCurveData = generateCurveData(seed + 2000).map(p => ({x: p.x, y: 1-p.y})).sort((a,b) => a.x - b.x); // Invert for PR curve shape
+    rocCurveData = generateRocCurveData(seed + 1000);
+    prCurveData = generatePrCurveData(seed + 2000);
   }
 
   const featureImportance = selectedFeatures
