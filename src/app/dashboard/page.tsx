@@ -260,17 +260,15 @@ export default function DashboardPage() {
                         />
                     </CardContent>
                 </Card>
-                <div className="mb-8">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Correlation Heatmap</CardTitle>
-                            <CardDescription>A heatmap showing the correlation between numeric features.</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <CorrelationHeatmap dataset={data.dataset} task={state.task} targetColumn={state.targetColumn} />
-                        </CardContent>
-                    </Card>
-                </div>
+                <Card className="mb-8">
+                    <CardHeader>
+                        <CardTitle>Correlation Heatmap</CardTitle>
+                        <CardDescription>A heatmap showing the correlation between numeric features.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <CorrelationHeatmap dataset={data.dataset} task={state.task} targetColumn={state.targetColumn} />
+                    </CardContent>
+                </Card>
                  <Card>
                     <CardHeader>
                         <CardTitle>Pair Plot</CardTitle>
