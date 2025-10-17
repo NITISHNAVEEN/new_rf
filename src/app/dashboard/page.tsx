@@ -33,6 +33,7 @@ import { RocCurveChart } from '@/components/roc-curve-chart';
 import { PrecisionRecallCurveChart } from '@/components/precision-recall-curve-chart';
 import { RealTimePrediction } from '@/components/real-time-prediction';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { ForestVisualization } from '@/components/forest-visualization';
 
 
 export default function DashboardPage() {
@@ -361,15 +362,14 @@ export default function DashboardPage() {
                           />
                       </CardContent>
                   </Card>
-                   <Card className='lg:col-span-2'>
-                      <CardHeader>
-                          <CardTitle className='flex items-center gap-2'><GitMerge className='w-5 h-5' />Decision Tree Snapshot</CardTitle>
-                          <CardDescription>This visualization shows how the model makes predictions by splitting data based on feature values. Hover over any node for a detailed explanation.</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                          <DecisionTreeSnapshot tree={data.decisionTree} taskType={state.task} />
-                      </CardContent>
-                  </Card>
+                   <div className='lg:col-span-2'>
+                       <ForestVisualization
+                          simulationData={data.forestSimulation}
+                          taskType={state.task}
+                          isLoading={isLoading && !data.metrics}
+                          onRetrain={actions.trainModel}
+                        />
+                  </div>
               </div>
           </TabsContent>
           

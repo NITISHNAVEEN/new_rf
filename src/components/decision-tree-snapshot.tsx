@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -137,7 +138,7 @@ export function DecisionTreeSnapshot({ tree, taskType }: { tree: DecisionTree | 
     return (
         <div className="p-4 overflow-x-auto">
              <TooltipProvider>
-                <div className="font-sans flex justify-start min-w-[800px] px-4">
+                <div className="font-sans flex justify-center min-w-[800px] px-4">
                     {tree.type === 'node'
                         ? <TreeBranch node={tree as DecisionNode} taskType={taskType} />
                         : <NodeDisplay node={tree} taskType={taskType} />

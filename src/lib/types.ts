@@ -1,3 +1,4 @@
+
 export type TaskType = 'regression' | 'classification';
 
 export type Hyperparameters = {
@@ -58,7 +59,7 @@ export type DecisionNode = {
   samples: number;
   impurity: number;
   criterion: 'MSE' | 'Gini' | 'Entropy';
-  value: number[]; // For regression: [value]. For classification: [class1_count, class2_count, ...]
+  value: number[]; // For regression: [value]. For classification: [class1-count, class2_count, ...]
   children: [DecisionTree, DecisionTree];
 };
 
@@ -78,4 +79,10 @@ export type PdpData = {
   [feature: string]: PdpPoint[];
 };
 
-    
+export type ForestSimulation = {
+    trees: {
+        id: number;
+        prediction: number;
+        keyFeatures: string[];
+    }[];
+};

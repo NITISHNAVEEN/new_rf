@@ -1,3 +1,4 @@
+
 'use client';
 import { useState, useReducer, useCallback, useEffect } from 'react';
 import type {
@@ -11,6 +12,7 @@ import type {
   CurveDataPoint,
   PdpData,
   DecisionNode,
+  ForestSimulation,
 } from '@/lib/types';
 import housingDataset from '@/lib/data/california-housing.json';
 import wineDataset from '@/lib/data/wine-quality.json';
@@ -92,6 +94,7 @@ type Data = {
   rocCurveData: CurveDataPoint[] | null;
   prCurveData: CurveDataPoint[] | null;
   pdpData: PdpData | null;
+  forestSimulation: ForestSimulation | null;
 };
 
 type Action =
@@ -282,6 +285,30 @@ const generatePdpData = (features: string[], dataset: Record<string, any>[], tas
     return pdp;
 };
 
+const generateForestSimulation = (state: State, seed: number): ForestSimulation => {
+    const { hyperparameters, selectedFeatures, task } = state;
+    const numTrees = hyperparameters.n_estimators;
+
+    const trees = Array.from({ length: numTrees }, (_, i) => {
+        const treeSeed = seed + i * 50;
+        const shuffledFeatures = [...selectedFeatures].sort(() => pseudoRandom(treeSeed) - 0.5);
+        let prediction: number;
+        if (task === 'regression') {
+            prediction = 1 + pseudoRandom(treeSeed + 1) * 4;
+        } else {
+            prediction = pseudoRandom(treeSeed + 2) > 0.4 ? 1 : 0;
+        }
+
+        return {
+            id: i,
+            prediction,
+            keyFeatures: shuffledFeatures.slice(0, 3)
+        };
+    });
+
+    return { trees };
+}
+
 
 const mockTrainModel = async (
   state: State,
@@ -359,8 +386,9 @@ const mockTrainModel = async (
   const chartData = history.map(p => ({ actual: p.actual, prediction: p.prediction }));
   const decisionTree = generateMockTree(selectedFeatures, task, hyperparameters, 0, 3, seed);
   const pdpData = generatePdpData(selectedFeatures, dataset, task, seed);
+  const forestSimulation = generateForestSimulation(state, seed);
 
-  return { metrics, featureImportance, history, chartData, decisionTree, rocCurveData, prCurveData, pdpData };
+  return { metrics, featureImportance, history, chartData, decisionTree, rocCurveData, prCurveData, pdpData, forestSimulation };
 };
 
 const mockPredict = (
@@ -415,6 +443,7 @@ export const useRandomForest = () => {
     rocCurveData: null,
     prCurveData: null,
     pdpData: null,
+    forestSimulation: null,
   });
   const [status, setStatus] = useState<Status>('idle');
   const { toast } = useToast();
@@ -431,6 +460,7 @@ export const useRandomForest = () => {
         rocCurveData: null,
         prCurveData: null,
         pdpData: null,
+        forestSimulation: null,
     }));
     dispatch({ type: 'SET_HYPERPARAMETERS', payload: BASELINE_HYPERPARAMETERS });
   }, [state.task]);
@@ -479,6 +509,7 @@ export const useRandomForest = () => {
                 rocCurveData: trainedData.rocCurveData,
                 prCurveData: trainedData.prCurveData,
                 pdpData: trainedData.pdpData,
+                forestSimulation: trainedData.forestSimulation,
                 insights: '',
              }));
              updateInsights(trainedData.featureImportance);
@@ -547,5 +578,3 @@ export const useRandomForest = () => {
 
   return { state, data, status, actions };
 };
-
-    
