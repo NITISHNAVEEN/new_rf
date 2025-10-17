@@ -106,9 +106,7 @@ export default function DashboardPage() {
       return (
         <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
           <div className="flex flex-col items-center gap-4 text-center">
-            <div className="flex items-center justify-center rounded-full bg-primary/10 p-6">
-                <TreePine className="w-10 h-10 text-primary" />
-            </div>
+            <Image src="/logo.png" alt="Logo" width={64} height={64} className="mb-4" />
             <h3 className="text-2xl font-bold tracking-tight">Welcome to Forest Insights</h3>
             <p className="text-muted-foreground">
               Train a baseline model or adjust parameters in the sidebar to begin.
