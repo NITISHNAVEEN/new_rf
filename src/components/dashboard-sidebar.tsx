@@ -72,7 +72,7 @@ export function DashboardSidebar({ state, actions, status, datasetHeaders }: Das
                       <p>The column the model will try to predict.</p>
                     </HelpTooltip>
                   </div>
-                    <Select value={state.targetColumn} onValueChange={actions.setTargetColumn}>
+                    <Select value={state.targetColumn} onValueChange={actions.setTargetColumn} disabled>
                         <SelectTrigger><SelectValue placeholder="Select target..." /></SelectTrigger>
                         <SelectContent>
                         {datasetHeaders.map(header => (
