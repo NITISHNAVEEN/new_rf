@@ -148,11 +148,10 @@ export default function DashboardPage() {
               <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
               <TabsTrigger value="explore">Explore</TabsTrigger>
               <TabsTrigger value="insights">Insights</TabsTrigger>
-              <TabsTrigger value="performance">Performance</TabsTrigger>
               <TabsTrigger value="prediction">Prediction</TabsTrigger>
             </TabsList>
           </div>
-          <TabsContent value="dashboard" className="py-4">
+          <TabsContent value="dashboard" className="py-4 space-y-4 md:space-y-8">
               <div className="grid w-full gap-4 md:gap-8">
                   <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
                       {renderKpiCards(data.metrics, data.baselineMetrics)}
@@ -240,6 +239,61 @@ export default function DashboardPage() {
                     />
                   </div>
               </div>
+              <div className="grid grid-cols-1 gap-4 md:gap-8">
+                <h2 className="text-xl font-semibold">Model Performance Analysis</h2>
+              </div>
+               {state.task === 'regression' ? (
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 md:gap-8">
+                      <Card>
+                          <CardHeader>
+                              <CardTitle className='flex items-center gap-2'><Activity className='w-5 h-5' />Residual Plot</CardTitle>
+                              <CardDescription>This chart plots the model's prediction errors (residuals) against the predicted values. It helps to check for patterns in the errors, which can indicate if the model has a systematic bias.</CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                             <ResidualPlot data={data.chartData} />
+                          </CardContent>
+                      </Card>
+                      <Card>
+                          <CardHeader>
+                              <CardTitle className='flex items-center gap-2'><BarChart3 className='w-5 h-5' />Prediction Error Histogram</CardTitle>
+                               <CardDescription>This histogram shows the distribution of prediction errors. An ideal histogram would be centered at zero, indicating that the model's errors are unbiased.</CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                              <PredictionErrorHistogram data={data.chartData} />
+                          </CardContent>
+                      </Card>
+                      <Card>
+                          <CardHeader>
+                              <CardTitle className='flex items-center gap-2'><AreaChart className='w-5 h-5' />Cumulative Error Chart</CardTitle>
+                              <CardDescription>This chart shows the percentage of predictions that fall within a certain error margin. A steep curve indicates that most predictions have small errors.</CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                              <CumulativeErrorChart data={data.chartData} />
+                          </CardContent>
+                      </Card>
+                  </div>
+              ) : (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8">
+                      <Card>
+                          <CardHeader>
+                              <CardTitle className='flex items-center gap-2'><Activity className='w-5 h-5' />ROC Curve</CardTitle>
+                              <CardDescription>The Receiver Operating Characteristic (ROC) curve shows the model's ability to distinguish between classes. A curve that bows toward the top-left corner indicates a better-performing model.</CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                              <RocCurveChart data={data.rocCurveData} />
+                          </CardContent>
+                      </Card>
+                      <Card>
+                          <CardHeader>
+                              <CardTitle className='flex items-center gap-2'><Target className='w-5 h' />Precision-Recall Curve</CardTitle>                            
+                              <CardDescription>This curve demonstrates the trade-off between precision (the accuracy of positive predictions) and recall (the ability to find all positive samples). A curve that bows out toward the top-right indicates a better model.</CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                              <PrecisionRecallCurveChart data={data.prCurveData} />
+                          </CardContent>
+                      </Card>
+                  </div>
+              )}
           </TabsContent>
           <TabsContent value="explore" className="py-4">
                <div className="grid grid-cols-1 gap-4 md:gap-8">
