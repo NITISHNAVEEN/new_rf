@@ -71,7 +71,7 @@ export function DashboardSidebar({ state, actions, status, datasetHeaders }: Das
                     <Label>Target Column</Label>
                     <HelpTooltip>
                       {task === 'regression' ? (
-                        <p><b>Median House Value (MedHouseVal):</b> The median house value for California districts, in hundreds of thousands of dollars.</p>
+                        <p><b>Median House Value (MedHouseVal):</b> The median house value for California districts, in hundreds of thousands of dollars (e.g., 3.5 = $350,000).</p>
                       ) : (
                         <p><b>Wine Quality:</b> The quality of the wine, rated as good (1) or bad (0).</p>
                       )}
