@@ -376,7 +376,7 @@ export default function DashboardPage() {
           </TabsContent>
           
           <TabsContent value="prediction" className="py-4">
-              <RealTimePrediction 
+               <RealTimePrediction 
                   features={state.selectedFeatures} 
                   taskType={state.task} 
                   isLoading={isLoading || !data.metrics}
@@ -404,7 +404,10 @@ export default function DashboardPage() {
             <SidebarTrigger className="md:hidden">
               <PanelLeft />
             </SidebarTrigger>
-            <h1 className="text-2xl font-semibold">Forest Insights</h1>
+            <div className="flex items-center gap-2">
+                <Image src="/logo.png" alt="Logo" width={32} height={32} />
+                <h1 className="text-2xl font-semibold">Forest Insights</h1>
+            </div>
           </div>
           <ThemeToggle />
         </header>
