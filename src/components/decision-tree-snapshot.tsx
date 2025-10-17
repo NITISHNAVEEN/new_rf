@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import type { DecisionTree, DecisionNode, LeafNode, TaskType } from '@/lib/types';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
@@ -159,11 +159,11 @@ export function DecisionTreeSnapshot({ tree, taskType }: { tree: DecisionTree | 
     }
     
     return (
-        <div className="relative w-full h-full overflow-auto font-sans">
+        <div className="relative w-full h-full font-sans overflow-auto">
             <TooltipProvider>
                 <div 
-                    className="min-w-[1200px] p-8 transition-transform duration-300"
-                    style={{ transform: `scale(${zoom})`, transformOrigin: 'top left' }}
+                    className="p-8 transition-transform duration-300 min-w-[1200px]"
+                    style={{ transform: `scale(${zoom})`, transformOrigin: 'top' }}
                 >
                     {tree.type === 'node'
                         ? <TreeBranch node={tree as DecisionNode} taskType={taskType} />
@@ -188,4 +188,3 @@ export function DecisionTreeSnapshot({ tree, taskType }: { tree: DecisionTree | 
         </div>
     );
 }
-
