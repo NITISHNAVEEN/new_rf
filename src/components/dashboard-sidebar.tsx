@@ -1,3 +1,4 @@
+
 'use client';
 
 import { HelpCircle, Loader2 } from 'lucide-react';
@@ -69,7 +70,11 @@ export function DashboardSidebar({ state, actions, status, datasetHeaders }: Das
                   <div className="flex items-center gap-2 mb-1">
                     <Label>Target Column</Label>
                     <HelpTooltip>
-                      <p>The column the model will try to predict.</p>
+                      {task === 'regression' ? (
+                        <p><b>Median House Value (MedHouseVal):</b> The median house value for California districts, in hundreds of thousands of dollars.</p>
+                      ) : (
+                        <p><b>Wine Quality:</b> The quality of the wine, rated as good (1) or bad (0).</p>
+                      )}
                     </HelpTooltip>
                   </div>
                     <Select value={state.targetColumn} onValueChange={actions.setTargetColumn} disabled>
