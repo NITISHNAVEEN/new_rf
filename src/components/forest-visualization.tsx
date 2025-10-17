@@ -17,6 +17,7 @@ interface ForestVisualizationProps {
   simulationData: ForestSimulation | null;
   taskType: TaskType;
   isLoading: boolean;
+  onRetrain: () => void;
 }
 
 const TREES_PER_PAGE = 30;
@@ -48,13 +49,14 @@ const MiniTree = ({ tree, taskType, onTreeClick }: { tree: TreeSimulation, taskT
           <p>Tree ID: {tree.id}</p>
           <p>Prediction: {tree.prediction.toFixed(2)}</p>
           <p>Key Features: {tree.keyFeatures.join(', ')}</p>
+          <p>Samples: {tree.samples}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
   )
 };
 
-export function ForestVisualization({ simulationData, taskType, isLoading }: ForestVisualizationProps) {
+export function ForestVisualization({ simulationData, taskType, isLoading, onRetrain }: ForestVisualizationProps) {
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedTree, setSelectedTree] = useState<DecisionTree | null>(null);
   

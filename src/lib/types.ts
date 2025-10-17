@@ -84,6 +84,7 @@ export type TreeSimulation = {
     prediction: number;
     keyFeatures: string[];
     tree: DecisionTree;
+    samples: number;
 };
 
 export type ForestSimulation = {

@@ -13,6 +13,7 @@ import type {
   PdpData,
   DecisionNode,
   ForestSimulation,
+  TreeSimulation,
 } from '@/lib/types';
 import housingDataset from '@/lib/data/california-housing.json';
 import wineDataset from '@/lib/data/wine-quality.json';
@@ -289,9 +290,11 @@ const generateForestSimulation = (state: State, seed: number): ForestSimulation 
     const { hyperparameters, selectedFeatures, task } = state;
     const numTrees = hyperparameters.n_estimators;
 
-    const trees = Array.from({ length: numTrees }, (_, i) => {
+    const trees: TreeSimulation[] = Array.from({ length: numTrees }, (_, i) => {
         const treeSeed = seed + i * 50;
         const shuffledFeatures = [...selectedFeatures].sort(() => pseudoRandom(treeSeed) - 0.5);
+        const mockTree = generateMockTree(selectedFeatures, task, hyperparameters, 0, hyperparameters.max_depth, treeSeed + 3);
+
         let prediction: number;
         if (task === 'regression') {
             prediction = 1 + pseudoRandom(treeSeed + 1) * 4;
@@ -303,7 +306,8 @@ const generateForestSimulation = (state: State, seed: number): ForestSimulation 
             id: i,
             prediction,
             keyFeatures: shuffledFeatures.slice(0, 3),
-            tree: generateMockTree(selectedFeatures, task, hyperparameters, 0, hyperparameters.max_depth, treeSeed + 3),
+            tree: mockTree,
+            samples: mockTree.samples
         };
     });
 
@@ -568,7 +572,7 @@ export const useRandomForest = () => {
     setIsDebouncing(true);
     const handler = setTimeout(() => {
         setIsDebouncing(false);
-        trainModel(false);
+        actions.trainModel();
     }, 1200);
 
     return () => {
