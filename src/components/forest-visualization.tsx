@@ -85,12 +85,12 @@ export function ForestVisualization({ simulationData, taskType, isLoading, onRet
         simulationData.trees.forEach(t => {
             votes[t.prediction] = (votes[t.prediction] || 0) + 1;
         });
-
+        
         if (votes['1'] > votes['0']) {
             return 1;
+        } else {
+            return 0; // Default to 0 if votes['0'] is greater or if it's a tie.
         }
-        // In case of a tie, or if 0 has more votes, default to 0.
-        return 0;
     }
   }, [simulationData, taskType]);
   
