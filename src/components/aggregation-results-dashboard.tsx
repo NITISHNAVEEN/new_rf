@@ -70,55 +70,51 @@ export function AggregationResultsDashboard({ simulationData, taskType, isLoadin
 
     return (
       <div className="grid grid-cols-1 gap-4 md:gap-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <Card className="lg:col-span-2">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <Card>
               <CardHeader>
-                <CardTitle>Individual Tree Predictions</CardTitle>
-                <CardDescription>Comparison of predictions from different trees in the forest.</CardDescription>
+                <CardTitle>Final Averaged Prediction</CardTitle>
+                <CardDescription>The final prediction is the average of all individual tree predictions.</CardDescription>
               </CardHeader>
-              <CardContent>
-                <ChartContainer config={{}} className="h-[200px] w-full">
-                  <ResponsiveContainer width="100%" height={200}>
-                    <BarChart data={trees}>
-                      <XAxis dataKey="id" label={{ value: 'Tree ID', position: 'insideBottom', offset: -5 }} />
-                      <YAxis label={{ value: 'Prediction', angle: -90, position: 'insideLeft' }} />
-                      <ChartTooltip
-                          content={<ChartTooltipContent formatter={(value, name, props) => `${props.payload.id}: ${value.toFixed(3)}`} />}
-                          cursor={{ fill: 'hsl(var(--accent))' }}
-                      />
-                      <Bar dataKey="prediction" fill="hsl(var(--primary))" />
-                      <ReferenceLine y={average} stroke="hsl(var(--destructive))" strokeDasharray="3 3" label={{ value: 'Avg', position: 'right' }} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
+              <CardContent className="text-center">
+                <div className="text-5xl font-bold">{average.toFixed(3)}</div>
               </CardContent>
             </Card>
-            <div className="flex flex-col gap-4">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Final Averaged Prediction</CardTitle>
-                    <CardDescription>The final prediction is the average of all individual tree predictions.</CardDescription>
-                  </CardHeader>
-                  <CardContent className="text-center">
-                    <div className="text-5xl font-bold">{average.toFixed(3)}</div>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Prediction Spread</CardTitle>
-                    <CardDescription>Measures the variance of predictions across all trees.</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center gap-4">
-                      <span>Low</span>
-                      <Progress value={(stdDev ?? 0) * 100} className="w-full" />
-                      <span>High</span>
-                      <span className="font-bold">Std. Dev: {(stdDev ?? 0).toFixed(3)}</span>
-                    </div>
-                  </CardContent>
-                </Card>
-            </div>
+            <Card>
+              <CardHeader>
+                <CardTitle>Prediction Spread</CardTitle>
+                <CardDescription>Measures the variance of predictions across all trees.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center gap-4 pt-6">
+                  <span>Low</span>
+                  <Progress value={(stdDev ?? 0) * 100} className="w-full" />
+                  <span>High</span>
+                  <span className="font-bold">Std. Dev: {(stdDev ?? 0).toFixed(3)}</span>
+                </div>
+              </CardContent>
+            </Card>
         </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Individual Tree Predictions</CardTitle>
+            <CardDescription>Comparison of predictions from different trees in the forest.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={{}} className="h-[200px] w-full">
+              <BarChart data={trees}>
+                  <XAxis dataKey="id" label={{ value: 'Tree ID', position: 'insideBottom', offset: -5 }} />
+                  <YAxis label={{ value: 'Prediction', angle: -90, position: 'insideLeft' }} />
+                  <ChartTooltip
+                      content={<ChartTooltipContent formatter={(value, name, props) => `${props.payload.id}: ${value.toFixed(3)}`} />}
+                      cursor={{ fill: 'hsl(var(--accent))' }}
+                  />
+                  <Bar dataKey="prediction" fill="hsl(var(--primary))" />
+                  <ReferenceLine y={average} stroke="hsl(var(--destructive))" strokeDasharray="3 3" label={{ value: 'Avg', position: 'right' }} />
+              </BarChart>
+            </ChartContainer>
+          </CardContent>
+        </Card>
         {renderSummaryTable()}
       </div>
     );
@@ -248,3 +244,5 @@ export function AggregationResultsDashboard({ simulationData, taskType, isLoadin
     </div>
   );
 }
+
+    
