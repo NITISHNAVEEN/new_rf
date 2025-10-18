@@ -161,7 +161,7 @@ export function DecisionTreeSnapshot({ tree, taskType }: { tree: DecisionTree | 
     return (
         <div className="relative w-full h-full font-sans">
              <TooltipProvider>
-                <div className='overflow-auto w-full h-full'>
+                <div className='w-full h-full overflow-auto'>
                     <div
                         className="p-8 transition-transform duration-300"
                         style={{
@@ -184,9 +184,9 @@ export function DecisionTreeSnapshot({ tree, taskType }: { tree: DecisionTree | 
                     <ZoomOut className="h-4 w-4" />
                     <span className="sr-only">Zoom Out</span>
                 </Button>
-                <div className="bg-background/80 text-sm font-medium px-3 py-1.5 rounded-md border">
+                <Button variant="outline" className="text-sm font-medium px-3 py-1.5 h-10 rounded-md border" onClick={() => setZoom(1)}>
                     {Math.round(zoom * 100)}%
-                </div>
+                </Button>
                 <Button variant="outline" size="icon" onClick={() => setZoom(z => Math.min(2, z + ZOOM_STEP))}>
                     <ZoomIn className="h-4 w-4" />
                     <span className="sr-only">Zoom In</span>
