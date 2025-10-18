@@ -163,10 +163,11 @@ export function DecisionTreeSnapshot({ tree, taskType }: { tree: DecisionTree | 
              <TooltipProvider>
                 <div className='w-full h-full overflow-auto'>
                     <div
-                        className="relative p-8 transition-transform duration-300 min-w-[2400px]"
+                        className="relative p-8 transition-transform duration-300 mx-auto"
                         style={{
                             transform: `scale(${zoom})`,
-                            transformOrigin: 'top'
+                            transformOrigin: 'top',
+                            width: 'fit-content'
                         }}
                     >
                          <div className="flex justify-center">
