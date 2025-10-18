@@ -34,6 +34,7 @@ import { PrecisionRecallCurveChart } from '@/components/precision-recall-curve-c
 import { RealTimePrediction } from '@/components/real-time-prediction';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { ForestVisualization } from '@/components/forest-visualization';
+import { AggregationResultsDashboard } from '@/components/aggregation-results-dashboard';
 
 
 export default function DashboardPage() {
@@ -347,8 +348,21 @@ export default function DashboardPage() {
                </div>
           </TabsContent>
           <TabsContent value="insights" className="py-4">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8">
-                  <Card className='lg:col-span-2'>
+              <div className="grid grid-cols-1 gap-4 md:gap-8">
+                  <div className='lg:col-span-2'>
+                       <ForestVisualization
+                          simulationData={data.forestSimulation}
+                          taskType={state.task}
+                          isLoading={isLoading && !data.metrics}
+                          onRetrain={actions.trainModel}
+                        />
+                  </div>
+                   <AggregationResultsDashboard
+                      simulationData={data.forestSimulation}
+                      taskType={state.task}
+                      isLoading={isLoading && !data.metrics}
+                   />
+                   <Card>
                       <CardHeader>
                           <CardTitle className='flex items-center gap-2'><Lightbulb className='w-5 h-5' />Partial Dependence Plot</CardTitle>
                           <CardDescription>Shows the marginal effect of a feature on the predicted outcome.</CardDescription>
@@ -362,14 +376,6 @@ export default function DashboardPage() {
                           />
                       </CardContent>
                   </Card>
-                   <div className='lg:col-span-2'>
-                       <ForestVisualization
-                          simulationData={data.forestSimulation}
-                          taskType={state.task}
-                          isLoading={isLoading && !data.metrics}
-                          onRetrain={actions.trainModel}
-                        />
-                  </div>
               </div>
           </TabsContent>
           
