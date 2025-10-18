@@ -435,8 +435,6 @@ export default function DashboardPage() {
                           />
                       </CardContent>
                   </Card>
-              </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8">
                    <ForestVisualization
                       simulationData={data.forestSimulation}
                       taskType={state.task}
