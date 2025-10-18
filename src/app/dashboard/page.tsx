@@ -347,21 +347,8 @@ export default function DashboardPage() {
                   </Card>
                </div>
           </TabsContent>
-          <TabsContent value="insights" className="py-4">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8">
-                   <ForestVisualization
-                      simulationData={data.forestSimulation}
-                      taskType={state.task}
-                      isLoading={isLoading && !data.metrics}
-                      onRetrain={actions.trainModel}
-                    />
-                   <AggregationResultsDashboard
-                      simulationData={data.forestSimulation}
-                      taskType={state.task}
-                      isLoading={isLoading && !data.metrics}
-                   />
-              </div>
-              <div className="grid grid-cols-1 gap-4 md:gap-8 mt-4">
+          <TabsContent value="insights" className="py-4 space-y-4 md:space-y-8">
+              <div className="grid grid-cols-1 gap-4 md:gap-8">
                    <Card>
                       <CardHeader>
                           <CardTitle className='flex items-center gap-2'><Lightbulb className='w-5 h-5' />Partial Dependence Plot</CardTitle>
@@ -376,6 +363,19 @@ export default function DashboardPage() {
                           />
                       </CardContent>
                   </Card>
+              </div>
+              <div className="grid grid-cols-1 gap-4 md:gap-8">
+                   <ForestVisualization
+                      simulationData={data.forestSimulation}
+                      taskType={state.task}
+                      isLoading={isLoading && !data.metrics}
+                      onRetrain={actions.trainModel}
+                    />
+                   <AggregationResultsDashboard
+                      simulationData={data.forestSimulation}
+                      taskType={state.task}
+                      isLoading={isLoading && !data.metrics}
+                   />
               </div>
           </TabsContent>
           
