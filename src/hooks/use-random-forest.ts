@@ -120,10 +120,7 @@ const reducer = (state: State, action: Action): State => {
     case 'SET_SELECTED_FEATURES':
       return { ...state, selectedFeatures: action.payload };
     case 'SET_TARGET_COLUMN': {
-      const currentDataset = DATASETS[state.task].find(d => d.value === state.datasetName)?.data ?? [];
-      const allHeaders = Object.keys(currentDataset[0] ?? {});
-      const newFeatures = allHeaders.filter(h => h !== action.payload);
-      return { ...state, targetColumn: action.payload, selectedFeatures: newFeatures };
+      return { ...state, targetColumn: action.payload };
     }
     case 'SET_TEST_SIZE':
         return { ...state, testSize: action.payload };
