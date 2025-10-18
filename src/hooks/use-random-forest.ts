@@ -42,14 +42,14 @@ const BASELINE_HYPERPARAMETERS: Hyperparameters = {
 
 const DATASETS: Record<TaskType, DatasetOption[]> = {
     regression: [
-        { name: 'California Housing', value: 'california-housing', data: housingDataset, target: 'MedHouseVal' },
-        { name: 'Diabetes', value: 'diabetes', data: diabetesDataset, target: 'DiseaseProgression' },
-        { name: 'Linnerud', value: 'linnerud', data: linnerudDataset, target: 'Weight' },
+        { name: 'California Housing (Real Estate / Geography)', value: 'california-housing', data: housingDataset, target: 'MedHouseVal' },
+        { name: 'Diabetes (Medical / Health)', value: 'diabetes', data: diabetesDataset, target: 'DiseaseProgression' },
+        { name: 'Linnerud (Physiological / Sports)', value: 'linnerud', data: linnerudDataset, target: 'Weight' },
     ],
     classification: [
-        { name: 'Wine Quality', value: 'wine-quality', data: wineDataset, target: 'quality' },
-        { name: 'Breast Cancer', value: 'breast-cancer', data: breastCancerDataset, target: 'Diagnosis' },
-        { name: 'Digits Recognition', value: 'digits', data: digitsDataset, target: 'Digit' },
+        { name: 'Wine Quality (Chemistry / Food)', value: 'wine-quality', data: wineDataset, target: 'quality' },
+        { name: 'Breast Cancer Wisconsin (Medical / Health)', value: 'breast-cancer', data: breastCancerDataset, target: 'Diagnosis' },
+        { name: 'Digits Recognition (Image Recognition)', value: 'digits', data: digitsDataset, target: 'Digit' },
     ]
 };
 
