@@ -186,8 +186,17 @@ export function ForestVisualization({ simulationData, taskType, isLoading, onRet
                                     </BarChart>
                                 </ResponsiveContainer>
                             )}
-                            {taskType === 'regression' && (
-                                <p className='text-sm text-center text-muted-foreground'>The final prediction is the average of all individual tree predictions.</p>
+                            {taskType === 'regression' && aggregationResult != null && (
+                               <div className='space-y-2'>
+                                   <p className='text-sm text-center text-muted-foreground'>The final prediction is the average of all individual tree predictions.</p>
+                                   <div className='w-full bg-muted rounded-full h-2.5'>
+                                       <div className='bg-primary h-2.5 rounded-full' style={{width: `${(aggregationResult/5)*100}%`}}></div>
+                                   </div>
+                                   <div className='flex justify-between text-xs text-muted-foreground'>
+                                       <span>0</span>
+                                       <span>5</span>
+                                   </div>
+                               </div>
                             )}
                         </div>
                     </div>
@@ -204,27 +213,11 @@ export function ForestVisualization({ simulationData, taskType, isLoading, onRet
                 <DialogHeader>
                     <DialogTitle>Decision Tree Snapshot</DialogTitle>
                 </DialogHeader>
-                 <div className="flex-1 overflow-auto">
-                    <div
-                        className="relative p-8 transition-transform duration-300 mx-auto"
-                        style={{
-                            transform: `scale(${zoom})`,
-                            transformOrigin: 'top',
-                            width: 'fit-content'
-                        }}
-                    >
-                         <div className="flex justify-center">
-                            {tree.type === 'node'
-                                ? <TreeBranch node={tree as DecisionNode} taskType={taskType} />
-                                : <NodeDisplay node={tree} taskType={taskType} />
-                            }
-                        </div>
-                    </div>
+                <div className="flex-1 w-full h-full">
+                   <DecisionTreeSnapshot tree={selectedTree} taskType={taskType} />
                 </div>
             </DialogContent>
         </Dialog>
     </>
   )
 }
-
-    
