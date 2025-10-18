@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState } from 'react';
@@ -165,10 +164,12 @@ export function DecisionTreeSnapshot({ tree, taskType }: { tree: DecisionTree | 
                     className="p-8 transition-transform duration-300 min-w-[1200px]"
                     style={{ transform: `scale(${zoom})`, transformOrigin: 'top' }}
                 >
+                    <div className="flex justify-center">
                     {tree.type === 'node'
                         ? <TreeBranch node={tree as DecisionNode} taskType={taskType} />
                         : <NodeDisplay node={tree} taskType={taskType} />
                     }
+                    </div>
                 </div>
             </TooltipProvider>
 
