@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Progress } from '@/components/ui/progress';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, ReferenceLine, PieChart, Pie, Cell, Tooltip as RechartsTooltip } from 'recharts';
-import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
+import { ChartContainer } from '@/components/ui/chart';
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from './ui/skeleton';
@@ -148,7 +148,6 @@ export function AggregationResultsDashboard({ simulationData, taskType, isLoadin
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                     ))}
                                 </Pie>
-                                <RechartsTooltip contentStyle={{ backgroundColor: 'hsl(var(--background))', border: '1px solid hsl(var(--border))' }}/>
                             </PieChart>
                         </ResponsiveContainer>
                     </CardContent>
@@ -201,7 +200,7 @@ export function AggregationResultsDashboard({ simulationData, taskType, isLoadin
                   <YAxis label={{ value: 'Prediction', angle: -90, position: 'insideLeft' }} />
                   <RechartsTooltip
                       contentStyle={{ backgroundColor: 'hsl(var(--background))', border: '1px solid hsl(var(--border))' }}
-                      formatter={(value: number, name, props) => [`${value.toFixed(3)}`, `Tree ${props.payload.id}`]}
+                      formatter={(value: number, name, props) => [`${value.toFixed(3) ?? ''}`, `Tree ${props.payload.id}`]}
                       cursor={{ fill: 'hsl(var(--accent))' }}
                   />
                   <Bar dataKey="prediction" fill="hsl(var(--primary))" />
@@ -244,7 +243,7 @@ export function AggregationResultsDashboard({ simulationData, taskType, isLoadin
                                      <TooltipProvider>
                                         <Tooltip>
                                             <TooltipTrigger>
-                                                <span>{confidence !== 'N/A' ? `${confidence}%` : `${contribution.toFixed(2)}%`}</span>
+                                                <span>{confidence !== 'N/A' ? `${confidence}%` : `${typeof contribution === 'number' ? contribution.toFixed(2) : 'N/A'}%`}</span>
                                             </TooltipTrigger>
                                             <TooltipContent>
                                                 {taskType === 'classification' ? 
