@@ -70,12 +70,102 @@ export function AggregationResultsDashboard({ simulationData, taskType, isLoadin
   if (!simulationData) {
     return null;
   }
+  
+  const renderClassificationDashboard = () => {
+    const { votes, winner } = aggregationResult as { votes: { [key: string]: number }, winner: string };
+    const voteData = [{ name: 'Class 0', votes: votes['0'] }, { name: 'Class 1', votes: votes['1'] }];
+    const pieData = [{ name: 'Class 0', value: votes['0'] }, { name: 'Class 1', value: votes['1'] }];
+    const totalVotes = pieData.reduce((acc, entry) => acc + entry.value, 0);
+
+    const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }: any) => {
+        const RADIAN = Math.PI / 180;
+        const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+        const x = cx + radius * Math.cos(-midAngle * RADIAN);
+        const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+        return (
+            <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+            {`${(percent * 100).toFixed(0)}%`}
+            </text>
+        );
+    };
+
+    return (
+        <div className="space-y-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Final Voted Prediction</CardTitle>
+                        <CardDescription>{descriptions.finalPrediction}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="text-center">
+                        <div className="text-5xl font-bold">Class {winner}</div>
+                        <p className="text-muted-foreground">{votes[winner]} out of {trees.length} votes</p>
+                    </CardContent>
+                </Card>
+                 <Card>
+                    <CardHeader>
+                        <CardTitle>Class Vote Distribution</CardTitle>
+                        <CardDescription>{descriptions.predictionSpread}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <ChartContainer config={{}} className="h-full w-full">
+                        <ResponsiveContainer width="100%" height={200}>
+                            <BarChart data={voteData}>
+                                <XAxis dataKey="name" />
+                                <YAxis />
+                                <ChartTooltip content={<ChartTooltipContent />} cursor={{ fill: 'hsl(var(--accent))' }} />
+                                <Bar dataKey="votes" fill="hsl(var(--primary))">
+                                    {voteData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    ))}
+                                </Bar>
+                            </BarChart>
+                        </ResponsiveContainer>
+                      </ChartContainer>
+                    </CardContent>
+                </Card>
+            </div>
+             <div className="grid grid-cols-1 gap-4">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Individual Tree Predictions</CardTitle>
+                        <CardDescription>{descriptions.individualPredictions}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="h-[300px]">
+                         <ResponsiveContainer width="100%" height="100%">
+                            <PieChart>
+                                <Pie 
+                                    data={pieData} 
+                                    dataKey="value" 
+                                    nameKey="name" 
+                                    cx="50%" 
+                                    cy="50%" 
+                                    outerRadius={120} 
+                                    fill="hsl(var(--primary))" 
+                                    labelLine={false}
+                                    label={renderCustomizedLabel}
+                                >
+                                    {pieData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <ChartTooltip content={<ChartTooltipContent />} />
+                            </PieChart>
+                        </ResponsiveContainer>
+                    </CardContent>
+                </Card>
+                {renderSummaryTable()}
+            </div>
+        </div>
+    );
+  };
 
   const renderRegressionDashboard = () => {
     const { average, stdDev } = aggregationResult as { average: number; stdDev: number };
 
     return (
-      <div className="grid grid-cols-1 gap-4 md:gap-8">
+      <div className="space-y-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <Card>
               <CardHeader>
@@ -126,72 +216,6 @@ export function AggregationResultsDashboard({ simulationData, taskType, isLoadin
     );
   };
   
-  const renderClassificationDashboard = () => {
-    const { votes, winner } = aggregationResult as { votes: { [key: string]: number }, winner: string };
-    const voteData = [{ name: 'Class 0', votes: votes['0'] }, { name: 'Class 1', votes: votes['1'] }];
-    const pieData = [{ name: 'Class 0', value: votes['0'] }, { name: 'Class 1', value: votes['1'] }];
-
-    return (
-        <div className="grid grid-cols-1 gap-4 md:gap-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Final Voted Prediction</CardTitle>
-                        <CardDescription>{descriptions.finalPrediction}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="text-center">
-                        <div className="text-5xl font-bold">Class {winner}</div>
-                        <p className="text-muted-foreground">{votes[winner]} out of {trees.length} votes</p>
-                    </CardContent>
-                </Card>
-                 <Card>
-                    <CardHeader>
-                        <CardTitle>Class Vote Distribution</CardTitle>
-                        <CardDescription>{descriptions.predictionSpread}</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <ChartContainer config={{}} className="h-[200px] w-full">
-                        <ResponsiveContainer width="100%" height={200}>
-                            <BarChart data={voteData}>
-                                <XAxis dataKey="name" />
-                                <YAxis />
-                                <ChartTooltip content={<ChartTooltipContent />} cursor={{ fill: 'hsl(var(--accent))' }} />
-                                <Bar dataKey="votes" fill="hsl(var(--primary))">
-                                    {voteData.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                    ))}
-                                </Bar>
-                            </BarChart>
-                        </ResponsiveContainer>
-                      </ChartContainer>
-                    </CardContent>
-                </Card>
-            </div>
-            <Card>
-                <CardHeader>
-                    <CardTitle>Individual Tree Predictions</CardTitle>
-                    <CardDescription>{descriptions.individualPredictions}</CardDescription>
-                </CardHeader>
-                <CardContent className="h-[250px]">
-                    <ChartContainer config={{}} className="h-full w-full">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <PieChart>
-                                <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} fill="hsl(var(--primary))" label>
-                                    {pieData.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                    ))}
-                                </Pie>
-                                <ChartTooltip content={<ChartTooltipContent />} />
-                            </PieChart>
-                        </ResponsiveContainer>
-                    </ChartContainer>
-                </CardContent>
-            </Card>
-            {renderSummaryTable()}
-        </div>
-    );
-  };
-
   const renderSummaryTable = () => (
      <Card>
         <CardHeader>
