@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from 'react';
@@ -147,7 +148,7 @@ const TreeBranch: React.FC<TreeBranchProps> = ({ node, taskType }) => {
 
 export function DecisionTreeSnapshot({ tree, taskType }: { tree: DecisionTree | null, taskType: TaskType }) {
     const [zoom, setZoom] = useState(1);
-    const ZOOM_STEP = 0.25;
+    const ZOOM_STEP = 0.1;
 
      if (!tree) {
         return (
@@ -162,7 +163,7 @@ export function DecisionTreeSnapshot({ tree, taskType }: { tree: DecisionTree | 
              <TooltipProvider>
                 <div className='overflow-auto w-full h-full'>
                     <div 
-                        className="p-8 transition-transform duration-300 min-w-[1200px]"
+                        className="p-8 transition-transform duration-300 min-w-[1200px] h-full"
                         style={{ 
                             transform: `scale(${zoom})`, 
                             transformOrigin: 'top' 
