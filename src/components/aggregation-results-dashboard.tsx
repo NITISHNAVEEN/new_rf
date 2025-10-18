@@ -17,13 +17,19 @@ interface AggregationResultsDashboardProps {
   simulationData: ForestSimulation | null;
   taskType: TaskType;
   isLoading: boolean;
+  descriptions: {
+    finalPrediction: string;
+    predictionSpread: string;
+    individualPredictions: string;
+    summaryTable: string;
+  };
 }
 
 const TREES_PER_PAGE = 10;
 
 const COLORS = ['hsl(var(--chart-2))', 'hsl(var(--chart-1))'];
 
-export function AggregationResultsDashboard({ simulationData, taskType, isLoading }: AggregationResultsDashboardProps) {
+export function AggregationResultsDashboard({ simulationData, taskType, isLoading, descriptions }: AggregationResultsDashboardProps) {
   const [currentPage, setCurrentPage] = useState(0);
 
   const trees = simulationData?.trees || [];
@@ -74,7 +80,7 @@ export function AggregationResultsDashboard({ simulationData, taskType, isLoadin
             <Card>
               <CardHeader>
                 <CardTitle>Final Averaged Prediction</CardTitle>
-                <CardDescription>The final prediction is the average of all individual tree predictions.</CardDescription>
+                <CardDescription>{descriptions.finalPrediction}</CardDescription>
               </CardHeader>
               <CardContent className="text-center">
                 <div className="text-5xl font-bold">{average.toFixed(3)}</div>
@@ -83,7 +89,7 @@ export function AggregationResultsDashboard({ simulationData, taskType, isLoadin
             <Card>
               <CardHeader>
                 <CardTitle>Prediction Spread</CardTitle>
-                <CardDescription>Measures the variance of predictions across all trees.</CardDescription>
+                <CardDescription>{descriptions.predictionSpread}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-4 pt-6">
@@ -98,7 +104,7 @@ export function AggregationResultsDashboard({ simulationData, taskType, isLoadin
         <Card>
           <CardHeader>
             <CardTitle>Individual Tree Predictions</CardTitle>
-            <CardDescription>Comparison of predictions from different trees in the forest.</CardDescription>
+            <CardDescription>{descriptions.individualPredictions}</CardDescription>
           </CardHeader>
           <CardContent>
             <ChartContainer config={{}} className="h-[200px] w-full">
@@ -131,7 +137,7 @@ export function AggregationResultsDashboard({ simulationData, taskType, isLoadin
                 <Card>
                     <CardHeader>
                         <CardTitle>Final Voted Prediction</CardTitle>
-                        <CardDescription>The final prediction is the class with the most votes from all trees.</CardDescription>
+                        <CardDescription>{descriptions.finalPrediction}</CardDescription>
                     </CardHeader>
                     <CardContent className="text-center">
                         <div className="text-5xl font-bold">Class {winner}</div>
@@ -141,7 +147,7 @@ export function AggregationResultsDashboard({ simulationData, taskType, isLoadin
                  <Card>
                     <CardHeader>
                         <CardTitle>Class Vote Distribution</CardTitle>
-                        <CardDescription>How the trees voted for each class.</CardDescription>
+                        <CardDescription>{descriptions.predictionSpread}</CardDescription>
                     </CardHeader>
                     <CardContent>
                       <ChartContainer config={{}} className="h-[200px] w-full">
@@ -164,13 +170,13 @@ export function AggregationResultsDashboard({ simulationData, taskType, isLoadin
             <Card>
                 <CardHeader>
                     <CardTitle>Individual Tree Predictions</CardTitle>
-                    <CardDescription>Comparison of predictions from different trees in the forest.</CardDescription>
+                    <CardDescription>{descriptions.individualPredictions}</CardDescription>
                 </CardHeader>
-                <CardContent>
-                    <ChartContainer config={{}} className="h-[200px] w-full">
-                        <ResponsiveContainer width="100%" height={200}>
+                <CardContent className="h-[250px]">
+                    <ChartContainer config={{}} className="h-full w-full">
+                        <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
-                                <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label>
+                                <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} fill="hsl(var(--primary))" label>
                                     {pieData.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                     ))}
@@ -190,7 +196,7 @@ export function AggregationResultsDashboard({ simulationData, taskType, isLoadin
      <Card>
         <CardHeader>
             <CardTitle>Prediction Summary Table</CardTitle>
-            <CardDescription>Detailed predictions from each tree in the forest.</CardDescription>
+            <CardDescription>{descriptions.summaryTable}</CardDescription>
         </CardHeader>
         <CardContent>
              <Table>
@@ -252,5 +258,3 @@ export function AggregationResultsDashboard({ simulationData, taskType, isLoadin
     </div>
   );
 }
-
-    

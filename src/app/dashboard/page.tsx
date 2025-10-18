@@ -45,6 +45,12 @@ const domainSpecificText = {
     pdp: "Shows how changing a single factor, like the number of rooms, affects the predicted house price, holding all other factors constant.",
     summary: "Provides an overview of the housing data, like average number of rooms and the range of house ages.",
     correlation: "Reveals how different housing features relate to each other, like whether older houses tend to have fewer rooms.",
+    aggregation: {
+      finalPrediction: "The final prediction is the average of price predictions from all individual 'expert' trees in the forest.",
+      predictionSpread: "Measures how much the price predictions vary from tree to tree. Low variance means the 'experts' agree.",
+      individualPredictions: "Comparison of price predictions from each individual 'expert' tree in the forest.",
+      summaryTable: "A detailed breakdown of each tree's predicted price and its contribution to the final averaged outcome."
+    }
   },
   'diabetes': {
     featureImportance: "Highlights which clinical measurements (like BMI or blood pressure) are most critical for predicting disease progression a year later.",
@@ -55,6 +61,12 @@ const domainSpecificText = {
     pdp: "Isolates one factor, like BMI, to see its direct impact on the predicted disease progression, independent of other measurements.",
     summary: "Provides key statistics for each clinical measurement, such as the average BMI and blood pressure in the patient group.",
     correlation: "Shows relationships between different clinical markers, like whether higher BMI is associated with higher blood pressure.",
+    aggregation: {
+      finalPrediction: "The final prediction is the average of disease progression scores from all individual trees.",
+      predictionSpread: "Measures the variance in predicted scores across all trees. Lower variance suggests higher confidence.",
+      individualPredictions: "Shows the predicted disease progression score from each tree in the forest.",
+      summaryTable: "Detailed breakdown of each tree's prediction and its influence on the final averaged score."
+    }
   },
   'linnerud': {
     featureImportance: "Shows which exercises (like Chinups or Situps) have the biggest impact on a person's physiological measurements (like Weight).",
@@ -65,6 +77,12 @@ const domainSpecificText = {
     pdp: "Shows how changing performance in one exercise, like situps, is predicted to affect an athlete's weight, keeping other exercises constant.",
     summary: "Gives a statistical summary of the athletes' performance, including average number of chinups and situps.",
     correlation: "Examines if performance in one exercise, like chinups, is related to performance in another, like situps.",
+    aggregation: {
+      finalPrediction: "The final prediction is the average of weight predictions from all individual trees.",
+      predictionSpread: "Shows the agreement among the trees' weight predictions. Less spread means more consensus.",
+      individualPredictions: "A look at the weight prediction made by each individual tree in the ensemble.",
+      summaryTable: "A detailed list of each tree's weight prediction and how much it contributed to the final result."
+    }
   },
   'wine-quality': {
     featureImportance: "Reveals which chemical properties (like alcohol content or acidity) are the strongest predictors of wine quality.",
@@ -74,6 +92,12 @@ const domainSpecificText = {
     pdp: "Isolates a single ingredient, like 'sulphates', to see how its concentration level impacts the predicted quality of the wine.",
     summary: "Provides an overview of the chemical properties, such as the average alcohol content and pH range across all wines.",
     correlation: "Shows how different chemical properties are related, such as whether higher acidity is linked to lower pH.",
+    aggregation: {
+      finalPrediction: "The final quality rating is decided by a vote; each tree casts a vote for 'Good' or 'Bad' quality.",
+      predictionSpread: "Shows the distribution of votes. A strong majority for one class indicates a high-confidence prediction.",
+      individualPredictions: "Visualizes the proportion of trees that voted for 'Good' vs. 'Bad' quality.",
+      summaryTable: "A detailed log of each tree's individual vote for the wine's quality."
+    }
   },
   'breast-cancer': {
     featureImportance: "Pinpoints which tumor characteristics (like radius or texture) are the most significant indicators for a diagnosis.",
@@ -83,15 +107,27 @@ const domainSpecificText = {
     pdp: "Shows how a single tumor measurement, like 'mean radius', influences the model's diagnosis, holding other factors constant.",
     summary: "Gives a statistical overview of the tumor measurements, like the average radius and texture of the cells.",
     correlation: "Reveals relationships between tumor characteristics, like whether a larger radius is correlated with higher compactness.",
+    aggregation: {
+      finalPrediction: "The final diagnosis ('Malignant' or 'Benign') is determined by a majority vote from all trees in the forest.",
+      predictionSpread: "Shows how many trees voted for each diagnosis, indicating the model's confidence.",
+      individualPredictions: "A pie chart showing the breakdown of votes for 'Malignant' vs. 'Benign' from all trees.",
+      summaryTable: "A detailed record of each tree's diagnostic vote."
+    }
   },
   'digits': {
     featureImportance: "Identifies which pixel areas are most important for the model to recognize a handwritten digit.",
     confusionMatrix: "Shows a breakdown of which digits the model confuses. For example, does it often mistake a '3' for an '8'?",
     rocCurve: "Measures the model's ability to distinguish one digit from another (e.g., telling a '7' from all other digits).",
     prCurve: "For a specific digit, this shows the balance between making sure a prediction is correct (Precision) and not missing any instances of that digit (Recall).",
-    pdp: "Shows how the brightness of a single pixel region influences the model's decision on what digit it is.",
+pdp: "Shows how the brightness of a single pixel region influences the model's decision on what digit it is.",
     summary: "Provides statistics on pixel intensity values across the dataset of images.",
     correlation: "Shows if the brightness of one pixel is related to the brightness of another, which can reveal stroke patterns.",
+    aggregation: {
+      finalPrediction: "The final recognized digit is based on a majority vote from all decision trees.",
+      predictionSpread: "Illustrates the consensus among the trees, showing the vote count for each possible digit.",
+      individualPredictions: "A visual breakdown of how many trees voted for each digit (0-9).",
+      summaryTable: "A detailed log of the digit predicted by each individual tree."
+    }
   },
   default: {
     featureImportance: "Shows the relative importance of each feature in predicting the target variable.",
@@ -105,6 +141,12 @@ const domainSpecificText = {
     pdp: "Shows the marginal effect of a feature on the predicted outcome.",
     summary: "Provides a summary of basic statistics for each numeric feature in the dataset.",
     correlation: "Displays a heatmap showing the correlation between numeric features.",
+    aggregation: {
+      finalPrediction: "The final prediction is the result of aggregating the outputs of all individual trees.",
+      predictionSpread: "Measures the variance or vote distribution of predictions across all trees.",
+      individualPredictions: "Comparison of predictions from different trees in the forest.",
+      summaryTable: "Detailed predictions from each tree in the forest."
+    }
   }
 };
 
@@ -445,6 +487,7 @@ export default function DashboardPage() {
                       simulationData={data.forestSimulation}
                       taskType={state.task}
                       isLoading={isLoading && !data.metrics}
+                      descriptions={descriptions.aggregation}
                    />
               </div>
           </TabsContent>
