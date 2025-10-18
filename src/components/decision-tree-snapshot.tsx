@@ -163,7 +163,7 @@ export function DecisionTreeSnapshot({ tree, taskType }: { tree: DecisionTree | 
              <TooltipProvider>
                 <div className='overflow-auto w-full h-full'>
                     <div
-                        className="p-8 transition-transform duration-300 min-w-[2400px] h-[200vh]"
+                        className="p-8 transition-transform duration-300"
                         style={{
                             transform: `scale(${zoom})`,
                             transformOrigin: 'top'
