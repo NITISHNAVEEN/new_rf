@@ -10679,14 +10679,14 @@ const domainSpecificText = {
         residualPlot: "Examines the model's prediction errors. Ideally, the dots should be randomly scattered around the zero line, which means the model's mistakes are random and not biased.",
         errorHistogram: "Shows the distribution of price prediction errors. A tall bar in the center means most predictions were very close to the real price.",
         cumulativeError: "Tells you what percentage of predictions were 'close enough'. For example, it might show that 80% of predictions were within $20,000 of the actual price.",
-        pdp: "Shows how a single factor, like the number of rooms, affects the predicted house price, assuming all other factors stay the same.",
+        pdp: "Shows how a single factor, like the number of rooms, affects the predicted house price, while keeping all other factors the same. This helps you understand what the model has learned about each feature individually.",
         summary: "Provides a quick overview of your data, like the average number of rooms and the age range of the houses in the dataset.",
         correlation: "Reveals how different housing features relate to each other. For example, do houses with more rooms tend to be newer?",
         aggregation: {
-            finalPrediction: "The final prediction is the average of price predictions from all individual 'expert' trees in the forest.",
-            predictionSpread: "Measures how much the price predictions vary from tree to tree. Low variance means the 'experts' agree.",
-            individualPredictions: "Comparison of price predictions from each individual 'expert' tree in the forest.",
-            summaryTable: "A detailed breakdown of each tree's predicted price and its contribution to the final averaged outcome."
+            finalPrediction: "The final predicted house price is the average of the estimates from all the individual 'expert appraiser' trees.",
+            predictionSpread: "Shows how much the individual price estimates from the trees agree with each other. If the estimates are all close, the model is more confident.",
+            individualPredictions: "A look at every single price estimate made by each individual 'expert appraiser' tree in the forest.",
+            summaryTable: "A detailed list showing each tree's price estimate and how much it contributed to the final average price."
         },
         prediction: {
             title: "Predict House Price",
@@ -10708,14 +10708,14 @@ const domainSpecificText = {
         residualPlot: "Checks if the model's prediction errors are random. If the dots form a pattern, the model might have a hidden bias (e.g., always underestimating for older patients).",
         errorHistogram: "Visualizes how far off the predictions are. Ideally, you want a big spike at zero, meaning most predictions were spot-on.",
         cumulativeError: "Shows how many predictions were within a certain range of the true score. A steep curve is good, showing high accuracy for most cases.",
-        pdp: "Isolates one factor, like BMI, to see its direct impact on the predicted disease progression, independent of other measurements.",
+        pdp: "Isolates one factor, like BMI, to see its direct impact on the predicted disease progression, independent of other measurements. This helps understand what the model has learned about each factor on its own.",
         summary: "Provides key statistics for each clinical measurement, such as the average BMI and blood pressure in the patient group.",
         correlation: "Shows relationships between different clinical markers. For instance, is higher BMI usually associated with higher blood pressure in this dataset?",
         aggregation: {
-            finalPrediction: "The final prediction is the average of disease progression scores from all individual trees.",
-            predictionSpread: "Measures the variance in predicted scores across all trees. Lower variance suggests higher confidence.",
-            individualPredictions: "Shows the predicted disease progression score from each tree in the forest.",
-            summaryTable: "Detailed breakdown of each tree's prediction and its influence on the final averaged score."
+            finalPrediction: "The final prediction is the average disease progression score from all the individual 'doctor' trees.",
+            predictionSpread: "Shows how much the individual scores from the trees agree with each other. Low variation means the 'doctors' have reached a consensus.",
+            individualPredictions: "A look at the disease progression score predicted by each individual 'doctor' tree in the forest.",
+            summaryTable: "A detailed breakdown of each tree's score and its contribution to the final averaged outcome."
         },
         prediction: {
             title: "Predict Disease Progression",
@@ -10737,14 +10737,14 @@ const domainSpecificText = {
         residualPlot: "Analyzes if prediction errors for an athlete's weight have a pattern. Randomly scattered dots are a good sign of an unbiased model.",
         errorHistogram: "Displays how often the model is off by a certain amount. A large bar in the middle means the model is frequently accurate.",
         cumulativeError: "Shows how many weight predictions are within a certain number of pounds of the actual weight. A steep curve means most predictions are very close.",
-        pdp: "Shows how improving in one exercise, like situps, is predicted to affect an athlete's weight, keeping other exercises the same.",
+        pdp: "Shows how improving in one exercise, like situps, is predicted to affect an athlete's weight, assuming other exercises stay the same. This reveals what the model has learned about each exercise.",
         summary: "Gives a simple statistical summary of the athletes' performance, like the average number of chinups and situps.",
         correlation: "Examines if doing well in one exercise is related to doing well in another. For example, do athletes who do more chinups also do more situps?",
         aggregation: {
-            finalPrediction: "The final prediction is the average of weight predictions from all individual trees.",
-            predictionSpread: "Shows the agreement among the trees' weight predictions. Less spread means more consensus.",
-            individualPredictions: "A look at the weight prediction made by each individual tree in the ensemble.",
-            summaryTable: "A detailed list of each tree's weight prediction and how much it contributed to the final result."
+            finalPrediction: "The final predicted weight is the average of all the predictions from the individual 'coach' trees.",
+            predictionSpread: "Shows how much the weight predictions from the trees agree with each other. If they are all close, the model is more confident in its prediction.",
+            individualPredictions: "A look at the weight prediction made by each individual 'coach' tree in the ensemble.",
+            summaryTable: "A detailed list of each tree's weight prediction and how it contributes to the final average."
         },
         prediction: {
             title: "Predict Athlete's Weight",
@@ -10765,14 +10765,14 @@ const domainSpecificText = {
         confusionMatrix: "This is a report card for the model. It shows how many times the model correctly identified 'Good' and 'Bad' wines, and where it got confused.",
         rocCurve: "Measures the model's ability to be a good 'Good wine' detector. A curve that bows up and to the left means the model is excellent at telling the two qualities apart.",
         prCurve: "This shows the balance between being right when predicting a 'Good' wine and not missing any of the actual 'Good' wines. Higher and to the right is better.",
-        pdp: "Isolates a single ingredient, like 'alcohol', to see how its concentration level alone impacts the chance of the wine being rated as 'Good'.",
+        pdp: "Isolates one ingredient, like 'alcohol,' to see how changing its level alone affects the wine's chances of being rated 'Good.' This helps understand what the model thinks is important for quality.",
         summary: "Provides an overview of the chemical properties across all wines in the dataset, such as the average alcohol content and pH range.",
         correlation: "Shows how different chemical properties are related. For example, does higher alcohol content often go with lower sugar?",
         aggregation: {
-            finalPrediction: "The final quality rating is decided by a vote; each tree casts a vote for 'Good' or 'Bad' quality.",
-            predictionSpread: "Shows the distribution of votes. A strong majority for one class indicates a high-confidence prediction.",
-            individualPredictions: "Visualizes the proportion of trees that voted for 'Good' vs. 'Bad' quality.",
-            summaryTable: "A detailed log of each tree's individual vote for the wine's quality."
+            finalPrediction: "The final quality rating is decided by a vote. Each 'taster' tree casts a vote for either 'Good' or 'Bad,' and the majority wins.",
+            predictionSpread: "Shows how the 'tasters' voted. If most of them agree (e.g., 9 out of 10 vote 'Good'), it means the model is very confident in its prediction.",
+            individualPredictions: "A simple pie chart showing the percentage of 'tasters' that voted for 'Good' versus 'Bad' quality.",
+            summaryTable: "A detailed log showing the individual vote from each 'taster' tree, so you can see the entire panel's opinion."
         },
         prediction: {
             title: "Predict Wine Quality",
@@ -10793,14 +10793,14 @@ const domainSpecificText = {
         confusionMatrix: "This is a summary of the model's performance. It shows how many 'Malignant' and 'Benign' cases it correctly identified and where it made mistakes.",
         rocCurve: "Evaluates how well the model can distinguish between 'Malignant' and 'Benign' tumors. A curve that goes high and to the left is a sign of a very accurate model.",
         prCurve: "Shows the trade-off between being sure a tumor is 'Malignant' (Precision) and correctly finding all 'Malignant' tumors (Recall). For medical tests, both are critical.",
-        pdp: "Shows how a single tumor measurement, like 'mean radius', influences the model's diagnosis, assuming all other factors are kept constant.",
+        pdp: "Shows how a single tumor measurement, like 'mean radius,' influences the model's diagnosis, assuming all other factors are kept constant. This reveals what the model has learned is a key indicator.",
         summary: "Gives a statistical overview of the tumor measurements, like the average radius and texture of the cells in the dataset.",
         correlation: "Reveals relationships between tumor characteristics. For example, do larger tumors tend to have a rougher texture?",
         aggregation: {
-            finalPrediction: "The final diagnosis ('Malignant' or 'Benign') is determined by a majority vote from all trees in the forest.",
-            predictionSpread: "Shows how many trees voted for each diagnosis, indicating the model's confidence.",
-            individualPredictions: "A pie chart showing the breakdown of votes for 'Malignant' vs. 'Benign' from all trees.",
-            summaryTable: "A detailed record of each tree's diagnostic vote."
+            finalPrediction: "The final diagnosis ('Malignant' or 'Benign') is decided by a majority vote from all the 'pathologist' trees in the forest.",
+            predictionSpread: "Shows how many trees voted for each diagnosis. A unanimous vote indicates very high confidence from the model.",
+            individualPredictions: "A pie chart showing the breakdown of votes for 'Malignant' vs. 'Benign' from all the 'pathologist' trees.",
+            summaryTable: "A detailed record of each tree's diagnostic vote, showing how the final decision was reached."
         },
         prediction: {
             title: "Predict Cancer Diagnosis",
@@ -10821,14 +10821,14 @@ const domainSpecificText = {
         confusionMatrix: "This is a chart showing the model's mistakes. It helps you see if it consistently confuses certain digits, like mistaking a '3' for an '8'.",
         rocCurve: "Measures the model's ability to distinguish one specific digit from all the others. A high-arching curve means it's a good identifier.",
         prCurve: "For any given digit, this shows the balance between being correct when you predict that digit (Precision) and finding all instances of it (Recall).",
-        pdp: "Shows how changing the brightness of a single pixel region influences the model's decision on what digit it is, showing which pixels are key.",
+        pdp: "Shows how changing the brightness of a single pixel region influences the model's decision, revealing which pixels are key for identifying a digit.",
         summary: "Provides simple statistics on pixel brightness values across the entire dataset of handwritten images.",
         correlation: "Shows if the brightness of one pixel is related to the brightness of another. This can help reveal common stroke patterns in the handwriting.",
         aggregation: {
-            finalPrediction: "The final recognized digit is based on a majority vote from all decision trees.",
-            predictionSpread: "Illustrates the consensus among the trees, showing the vote count for each possible digit.",
-            individualPredictions: "A visual breakdown of how many trees voted for each digit (0-9).",
-            summaryTable: "A detailed log of the digit predicted by each individual tree."
+            finalPrediction: "The final recognized digit is determined by a majority vote from all the 'handwriting expert' trees.",
+            predictionSpread: "Illustrates how the trees voted. A strong consensus for one number means the model is very sure about its guess.",
+            individualPredictions: "A visual breakdown showing how many trees voted for each possible digit from 0 to 9.",
+            summaryTable: "A detailed log of the digit that each individual 'expert' tree predicted."
         },
         prediction: {
             title: "Recognize Handwritten Digit",
@@ -10853,14 +10853,14 @@ const domainSpecificText = {
         cumulativeError: "Tells you what percentage of predictions were 'close enough'. A steep curve means most predictions were very accurate.",
         rocCurve: "This shows how good the model is at telling two different classes apart. A curve that is high and to the left means the model is very effective.",
         prCurve: "This curve shows the trade-off between making a correct positive prediction and finding all the positive cases. A curve that is high and to the right is better.",
-        pdp: "Shows how changing just one factor affects the final prediction, which helps you understand what the model thinks is important.",
+        pdp: "Shows how changing just one feature affects the final prediction, helping you understand what the model has learned is important.",
         summary: "Provides a basic statistical overview of your data, like averages and value ranges, in a simple table.",
         correlation: "This colorful grid shows you which of your data features are related to each other. For example, do two things tend to increase together or does one go up when the other goes down?",
         aggregation: {
-            finalPrediction: "The final prediction is the result of aggregating the outputs of all individual trees.",
-            predictionSpread: "Measures the variance or vote distribution of predictions across all trees.",
-            individualPredictions: "Comparison of predictions from different trees in the forest.",
-            summaryTable: "Detailed predictions from each tree in the forest."
+            finalPrediction: "The final prediction is the result of combining the outputs of all individual trees (by averaging or voting).",
+            predictionSpread: "Measures how much the individual trees agree. High agreement means the model is confident in its prediction.",
+            individualPredictions: "A comparison of the predictions from all the different trees in the forest.",
+            summaryTable: "A detailed table showing the prediction from each individual tree in the forest."
         },
         prediction: {
             title: "Make a Prediction",
