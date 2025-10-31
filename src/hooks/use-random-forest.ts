@@ -294,8 +294,9 @@ const generatePdpData = (features: string[], dataset: Record<string, any>[], tas
     return pdp;
 };
 
-const generateForestSimulation = (state: State, seed: number): ForestSimulation => {
-    const { hyperparameters, selectedFeatures, task } = state;
+const generateForestSimulation = (state: State, seed: number, isBaseline: boolean): ForestSimulation => {
+    const { selectedFeatures, task } = state;
+    const hyperparameters = isBaseline ? BASELINE_HYPERPARAMETERS : state.hyperparameters;
     const numTrees = hyperparameters.n_estimators;
 
     const trees: TreeSimulation[] = Array.from({ length: numTrees }, (_, i) => {
@@ -400,7 +401,7 @@ const mockTrainModel = async (
   const chartData = history.map(p => ({ actual: p.actual, prediction: p.prediction }));
   const decisionTree = generateMockTree(selectedFeatures, task, hyperparameters, 0, seed);
   const pdpData = generatePdpData(selectedFeatures, dataset, task, seed);
-  const forestSimulation = generateForestSimulation(state, seed);
+  const forestSimulation = generateForestSimulation(state, seed, isBaseline);
 
   return { metrics, featureImportance, history, chartData, decisionTree, rocCurveData, prCurveData, pdpData, forestSimulation };
 };

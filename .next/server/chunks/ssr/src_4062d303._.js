@@ -354,8 +354,9 @@ const generatePdpData = (features, dataset, task, seed)=>{
     });
     return pdp;
 };
-const generateForestSimulation = (state, seed)=>{
-    const { hyperparameters, selectedFeatures, task } = state;
+const generateForestSimulation = (state, seed, isBaseline)=>{
+    const { selectedFeatures, task } = state;
+    const hyperparameters = isBaseline ? BASELINE_HYPERPARAMETERS : state.hyperparameters;
     const numTrees = hyperparameters.n_estimators;
     const trees = Array.from({
         length: numTrees
@@ -456,7 +457,7 @@ const mockTrainModel = async (state, dataset, isBaseline = false)=>{
         }));
     const decisionTree = generateMockTree(selectedFeatures, task, hyperparameters, 0, seed);
     const pdpData = generatePdpData(selectedFeatures, dataset, task, seed);
-    const forestSimulation = generateForestSimulation(state, seed);
+    const forestSimulation = generateForestSimulation(state, seed, isBaseline);
     return {
         metrics,
         featureImportance,
