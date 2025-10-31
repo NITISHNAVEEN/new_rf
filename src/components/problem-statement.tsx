@@ -61,9 +61,9 @@ export function ProblemStatement({ metadata, datasetName }: ProblemStatementProp
                         </div>
                     </div>
                 </CardContent>
-                <CollapsibleContent>
+                <CollapsibleContent className="max-h-60 overflow-y-auto">
                     <div className="p-6 pt-0">
-                        <div className="border rounded-md max-h-60 overflow-y-auto">
+                        <div className="border rounded-md">
                             <Table>
                                 <TableHeader>
                                     <TableRow>
