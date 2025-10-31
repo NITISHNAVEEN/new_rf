@@ -605,6 +605,7 @@ export default function DashboardPage() {
                   datasetName={state.datasetName}
                   descriptions={descriptions.prediction}
                   placeholderValues={data.placeholderValues}
+                  metadata={data.metadata}
               />
           </TabsContent>
         </Tabs>
