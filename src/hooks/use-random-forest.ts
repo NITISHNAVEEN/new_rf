@@ -1,4 +1,3 @@
-
 'use client';
 import { useState, useReducer, useCallback, useEffect } from 'react';
 import type {
@@ -16,6 +15,7 @@ import type {
   TreeSimulation,
   DatasetOption,
   DatasetMetadata,
+  LeafNode,
 } from '@/lib/types';
 import housingDataset from '@/lib/data/california-housing.json';
 import wineDataset from '@/lib/data/wine-quality.json';
@@ -143,28 +143,29 @@ const generateMockTree = (
     task: TaskType,
     hyperparameters: Hyperparameters,
     depth: number = 0,
-    seed = 1
+    seed: number = 1
 ): DecisionTree => {
     const nodeSeed = seed + depth * 10;
-    
-    // Termination conditions
-    if (depth >= (hyperparameters.max_depth ?? 10) || pseudoRandom(nodeSeed) > 0.8) { 
-        const samples = Math.floor(pseudoRandom(nodeSeed * 6) * (200 / (depth + 1)) + 10);
+    const currentSamples = Math.floor(pseudoRandom(nodeSeed * 6) * (200 / (depth + 1)) + hyperparameters.min_samples_leaf);
+
+    // Termination conditions:
+    // 1. Max depth is reached.
+    // 2. Not enough samples to split.
+    // 3. It's a small node and we randomly decide to make it a leaf.
+    if (depth >= (hyperparameters.max_depth ?? 10) || currentSamples < hyperparameters.min_samples_split || (currentSamples < hyperparameters.min_samples_split * 2 && pseudoRandom(seed) > 0.5)) {
         let value: number[];
         if (task === 'regression') {
             value = [pseudoRandom(nodeSeed * 2) * 3 + 1];
         } else {
-            const class1Samples = Math.floor(pseudoRandom(nodeSeed * 2) * samples);
-            value = [samples - class1Samples, class1Samples];
+            const class1Samples = Math.floor(pseudoRandom(nodeSeed * 2) * currentSamples);
+            value = [currentSamples - class1Samples, class1Samples];
         }
         return {
             type: 'leaf',
             value: value,
-            samples: samples
-        };
+            samples: currentSamples
+        } satisfies LeafNode;
     }
-    
-    const samples = Math.floor(pseudoRandom(nodeSeed * 6) * (200 / (depth + 1)) + 50);
 
     let value: number[];
     let impurity: number;
@@ -176,10 +177,10 @@ const generateMockTree = (
         value = [baseValue];
         criterion = 'MSE';
     } else { // classification
-        const class0Samples = Math.floor(pseudoRandom(nodeSeed * 2) * samples);
-        const class1Samples = samples - class0Samples;
-        const p0 = class0Samples / samples;
-        const p1 = class1Samples / samples;
+        const class0Samples = Math.floor(pseudoRandom(nodeSeed * 2) * currentSamples);
+        const class1Samples = currentSamples - class0Samples;
+        const p0 = class0Samples / currentSamples;
+        const p1 = class1Samples / currentSamples;
         
         if (hyperparameters.criterion === 'entropy') {
             impurity = - (p0 * Math.log2(p0 || 1)) - (p1 * Math.log2(p1 || 1));
@@ -198,7 +199,7 @@ const generateMockTree = (
         type: 'node',
         feature,
         threshold: threshold,
-        samples: samples,
+        samples: currentSamples,
         impurity,
         criterion,
         value,
@@ -206,7 +207,7 @@ const generateMockTree = (
             generateMockTree(features, task, hyperparameters, depth + 1, seed + 1),
             generateMockTree(features, task, hyperparameters, depth + 1, seed + 2)
         ]
-    };
+    } satisfies DecisionNode;
 };
 
 const createSeed = (state: State, salt: string = '') => {

@@ -195,28 +195,30 @@ const pseudoRandom = (seed)=>{
 };
 const generateMockTree = (features, task, hyperparameters, depth = 0, seed = 1)=>{
     const nodeSeed = seed + depth * 10;
-    // Termination conditions
-    if (depth >= (hyperparameters.max_depth ?? 10) || pseudoRandom(nodeSeed) > 0.8) {
-        const samples = Math.floor(pseudoRandom(nodeSeed * 6) * (200 / (depth + 1)) + 10);
+    const currentSamples = Math.floor(pseudoRandom(nodeSeed * 6) * (200 / (depth + 1)) + hyperparameters.min_samples_leaf);
+    // Termination conditions:
+    // 1. Max depth is reached.
+    // 2. Not enough samples to split.
+    // 3. It's a small node and we randomly decide to make it a leaf.
+    if (depth >= (hyperparameters.max_depth ?? 10) || currentSamples < hyperparameters.min_samples_split || currentSamples < hyperparameters.min_samples_split * 2 && pseudoRandom(seed) > 0.5) {
         let value;
         if (task === 'regression') {
             value = [
                 pseudoRandom(nodeSeed * 2) * 3 + 1
             ];
         } else {
-            const class1Samples = Math.floor(pseudoRandom(nodeSeed * 2) * samples);
+            const class1Samples = Math.floor(pseudoRandom(nodeSeed * 2) * currentSamples);
             value = [
-                samples - class1Samples,
+                currentSamples - class1Samples,
                 class1Samples
             ];
         }
         return {
             type: 'leaf',
             value: value,
-            samples: samples
+            samples: currentSamples
         };
     }
-    const samples = Math.floor(pseudoRandom(nodeSeed * 6) * (200 / (depth + 1)) + 50);
     let value;
     let impurity;
     let criterion = 'MSE';
@@ -228,10 +230,10 @@ const generateMockTree = (features, task, hyperparameters, depth = 0, seed = 1)=
         ];
         criterion = 'MSE';
     } else {
-        const class0Samples = Math.floor(pseudoRandom(nodeSeed * 2) * samples);
-        const class1Samples = samples - class0Samples;
-        const p0 = class0Samples / samples;
-        const p1 = class1Samples / samples;
+        const class0Samples = Math.floor(pseudoRandom(nodeSeed * 2) * currentSamples);
+        const class1Samples = currentSamples - class0Samples;
+        const p0 = class0Samples / currentSamples;
+        const p1 = class1Samples / currentSamples;
         if (hyperparameters.criterion === 'entropy') {
             impurity = -(p0 * Math.log2(p0 || 1)) - p1 * Math.log2(p1 || 1);
             criterion = 'Entropy';
@@ -250,7 +252,7 @@ const generateMockTree = (features, task, hyperparameters, depth = 0, seed = 1)=
         type: 'node',
         feature,
         threshold: threshold,
-        samples: samples,
+        samples: currentSamples,
         impurity,
         criterion,
         value,
