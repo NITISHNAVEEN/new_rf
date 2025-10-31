@@ -5447,8 +5447,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$component$2f$ResponsiveContainer$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/recharts/es6/component/ResponsiveContainer.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$chart$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/chart.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$help$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__HelpCircle$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/circle-help.js [app-ssr] (ecmascript) <export default as HelpCircle>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tooltip$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/tooltip.tsx [app-ssr] (ecmascript)");
 'use client';
+;
 ;
 ;
 ;
@@ -5462,26 +5464,6 @@ const CustomYAxisTick = (props)=>{
         transform: `translate(${x},${y})`,
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tooltip$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Tooltip"], {
             children: [
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tooltip$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TooltipTrigger"], {
-                    asChild: true,
-                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
-                        x: 0,
-                        y: 0,
-                        dy: 4,
-                        textAnchor: "end",
-                        fill: "hsl(var(--foreground))",
-                        className: "text-xs cursor-help flex items-center",
-                        children: featureName.length > 15 ? `${featureName.substring(0, 13)}...` : featureName
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/missing-values-chart.tsx",
-                        lineNumber: 28,
-                        columnNumber: 21
-                    }, this)
-                }, void 0, false, {
-                    fileName: "[project]/src/components/missing-values-chart.tsx",
-                    lineNumber: 27,
-                    columnNumber: 17
-                }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tooltip$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TooltipContent"], {
                     side: "right",
                     className: "max-w-xs",
@@ -5491,27 +5473,73 @@ const CustomYAxisTick = (props)=>{
                             children: featureName
                         }, void 0, false, {
                             fileName: "[project]/src/components/missing-values-chart.tsx",
-                            lineNumber: 33,
+                            lineNumber: 28,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                             children: description || 'No description available.'
                         }, void 0, false, {
                             fileName: "[project]/src/components/missing-values-chart.tsx",
-                            lineNumber: 34,
+                            lineNumber: 29,
                             columnNumber: 21
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/missing-values-chart.tsx",
-                    lineNumber: 32,
+                    lineNumber: 27,
+                    columnNumber: 17
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tooltip$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TooltipTrigger"], {
+                    asChild: true,
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("g", {
+                        className: "cursor-help",
+                        children: [
+                            description && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("foreignObject", {
+                                x: -120,
+                                y: -8,
+                                width: 20,
+                                height: 20,
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$help$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__HelpCircle$3e$__["HelpCircle"], {
+                                    className: "h-3 w-3 text-muted-foreground"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/missing-values-chart.tsx",
+                                    lineNumber: 34,
+                                    columnNumber: 29
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/missing-values-chart.tsx",
+                                lineNumber: 33,
+                                columnNumber: 41
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("text", {
+                                x: -100,
+                                y: 0,
+                                dy: 4,
+                                textAnchor: "start",
+                                fill: "hsl(var(--foreground))",
+                                className: "text-xs",
+                                children: featureName.length > 15 ? `${featureName.substring(0, 13)}...` : featureName
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/missing-values-chart.tsx",
+                                lineNumber: 36,
+                                columnNumber: 26
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/missing-values-chart.tsx",
+                        lineNumber: 32,
+                        columnNumber: 21
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/src/components/missing-values-chart.tsx",
+                    lineNumber: 31,
                     columnNumber: 17
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/missing-values-chart.tsx",
             lineNumber: 26,
-            columnNumber: 14
+            columnNumber: 13
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/missing-values-chart.tsx",
@@ -5550,7 +5578,7 @@ function MissingValuesChart({ dataset, metadata }) {
                         margin: {
                             top: 5,
                             right: 30,
-                            left: 10,
+                            left: 20,
                             bottom: 5
                         },
                         children: [
@@ -5559,7 +5587,7 @@ function MissingValuesChart({ dataset, metadata }) {
                                 horizontal: false
                             }, void 0, false, {
                                 fileName: "[project]/src/components/missing-values-chart.tsx",
-                                lineNumber: 71,
+                                lineNumber: 76,
                                 columnNumber: 27
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$XAxis$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["XAxis"], {
@@ -5575,7 +5603,7 @@ function MissingValuesChart({ dataset, metadata }) {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/src/components/missing-values-chart.tsx",
-                                lineNumber: 72,
+                                lineNumber: 77,
                                 columnNumber: 27
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$YAxis$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["YAxis"], {
@@ -5587,14 +5615,14 @@ function MissingValuesChart({ dataset, metadata }) {
                                     metadata: metadata
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/missing-values-chart.tsx",
-                                    lineNumber: 78,
+                                    lineNumber: 83,
                                     columnNumber: 37
                                 }, void 0),
                                 interval: 0,
                                 width: 120
                             }, void 0, false, {
                                 fileName: "[project]/src/components/missing-values-chart.tsx",
-                                lineNumber: 73,
+                                lineNumber: 78,
                                 columnNumber: 27
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Tooltip$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Tooltip"], {
@@ -5605,12 +5633,12 @@ function MissingValuesChart({ dataset, metadata }) {
                                     formatter: (value)=>`${value.toFixed(2)}%`
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/missing-values-chart.tsx",
-                                    lineNumber: 84,
+                                    lineNumber: 89,
                                     columnNumber: 40
                                 }, void 0)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/missing-values-chart.tsx",
-                                lineNumber: 82,
+                                lineNumber: 87,
                                 columnNumber: 27
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$Bar$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Bar"], {
@@ -5624,33 +5652,33 @@ function MissingValuesChart({ dataset, metadata }) {
                                 ]
                             }, void 0, false, {
                                 fileName: "[project]/src/components/missing-values-chart.tsx",
-                                lineNumber: 86,
+                                lineNumber: 91,
                                 columnNumber: 27
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/missing-values-chart.tsx",
-                        lineNumber: 66,
+                        lineNumber: 71,
                         columnNumber: 23
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/missing-values-chart.tsx",
-                    lineNumber: 65,
+                    lineNumber: 70,
                     columnNumber: 19
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/missing-values-chart.tsx",
-                lineNumber: 64,
+                lineNumber: 69,
                 columnNumber: 15
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/components/missing-values-chart.tsx",
-            lineNumber: 63,
+            lineNumber: 68,
             columnNumber: 13
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/missing-values-chart.tsx",
-        lineNumber: 62,
+        lineNumber: 67,
         columnNumber: 9
     }, this);
 }
