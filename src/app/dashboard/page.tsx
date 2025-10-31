@@ -39,6 +39,7 @@ import { ProblemStatement } from '@/components/problem-statement';
 
 const domainSpecificText = {
   'california-housing': {
+    forest: "A Random Forest is like a team of 'expert' appraisers (Decision Trees). Each one gives a price estimate for a house, and the final prediction is the average of all their estimates. Click each tree to see its logic.",
     featureImportance: "Shows which housing attributes (like median income or house age) are most influential in predicting a home's value.",
     predictionPlot: "Compares the model's predicted home values against the actual sale prices.",
     residualPlot: "Examines if the model's price prediction errors are random or if they follow a pattern (e.g., consistently overpricing cheaper homes).",
@@ -67,6 +68,7 @@ const domainSpecificText = {
     }
   },
   'diabetes': {
+    forest: "The Random Forest acts like a panel of doctors. Each tree (doctor) provides a score for disease progression, and the final prediction is the average of all their scores. Click each tree to see its reasoning.",
     featureImportance: "Highlights which clinical measurements (like BMI or blood pressure) are most critical for predicting disease progression a year later.",
     predictionPlot: "Compares the model's predicted disease progression score against the actual measured score.",
     residualPlot: "Checks if the model's prediction errors are random or if they have a bias (e.g., underestimating progression in older patients).",
@@ -95,6 +97,7 @@ const domainSpecificText = {
     }
   },
   'linnerud': {
+    forest: "Think of the Random Forest as a group of fitness coaches. Each tree (coach) predicts an athlete's weight based on their exercises. The final prediction is the average of all their predictions. Click a tree to view its analysis.",
     featureImportance: "Shows which exercises (like Chinups or Situps) have the biggest impact on a person's physiological measurements (like Weight).",
     predictionPlot: "Compares the model's predicted weight against the athlete's actual weight.",
     residualPlot: "Analyzes if prediction errors for an athlete's weight have a pattern, or if they are random.",
@@ -123,6 +126,7 @@ const domainSpecificText = {
     }
   },
   'wine-quality': {
+    forest: "A Random Forest is like a panel of wine tasters (Decision Trees). Each one votes on whether a wine is 'Good' or 'Bad', and the majority vote becomes the final prediction. Click each tree to see how it voted.",
     featureImportance: "Reveals which chemical properties (like alcohol content or acidity) are the strongest predictors of wine quality.",
     confusionMatrix: "Shows how well the model distinguishes between 'Good' and 'Bad' quality wines. It highlights where mistakes are made.",
     rocCurve: "Measures the model's ability to correctly identify a 'Good' quality wine without incorrectly flagging a 'Bad' one.",
@@ -150,6 +154,7 @@ const domainSpecificText = {
     }
   },
   'breast-cancer': {
+    forest: "The Random Forest acts as a group of virtual pathologists. Each tree examines the tumor data and votes 'Malignant' or 'Benign'. The final diagnosis is based on the majority vote. Click a tree to see its individual analysis.",
     featureImportance: "Pinpoints which tumor characteristics (like radius or texture) are the most significant indicators for a diagnosis.",
     confusionMatrix: "Summarizes the model's diagnostic accuracy, showing correct vs. incorrect classifications for 'Malignant' and 'Benign' cases.",
     rocCurve: "Evaluates how well the model can distinguish between 'Malignant' and 'Benign' tumors.",
@@ -177,6 +182,7 @@ const domainSpecificText = {
     }
   },
   'digits': {
+    forest: "The Random Forest works like a committee of handwriting experts. Each tree looks at the pixel image and votes on what digit it is (0-9). The digit with the most votes becomes the final prediction. Click any tree to see its logic.",
     featureImportance: "Identifies which pixel areas are most important for the model to recognize a handwritten digit.",
     confusionMatrix: "Shows a breakdown of which digits the model confuses. For example, does it often mistake a '3' for an '8'?",
     rocCurve: "Measures the model's ability to distinguish one digit from another (e.g., telling a '7' from all other digits).",
@@ -204,6 +210,7 @@ const domainSpecificText = {
     }
   },
   default: {
+    forest: "A Random Forest is an ensemble of Decision Trees. The final prediction is obtained by aggregating the outputs of all trees (averaging for regression, voting for classification). Click each tree to see its structure.",
     featureImportance: "Shows the relative importance of each feature in predicting the target variable.",
     predictionPlot: "Compares the model's predictions against the actual values.",
     confusionMatrix: "A visual breakdown of the model's prediction accuracy for each class.",
@@ -573,6 +580,7 @@ export default function DashboardPage() {
                     isLoading={isLoading && !data.metrics}
                     onRetrain={actions.trainModel}
                     datasetName={state.datasetName}
+                    description={descriptions.forest}
                 />
                 <AggregationResultsDashboard
                     simulationData={data.forestSimulation}

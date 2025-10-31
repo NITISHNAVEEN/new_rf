@@ -19,6 +19,7 @@ interface ForestVisualizationProps {
   isLoading: boolean;
   onRetrain: () => void;
   datasetName: string;
+  description: string;
 }
 
 const TREES_PER_PAGE = 50;
@@ -70,7 +71,7 @@ const MiniTree = ({ tree, taskType, onTreeClick, classLabel }: { tree: TreeSimul
   )
 };
 
-export function ForestVisualization({ simulationData, taskType, isLoading, onRetrain, datasetName }: ForestVisualizationProps) {
+export function ForestVisualization({ simulationData, taskType, isLoading, onRetrain, datasetName, description }: ForestVisualizationProps) {
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedTreeId, setSelectedTreeId] = useState<number | null>(null);
   
@@ -118,15 +119,9 @@ export function ForestVisualization({ simulationData, taskType, isLoading, onRet
         <div className='space-y-4'>
             <Card>
                 <CardHeader>
-                    <CardTitle className='flex items-center gap-2'><GitMerge className='w-5 h-5' />How the Random Forest Combiles Predictions</CardTitle>
+                    <CardTitle className='flex items-center gap-2'><GitMerge className='w-5 h-5' />How the Random Forest Combines Predictions</CardTitle>
                     <CardDescription className='flex items-center gap-2'>
-                        A Random Forest is an ensemble of Decision Trees. The final prediction is obtained by aggregating the outputs of all trees.
-                        <TooltipProvider>
-                            <Tooltip>
-                                <TooltipTrigger><Info className='w-4 h-4' /></TooltipTrigger>
-                                <TooltipContent>Why it works: Randomness + Aggregation = Better Generalization.</TooltipContent>
-                            </Tooltip>
-                        </TooltipProvider>
+                        {description}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
