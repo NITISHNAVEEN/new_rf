@@ -47,7 +47,7 @@ const MiniTree = ({ tree, taskType, onTreeClick, classLabel }: { tree: TreeSimul
         <TooltipTrigger asChild>
           <div className="flex flex-col items-center gap-1 cursor-pointer group" onClick={onTreeClick}>
              <div className={cn(
-              "relative w-12 h-12 rounded-full bg-muted flex items-center justify-center transition-all duration-500 group-hover:animate-vibrate",
+              "relative w-12 h-12 rounded-full bg-muted flex items-center justify-center transition-all duration-500 group-hover:animate-vibrate group-hover:scale-110",
               finalColor
             )}>
               <Trees className={cn("h-6 w-6 text-white transition-colors")} />
@@ -118,9 +118,9 @@ export function ForestVisualization({ simulationData, taskType, isLoading, onRet
         <div className='space-y-4'>
             <Card>
                 <CardHeader>
-                    <CardTitle className='flex items-center gap-2'><GitMerge className='w-5 h-5' />How the Random Forest Combines Predictions</CardTitle>
+                    <CardTitle className='flex items-center gap-2'><GitMerge className='w-5 h-5' />How the Random Forest Combiles Predictions</CardTitle>
                     <CardDescription className='flex items-center gap-2'>
-                        A Random Forest is an ensemble of Decision Trees. The final prediction is obtained by aggregating the outputs of all trees.
+                        A Random Forest is an ensemble of Decision Trees. The final prediction is obtained by aggregating the outputs of all trees. <strong>Click each tree to see the full decision tree.</strong>
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger><Info className='w-4 h-4' /></TooltipTrigger>
