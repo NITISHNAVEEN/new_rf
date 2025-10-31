@@ -742,6 +742,10 @@ body {
   max-height: 100vh;
 }
 
+.max-h-60 {
+  max-height: 15rem;
+}
+
 .min-h-0 {
   min-height: 0;
 }
@@ -756,6 +760,10 @@ body {
 
 .min-h-svh {
   min-height: 100svh;
+}
+
+.min-h-\[200px\] {
+  min-height: 200px;
 }
 
 .w-0 {
@@ -1403,6 +1411,10 @@ body {
 
 .fill-current {
   fill: currentColor;
+}
+
+.object-cover {
+  object-fit: cover;
 }
 
 .p-0 {
@@ -2806,6 +2818,10 @@ body {
 
   .md\:h-\[400px\] {
     height: 400px;
+  }
+
+  .md\:min-h-0 {
+    min-height: 0;
   }
 
   .md\:w-1\/4 {
