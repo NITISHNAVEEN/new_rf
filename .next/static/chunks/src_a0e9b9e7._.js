@@ -7137,12 +7137,14 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict }) {
         features
     ]);
     const defaultValues = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
-        "RealTimePrediction.useMemo[defaultValues]": ()=>features.reduce({
+        "RealTimePrediction.useMemo[defaultValues]": ()=>{
+            return features.reduce({
                 "RealTimePrediction.useMemo[defaultValues]": (acc, feature)=>{
                     acc[feature] = '';
                     return acc;
                 }
-            }["RealTimePrediction.useMemo[defaultValues]"], {})
+            }["RealTimePrediction.useMemo[defaultValues]"], {});
+        }
     }["RealTimePrediction.useMemo[defaultValues]"], [
         features
     ]);
@@ -7154,11 +7156,11 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict }) {
         "RealTimePrediction.useEffect": ()=>{
             form.reset(defaultValues);
             setPredictionResult(null);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         }
     }["RealTimePrediction.useEffect"], [
         features,
-        defaultValues,
-        form
+        defaultValues
     ]);
     const onSubmit = async (values)=>{
         setIsPredicting(true);
@@ -7186,27 +7188,27 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict }) {
                                         className: "w-5 h-5"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/real-time-prediction.tsx",
-                                        lineNumber: 71,
+                                        lineNumber: 73,
                                         columnNumber: 13
                                     }, this),
                                     "Make a Prediction"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                                lineNumber: 70,
+                                lineNumber: 72,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
                                 children: "Enter values for the features below to get a real-time prediction."
                             }, void 0, false, {
                                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                                lineNumber: 74,
+                                lineNumber: 76,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/real-time-prediction.tsx",
-                        lineNumber: 69,
+                        lineNumber: 71,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -7228,7 +7230,7 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict }) {
                                                                 children: feature
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                                                                lineNumber: 87,
+                                                                lineNumber: 89,
                                                                 columnNumber: 25
                                                             }, void 0),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FormControl"], {
@@ -7238,33 +7240,33 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict }) {
                                                                     ...field
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/real-time-prediction.tsx",
-                                                                    lineNumber: 89,
+                                                                    lineNumber: 91,
                                                                     columnNumber: 27
                                                                 }, void 0)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                                                                lineNumber: 88,
+                                                                lineNumber: 90,
                                                                 columnNumber: 25
                                                             }, void 0),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                                                                lineNumber: 91,
+                                                                lineNumber: 93,
                                                                 columnNumber: 25
                                                             }, void 0)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/real-time-prediction.tsx",
-                                                        lineNumber: 86,
+                                                        lineNumber: 88,
                                                         columnNumber: 23
                                                     }, void 0)
                                             }, feature, false, {
                                                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                                                lineNumber: 81,
+                                                lineNumber: 83,
                                                 columnNumber: 19
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/real-time-prediction.tsx",
-                                        lineNumber: 79,
+                                        lineNumber: 81,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -7275,36 +7277,36 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict }) {
                                                 className: "mr-2 h-4 w-4 animate-spin"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                                                lineNumber: 98,
+                                                lineNumber: 100,
                                                 columnNumber: 34
                                             }, this),
                                             "Predict"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/real-time-prediction.tsx",
-                                        lineNumber: 97,
+                                        lineNumber: 99,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, formKey, true, {
                                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                                lineNumber: 78,
+                                lineNumber: 80,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/real-time-prediction.tsx",
-                            lineNumber: 77,
+                            lineNumber: 79,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/real-time-prediction.tsx",
-                        lineNumber: 76,
+                        lineNumber: 78,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                lineNumber: 68,
+                lineNumber: 70,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7318,20 +7320,20 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict }) {
                                         children: "Prediction Result"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/real-time-prediction.tsx",
-                                        lineNumber: 109,
+                                        lineNumber: 111,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
                                         children: "This is the model's prediction based on the input values you provided."
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/real-time-prediction.tsx",
-                                        lineNumber: 110,
+                                        lineNumber: 112,
                                         columnNumber: 18
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                                lineNumber: 108,
+                                lineNumber: 110,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -7340,7 +7342,7 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict }) {
                                     className: "h-8 w-8 animate-spin text-primary"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/real-time-prediction.tsx",
-                                    lineNumber: 116,
+                                    lineNumber: 118,
                                     columnNumber: 21
                                 }, this) : predictionResult ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "text-center",
@@ -7350,7 +7352,7 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict }) {
                                             children: taskType === 'regression' ? 'Predicted Value' : 'Predicted Class'
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/real-time-prediction.tsx",
-                                            lineNumber: 119,
+                                            lineNumber: 121,
                                             columnNumber: 25
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -7358,31 +7360,31 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict }) {
                                             children: predictionResult.prediction
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/real-time-prediction.tsx",
-                                            lineNumber: 120,
+                                            lineNumber: 122,
                                             columnNumber: 25
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/real-time-prediction.tsx",
-                                    lineNumber: 118,
+                                    lineNumber: 120,
                                     columnNumber: 21
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                     className: "text-muted-foreground",
                                     children: "Submit feature values to see a prediction."
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/real-time-prediction.tsx",
-                                    lineNumber: 123,
+                                    lineNumber: 125,
                                     columnNumber: 21
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                                lineNumber: 114,
+                                lineNumber: 116,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/real-time-prediction.tsx",
-                        lineNumber: 107,
+                        lineNumber: 109,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$explain$2d$prediction$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ExplainPrediction"], {
@@ -7392,19 +7394,19 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict }) {
                         isLoading: isLoading || isPredicting
                     }, void 0, false, {
                         fileName: "[project]/src/components/real-time-prediction.tsx",
-                        lineNumber: 128,
+                        lineNumber: 130,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                lineNumber: 106,
+                lineNumber: 108,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/real-time-prediction.tsx",
-        lineNumber: 67,
+        lineNumber: 69,
         columnNumber: 5
     }, this);
 }

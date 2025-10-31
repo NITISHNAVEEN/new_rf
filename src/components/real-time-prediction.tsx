@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { TaskType, Prediction } from '@/lib/types';
-import { Loader2, TestTube2, BrainCircuit } from 'lucide-react';
+import { Loader2, TestTube2 } from 'lucide-react';
 import { ExplainPrediction } from './explain-prediction';
 
 interface RealTimePredictionProps {
@@ -37,21 +37,23 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict }:
 
   type FormValues = z.infer<typeof formSchema>;
 
-  const defaultValues = useMemo(() => features.reduce((acc, feature) => {
+  const defaultValues = useMemo(() => {
+    return features.reduce((acc, feature) => {
       acc[feature] = '';
       return acc;
-    }, {} as Record<string, any>), [features]);
+    }, {} as Record<string, any>);
+  }, [features]);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
-
+  
   useEffect(() => {
     form.reset(defaultValues);
     setPredictionResult(null);
-  }, [features, defaultValues, form]);
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [features, defaultValues]);
 
   const onSubmit = async (values: FormValues) => {
     setIsPredicting(true);
@@ -60,7 +62,7 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict }:
     setPredictionResult(result);
     setIsPredicting(false);
   };
-
+  
   const formKey = useMemo(() => features.join('-'), [features]);
 
   return (
