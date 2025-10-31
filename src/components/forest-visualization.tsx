@@ -72,8 +72,7 @@ const MiniTree = ({ tree, taskType, onTreeClick, classLabel }: { tree: TreeSimul
 
 export function ForestVisualization({ simulationData, taskType, isLoading, onRetrain, datasetName }: ForestVisualizationProps) {
   const [currentPage, setCurrentPage] = useState(0);
-  const [selectedTree, setSelectedTree] = useState<DecisionTree | null>(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedTreeId, setSelectedTreeId] = useState<number | null>(null);
   
   useEffect(() => {
     setCurrentPage(0);
@@ -90,10 +89,15 @@ export function ForestVisualization({ simulationData, taskType, isLoading, onRet
   }, [simulationData, currentPage]);
 
 
-  const handleTreeClick = (tree: DecisionTree) => {
-    setSelectedTree(tree);
-    setIsDialogOpen(true);
+  const handleTreeClick = (treeId: number) => {
+    setSelectedTreeId(treeId);
   };
+  
+  const selectedTree = useMemo(() => {
+    if (selectedTreeId === null || !simulationData) return null;
+    return simulationData.trees.find(t => t.id === selectedTreeId)?.tree ?? null;
+  }, [selectedTreeId, simulationData]);
+
 
   if (isLoading || !simulationData) {
     return (
@@ -145,7 +149,7 @@ export function ForestVisualization({ simulationData, taskType, isLoading, onRet
                                 key={tree.id}
                                 tree={tree} 
                                 taskType={taskType}
-                                onTreeClick={() => handleTreeClick(tree.tree)}
+                                onTreeClick={() => handleTreeClick(tree.id)}
                                 classLabel={classLabel}
                             />
                         })}
@@ -153,17 +157,16 @@ export function ForestVisualization({ simulationData, taskType, isLoading, onRet
                 </CardContent>
             </Card>
         </div>
-         <Dialog open={isDialogOpen} onOpenChange={(isOpen) => {
-            setIsDialogOpen(isOpen);
+         <Dialog open={selectedTreeId !== null} onOpenChange={(isOpen) => {
             if (!isOpen) {
-                setSelectedTree(null);
+                setSelectedTreeId(null);
             }
          }}>
             <DialogContent className="max-w-7xl h-[90vh] flex flex-col">
                 <DialogHeader>
-                    <DialogTitle>Decision Tree Snapshot</DialogTitle>
+                    <DialogTitle>Decision Tree Snapshot (Tree ID: {selectedTreeId})</DialogTitle>
                 </DialogHeader>
-                <div className="flex-1 w-full h-full">
+                <div className="flex-1 w-full h-full min-h-0">
                    <DecisionTreeSnapshot tree={selectedTree} taskType={taskType} />
                 </div>
             </DialogContent>

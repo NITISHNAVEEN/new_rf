@@ -154,7 +154,7 @@ export function DecisionTreeSnapshot({ tree, taskType }: { tree: DecisionTree | 
      if (!tree) {
         return (
             <div className="flex items-center justify-center h-full text-muted-foreground">
-                Train a model to see a decision tree snapshot.
+                Select a tree to view its structure.
             </div>
         );
     }
