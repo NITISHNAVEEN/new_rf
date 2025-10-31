@@ -185,7 +185,7 @@ const pseudoRandom = (seed)=>{
 const generateMockTree = (features, task, hyperparameters, depth = 0, seed = 1)=>{
     const nodeSeed = seed + depth * 10;
     // Termination conditions
-    if (depth >= hyperparameters.max_depth || depth >= 10) {
+    if (depth >= (hyperparameters.max_depth ?? 10) || depth >= 10) {
         const samples = Math.floor(pseudoRandom(nodeSeed * 6) * (200 / (depth + 1)) + 10);
         let value;
         if (task === 'regression') {
@@ -508,7 +508,6 @@ const useRandomForest = ()=>{
     });
     const [status, setStatus] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('idle');
     const { toast } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$toast$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useToast"])();
-    const [isDebouncing, setIsDebouncing] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         const newDatasetOption = DATASETS[state.task].find((d)=>d.value === state.datasetName);
         const newDataset = newDatasetOption ? newDatasetOption.data : [];
@@ -516,13 +515,20 @@ const useRandomForest = ()=>{
                 ...d,
                 dataset: newDataset,
                 metrics: null,
+                featureImportance: [],
+                history: [],
+                chartData: null,
+                insights: '',
                 baselineMetrics: null,
+                baselineFeatureImportance: [],
+                baselineChartData: null,
                 decisionTree: null,
                 rocCurveData: null,
                 prCurveData: null,
                 pdpData: null,
                 forestSimulation: null
             }));
+        setStatus('idle');
     }, [
         state.task,
         state.datasetName
@@ -654,23 +660,6 @@ const useRandomForest = ()=>{
         trainBaselineModel: ()=>trainModel(true),
         predict
     };
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        if (status === 'idle') return;
-        setIsDebouncing(true);
-        const handler = setTimeout(()=>{
-            setIsDebouncing(false);
-            actions.trainModel();
-        }, 1200);
-        return ()=>{
-            clearTimeout(handler);
-        };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [
-        JSON.stringify(state.hyperparameters),
-        state.targetColumn,
-        state.testSize,
-        state.datasetName
-    ]);
     return {
         state,
         data,

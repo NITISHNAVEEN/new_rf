@@ -144,7 +144,7 @@ const generateMockTree = (
     const nodeSeed = seed + depth * 10;
     
     // Termination conditions
-    if (depth >= hyperparameters.max_depth || depth >= 10) { // Add a safety depth limit
+    if (depth >= (hyperparameters.max_depth ?? 10) || depth >= 10) { 
         const samples = Math.floor(pseudoRandom(nodeSeed * 6) * (200 / (depth + 1)) + 10);
         let value: number[];
         if (task === 'regression') {
@@ -458,7 +458,6 @@ export const useRandomForest = () => {
   });
   const [status, setStatus] = useState<Status>('idle');
   const { toast } = useToast();
-  const [isDebouncing, setIsDebouncing] = useState(false);
 
   useEffect(() => {
     const newDatasetOption = DATASETS[state.task].find(d => d.value === state.datasetName);
@@ -468,13 +467,20 @@ export const useRandomForest = () => {
         ...d,
         dataset: newDataset,
         metrics: null,
+        featureImportance: [],
+        history: [],
+        chartData: null,
+        insights: '',
         baselineMetrics: null,
+        baselineFeatureImportance: [],
+        baselineChartData: null,
         decisionTree: null,
         rocCurveData: null,
         prCurveData: null,
         pdpData: null,
         forestSimulation: null,
     }));
+    setStatus('idle');
   }, [state.task, state.datasetName]);
 
   const handleStateChange = <T extends Action['type']>(type: T) => (payload: Extract<Action, { type: T }>['payload']) => {
@@ -567,21 +573,6 @@ export const useRandomForest = () => {
     trainBaselineModel: () => trainModel(true),
     predict,
   };
-
-  useEffect(() => {
-    if (status === 'idle') return;
-
-    setIsDebouncing(true);
-    const handler = setTimeout(() => {
-        setIsDebouncing(false);
-        actions.trainModel();
-    }, 1200);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(state.hyperparameters), state.targetColumn, state.testSize, state.datasetName]);
 
   return { state, data, status, actions, availableDatasets: DATASETS[state.task] };
 };
