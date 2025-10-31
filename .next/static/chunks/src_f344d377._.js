@@ -8215,6 +8215,16 @@ const Edge = ({ isLeft })=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$
     }, this);
 _c2 = Edge;
 const TreeBranch = ({ node, taskType })=>{
+    if (node.type === 'leaf') {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(NodeDisplay, {
+            node: node,
+            taskType: taskType
+        }, void 0, false, {
+            fileName: "[project]/src/components/decision-tree-snapshot.tsx",
+            lineNumber: 126,
+            columnNumber: 16
+        }, this);
+    }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "flex flex-col items-center",
         children: [
@@ -8223,7 +8233,7 @@ const TreeBranch = ({ node, taskType })=>{
                 taskType: taskType
             }, void 0, false, {
                 fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                lineNumber: 127,
+                lineNumber: 131,
                 columnNumber: 13
             }, this),
             node.children && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -8235,49 +8245,42 @@ const TreeBranch = ({ node, taskType })=>{
                                 isLeft: true
                             }, void 0, false, {
                                 fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                                lineNumber: 131,
+                                lineNumber: 135,
                                 columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Edge, {
                                 isLeft: false
                             }, void 0, false, {
                                 fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                                lineNumber: 132,
+                                lineNumber: 136,
                                 columnNumber: 25
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                        lineNumber: 130,
+                        lineNumber: 134,
                         columnNumber: 21
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "flex w-full justify-around",
                         children: node.children.map((child, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "flex flex-col items-center",
-                                children: child.type === 'node' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(TreeBranch, {
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(TreeBranch, {
                                     node: child,
                                     taskType: taskType
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                                    lineNumber: 138,
-                                    columnNumber: 39
-                                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(NodeDisplay, {
-                                    node: child,
-                                    taskType: taskType
-                                }, void 0, false, {
-                                    fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                                    lineNumber: 139,
-                                    columnNumber: 39
+                                    lineNumber: 141,
+                                    columnNumber: 33
                                 }, this)
                             }, index, false, {
                                 fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                                lineNumber: 136,
+                                lineNumber: 140,
                                 columnNumber: 29
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                        lineNumber: 134,
+                        lineNumber: 138,
                         columnNumber: 21
                     }, this)
                 ]
@@ -8285,7 +8288,7 @@ const TreeBranch = ({ node, taskType })=>{
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-        lineNumber: 126,
+        lineNumber: 130,
         columnNumber: 9
     }, this);
 };
@@ -8300,7 +8303,7 @@ function DecisionTreeSnapshot({ tree, taskType }) {
             children: "Select a tree to view its structure."
         }, void 0, false, {
             fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-            lineNumber: 156,
+            lineNumber: 157,
             columnNumber: 13
         }, this);
     }
@@ -8319,39 +8322,32 @@ function DecisionTreeSnapshot({ tree, taskType }) {
                         },
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "flex justify-center",
-                            children: tree.type === 'node' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(TreeBranch, {
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(TreeBranch, {
                                 node: tree,
                                 taskType: taskType
                             }, void 0, false, {
                                 fileName: "[project]/src/components/decision-tree-snapshot.tsx",
                                 lineNumber: 176,
-                                columnNumber: 35
-                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(NodeDisplay, {
-                                node: tree,
-                                taskType: taskType
-                            }, void 0, false, {
-                                fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                                lineNumber: 177,
-                                columnNumber: 35
+                                columnNumber: 28
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                            lineNumber: 174,
+                            lineNumber: 175,
                             columnNumber: 26
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                        lineNumber: 166,
+                        lineNumber: 167,
                         columnNumber: 21
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                    lineNumber: 165,
+                    lineNumber: 166,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                lineNumber: 164,
+                lineNumber: 165,
                 columnNumber: 14
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -8366,7 +8362,7 @@ function DecisionTreeSnapshot({ tree, taskType }) {
                                 className: "h-4 w-4"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                                lineNumber: 186,
+                                lineNumber: 184,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -8374,13 +8370,13 @@ function DecisionTreeSnapshot({ tree, taskType }) {
                                 children: "Zoom Out"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                                lineNumber: 187,
+                                lineNumber: 185,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                        lineNumber: 185,
+                        lineNumber: 183,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -8393,7 +8389,7 @@ function DecisionTreeSnapshot({ tree, taskType }) {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                        lineNumber: 189,
+                        lineNumber: 187,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -8405,7 +8401,7 @@ function DecisionTreeSnapshot({ tree, taskType }) {
                                 className: "h-4 w-4"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                                lineNumber: 193,
+                                lineNumber: 191,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -8413,25 +8409,25 @@ function DecisionTreeSnapshot({ tree, taskType }) {
                                 children: "Zoom In"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                                lineNumber: 194,
+                                lineNumber: 192,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                        lineNumber: 192,
+                        lineNumber: 190,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-                lineNumber: 184,
+                lineNumber: 182,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/decision-tree-snapshot.tsx",
-        lineNumber: 163,
+        lineNumber: 164,
         columnNumber: 9
     }, this);
 }

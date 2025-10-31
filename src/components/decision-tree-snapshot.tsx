@@ -117,11 +117,15 @@ const Edge = ({ isLeft }: { isLeft: boolean }) => (
 );
 
 interface TreeBranchProps {
-    node: DecisionNode;
+    node: DecisionNode | LeafNode;
     taskType: TaskType;
 }
 
 const TreeBranch: React.FC<TreeBranchProps> = ({ node, taskType }) => {
+    if (node.type === 'leaf') {
+        return <NodeDisplay node={node} taskType={taskType} />;
+    }
+
     return (
         <div className="flex flex-col items-center">
             <NodeDisplay node={node} taskType={taskType} />
@@ -134,10 +138,7 @@ const TreeBranch: React.FC<TreeBranchProps> = ({ node, taskType }) => {
                     <div className="flex w-full justify-around">
                         {node.children.map((child, index) => (
                             <div key={index} className="flex flex-col items-center">
-                                {child.type === 'node'
-                                    ? <TreeBranch node={child as DecisionNode} taskType={taskType} />
-                                    : <NodeDisplay node={child} taskType={taskType} />
-                                }
+                                <TreeBranch node={child} taskType={taskType} />
                             </div>
                         ))}
                     </div>
@@ -172,10 +173,7 @@ export function DecisionTreeSnapshot({ tree, taskType }: { tree: DecisionTree | 
                         }}
                     >
                          <div className="flex justify-center">
-                            {tree.type === 'node'
-                                ? <TreeBranch node={tree as DecisionNode} taskType={taskType} />
-                                : <NodeDisplay node={tree} taskType={taskType} />
-                            }
+                           <TreeBranch node={tree} taskType={taskType} />
                         </div>
                     </div>
                 </div>
