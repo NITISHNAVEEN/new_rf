@@ -40,6 +40,7 @@ export type Prediction = {
   features: Record<string, number>;
   actual: number;
   prediction: number;
+  individualPredictions?: number[];
 };
 
 export type ChartDataPoint = {

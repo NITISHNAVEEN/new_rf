@@ -403,30 +403,35 @@ const mockTrainModel = async (
 
 const mockPredict = (
     values: Record<string, number>,
-    hyperparameters: Hyperparameters,
-    taskType: TaskType,
-    targetColumn: string,
-    testSize: number
+    state: State,
 ): Prediction => {
-  const seedState = {
-      hyperparameters,
-      task: taskType,
-      targetColumn,
-      testSize,
-      selectedFeatures: Object.keys(values),
-      datasetName: ''
-  };
-
+  const { hyperparameters, task, targetColumn, testSize } = state;
+  const seedState = { ...state, selectedFeatures: Object.keys(values) };
   const seed = createSeed(seedState, 'predict');
-  let prediction: number;
+  
+  const numTrees = 20; // Simulate 20 trees for real-time prediction
+  const individualPredictions: number[] = [];
 
-  if (taskType === 'regression') {
-    prediction = Object.values(values).reduce((sum, v, i) => sum + v * pseudoRandom(seed + i), 0) / 
-                 (Object.keys(values).length || 1);
-    prediction = (prediction % 5) + pseudoRandom(seed+1) * 2;
+  for (let i = 0; i < numTrees; i++) {
+    const treeSeed = seed + i;
+    let treePrediction: number;
+    if (task === 'regression') {
+      const baseValue = Object.values(values).reduce((sum, v, i) => sum + v * pseudoRandom(treeSeed + i), 0) / (Object.keys(values).length || 1);
+      treePrediction = (baseValue % 5) + pseudoRandom(treeSeed + 1) * (i % 5);
+    } else {
+      const score = Object.values(values).reduce((sum, v, i) => sum + v * pseudoRandom(treeSeed + i), 0);
+      treePrediction = score > (50 + (pseudoRandom(treeSeed) - 0.5) * 20) ? 1 : 0;
+    }
+    individualPredictions.push(treePrediction);
+  }
+
+  let finalPrediction: number;
+  if (task === 'regression') {
+    finalPrediction = individualPredictions.reduce((a, b) => a + b, 0) / numTrees;
   } else {
-    const score = Object.values(values).reduce((sum, v, i) => sum + v * pseudoRandom(seed + i), 0);
-    prediction = score > 50 ? 1 : 0;
+    const votes: { [key: number]: number } = { 0: 0, 1: 0 };
+    individualPredictions.forEach(p => { votes[p]++; });
+    finalPrediction = votes[1] > votes[0] ? 1 : 0;
   }
 
   return {
@@ -434,7 +439,8 @@ const mockPredict = (
     date: new Date().toISOString(),
     features: values,
     actual: -1, // No actual value for real-time prediction
-    prediction: taskType === 'regression' ? parseFloat(prediction.toFixed(3)) : prediction,
+    prediction: finalPrediction,
+    individualPredictions: individualPredictions,
   };
 };
 
@@ -573,8 +579,8 @@ export const useRandomForest = () => {
     
     const predict = useCallback(async (values: Record<string, number>): Promise<Prediction> => {
         await new Promise(res => setTimeout(res, 1000));
-        return mockPredict(values, state.hyperparameters, state.task, state.targetColumn, state.testSize);
-    }, [state.hyperparameters, state.task, state.targetColumn, state.testSize]);
+        return mockPredict(values, state);
+    }, [state]);
 
   const actions = {
     setTask: handleStateChange('SET_TASK'),
