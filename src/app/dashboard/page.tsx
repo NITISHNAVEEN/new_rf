@@ -325,10 +325,16 @@ export default function DashboardPage() {
                                       </TabsList>
                                   )}
                                   <TabsContent value="tuned">
-                                      <ConfusionMatrix data={(data.metrics as ClassificationMetric)?.confusionMatrix} />
+                                      <ConfusionMatrix 
+                                        data={(data.metrics as ClassificationMetric)?.confusionMatrix} 
+                                        datasetName={state.datasetName}
+                                      />
                                   </TabsContent>
                                   <TabsContent value="baseline">
-                                      <ConfusionMatrix data={(data.baselineMetrics as ClassificationMetric)?.confusionMatrix} />
+                                      <ConfusionMatrix 
+                                        data={(data.baselineMetrics as ClassificationMetric)?.confusionMatrix}
+                                        datasetName={state.datasetName}
+                                      />
                                   </TabsContent>
                               </Tabs>
                           )}
@@ -462,34 +468,34 @@ export default function DashboardPage() {
                </div>
           </TabsContent>
           <TabsContent value="insights" className="py-4 space-y-4 md:space-y-8">
-              <div className="grid grid-cols-1 gap-4 md:gap-8">
-                   <Card>
-                      <CardHeader>
-                          <CardTitle className='flex items-center gap-2'><Lightbulb className='w-5 h-5' />Partial Dependence Plot</CardTitle>
-                          <CardDescription>{descriptions.pdp}</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                          <PartialDependencePlot
-                              dataset={data.dataset}
-                              features={state.selectedFeatures}
-                              task={state.task}
-                              pdpData={data.pdpData}
-                          />
-                      </CardContent>
-                  </Card>
-                   <ForestVisualization
-                      simulationData={data.forestSimulation}
-                      taskType={state.task}
-                      isLoading={isLoading && !data.metrics}
-                      onRetrain={actions.trainModel}
+            <div className="grid grid-cols-1 gap-4 md:gap-8">
+                <Card>
+                <CardHeader>
+                    <CardTitle className='flex items-center gap-2'><Lightbulb className='w-5 h-5' />Partial Dependence Plot</CardTitle>
+                    <CardDescription>{descriptions.pdp}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <PartialDependencePlot
+                        dataset={data.dataset}
+                        features={state.selectedFeatures}
+                        task={state.task}
+                        pdpData={data.pdpData}
                     />
-                   <AggregationResultsDashboard
-                      simulationData={data.forestSimulation}
-                      taskType={state.task}
-                      isLoading={isLoading && !data.metrics}
-                      descriptions={descriptions.aggregation}
-                   />
-              </div>
+                </CardContent>
+                </Card>
+                <ForestVisualization
+                simulationData={data.forestSimulation}
+                taskType={state.task}
+                isLoading={isLoading && !data.metrics}
+                onRetrain={actions.trainModel}
+                />
+                <AggregationResultsDashboard
+                simulationData={data.forestSimulation}
+                taskType={state.task}
+                isLoading={isLoading && !data.metrics}
+                descriptions={descriptions.aggregation}
+                />
+            </div>
           </TabsContent>
           
           <TabsContent value="prediction" className="py-4">
@@ -536,3 +542,5 @@ export default function DashboardPage() {
     </>
   );
 }
+
+    
