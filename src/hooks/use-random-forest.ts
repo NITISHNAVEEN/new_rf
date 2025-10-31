@@ -29,8 +29,8 @@ import { useToast } from '@/hooks/use-toast';
 type Status = 'idle' | 'loading' | 'success' | 'error';
 
 const BASELINE_HYPERPARAMETERS: Hyperparameters = {
-  n_estimators: 50,
-  max_depth: 5,
+  n_estimators: 10,
+  max_depth: 3,
   min_samples_split: 2,
   min_samples_leaf: 1,
   max_features: 'sqrt',

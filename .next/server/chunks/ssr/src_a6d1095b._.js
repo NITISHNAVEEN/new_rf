@@ -71,8 +71,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$toast
 ;
 ;
 const BASELINE_HYPERPARAMETERS = {
-    n_estimators: 50,
-    max_depth: 5,
+    n_estimators: 10,
+    max_depth: 3,
     min_samples_split: 2,
     min_samples_leaf: 1,
     max_features: 'sqrt',

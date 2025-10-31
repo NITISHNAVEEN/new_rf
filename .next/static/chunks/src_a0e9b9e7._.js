@@ -75,8 +75,8 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 const BASELINE_HYPERPARAMETERS = {
-    n_estimators: 50,
-    max_depth: 5,
+    n_estimators: 10,
+    max_depth: 3,
     min_samples_split: 2,
     min_samples_leaf: 1,
     max_features: 'sqrt',
