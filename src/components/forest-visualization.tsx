@@ -163,7 +163,7 @@ export function ForestVisualization({ simulationData, taskType, isLoading, onRet
                 <DialogHeader>
                     <DialogTitle>Decision Tree Snapshot</DialogTitle>
                 </DialogHeader>
-                <div className="flex-1 w-full h-full overflow-hidden">
+                <div className="flex-1 w-full h-full">
                    <DecisionTreeSnapshot tree={selectedTree} taskType={taskType} />
                 </div>
             </DialogContent>
