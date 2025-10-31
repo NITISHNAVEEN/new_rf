@@ -98,6 +98,7 @@ type Data = {
   pdpData: PdpData | null;
   forestSimulation: ForestSimulation | null;
   metadata: DatasetMetadata | null;
+  placeholderValues: Record<string, any> | null;
 };
 
 type Action =
@@ -147,7 +148,7 @@ const generateMockTree = (
     const nodeSeed = seed + depth * 10;
     
     // Termination conditions
-    if (depth >= (hyperparameters.max_depth ?? 10)) { 
+    if (depth >= (hyperparameters.max_depth ?? 10) || pseudoRandom(nodeSeed) > 0.8) { 
         const samples = Math.floor(pseudoRandom(nodeSeed * 6) * (200 / (depth + 1)) + 10);
         let value: number[];
         if (task === 'regression') {
@@ -175,8 +176,8 @@ const generateMockTree = (
         value = [baseValue];
         criterion = 'MSE';
     } else { // classification
-        const class1Samples = Math.floor(pseudoRandom(nodeSeed * 2) * samples);
-        const class0Samples = samples - class1Samples;
+        const class0Samples = Math.floor(pseudoRandom(nodeSeed * 2) * samples);
+        const class1Samples = samples - class0Samples;
         const p0 = class0Samples / samples;
         const p1 = class1Samples / samples;
         
@@ -326,7 +327,7 @@ const mockTrainModel = async (
   state: State,
   dataset: Record<string, any>[],
   isBaseline: boolean = false,
-): Promise<Omit<Data, 'dataset' | 'insights' | 'baselineMetrics' | 'baselineFeatureImportance' | 'baselineChartData' | 'metadata'>> => {
+): Promise<Omit<Data, 'dataset' | 'insights' | 'baselineMetrics' | 'baselineFeatureImportance' | 'baselineChartData' | 'metadata' | 'placeholderValues'>> => {
   await new Promise((res) => setTimeout(res, 1500));
 
   const { task, selectedFeatures } = state;
@@ -459,9 +460,14 @@ export const useRandomForest = () => {
     pdpData: null,
     forestSimulation: null,
     metadata: (datasetsMetadata as Record<string, DatasetMetadata>)['california-housing'],
+    placeholderValues: DATASETS['regression'][0].data[0] || null,
   });
   const [status, setStatus] = useState<Status>('idle');
   const { toast } = useToast();
+
+  const handleStateChange = <T>(type: Action['type']) => {
+    return (payload: T) => dispatch({ type, payload } as Action);
+  }
 
   const trainModel = useCallback(async (isBaseline = false) => {
       if (isBaseline) {
@@ -537,10 +543,12 @@ export const useRandomForest = () => {
         const newDatasetOption = DATASETS[state.task].find(d => d.value === state.datasetName);
         const newDataset = newDatasetOption ? newDatasetOption.data : [];
         const newMetadata = (datasetsMetadata as Record<string, DatasetMetadata>)[state.datasetName] ?? null;
+        const newPlaceholders = newDataset[0] || null;
         
         setData({
             dataset: newDataset,
             metadata: newMetadata,
+            placeholderValues: newPlaceholders,
             metrics: null,
             featureImportance: [],
             history: [],
@@ -560,7 +568,7 @@ export const useRandomForest = () => {
 
     useEffect(() => {
         // Only auto-train if a baseline has been set and the hyperparameters have changed.
-        if (data.baselineMetrics && JSON.stringify(state.hyperparameters) !== JSON.stringify(BASELINE_HYPERPARAMETERS)) {
+        if (data.baselineMetrics) {
           const handler = setTimeout(() => trainModel(false), 500);
           return () => clearTimeout(handler);
         }
@@ -571,10 +579,6 @@ export const useRandomForest = () => {
         await new Promise(res => setTimeout(res, 1000));
         return mockPredict(values, state.hyperparameters, state.task, state.targetColumn, state.testSize);
     }, [state.hyperparameters, state.task, state.targetColumn, state.testSize]);
-
-  const handleStateChange = <T>(type: Action['type']) => {
-    return (payload: T) => dispatch({ type, payload } as Action);
-  }
 
   const actions = {
     setTask: handleStateChange('SET_TASK'),

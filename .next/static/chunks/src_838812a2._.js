@@ -196,7 +196,7 @@ const pseudoRandom = (seed)=>{
 const generateMockTree = (features, task, hyperparameters, depth = 0, seed = 1)=>{
     const nodeSeed = seed + depth * 10;
     // Termination conditions
-    if (depth >= (hyperparameters.max_depth ?? 10)) {
+    if (depth >= (hyperparameters.max_depth ?? 10) || pseudoRandom(nodeSeed) > 0.8) {
         const samples = Math.floor(pseudoRandom(nodeSeed * 6) * (200 / (depth + 1)) + 10);
         let value;
         if (task === 'regression') {
@@ -228,8 +228,8 @@ const generateMockTree = (features, task, hyperparameters, depth = 0, seed = 1)=
         ];
         criterion = 'MSE';
     } else {
-        const class1Samples = Math.floor(pseudoRandom(nodeSeed * 2) * samples);
-        const class0Samples = samples - class1Samples;
+        const class0Samples = Math.floor(pseudoRandom(nodeSeed * 2) * samples);
+        const class1Samples = samples - class0Samples;
         const p0 = class0Samples / samples;
         const p1 = class1Samples / samples;
         if (hyperparameters.criterion === 'entropy') {
@@ -517,10 +517,17 @@ const useRandomForest = ()=>{
         prCurveData: null,
         pdpData: null,
         forestSimulation: null,
-        metadata: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$datasets$2d$metadata$2e$json__$28$json$29$__["default"]['california-housing']
+        metadata: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$datasets$2d$metadata$2e$json__$28$json$29$__["default"]['california-housing'],
+        placeholderValues: DATASETS['regression'][0].data[0] || null
     });
     const [status, setStatus] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('idle');
     const { toast } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$toast$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"])();
+    const handleStateChange = (type)=>{
+        return (payload)=>dispatch({
+                type,
+                payload
+            });
+    };
     const trainModel = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "useRandomForest.useCallback[trainModel]": async (isBaseline = false)=>{
             if (isBaseline) {
@@ -655,9 +662,11 @@ const useRandomForest = ()=>{
             }["useRandomForest.useEffect.newDatasetOption"]);
             const newDataset = newDatasetOption ? newDatasetOption.data : [];
             const newMetadata = __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$datasets$2d$metadata$2e$json__$28$json$29$__["default"][state.datasetName] ?? null;
+            const newPlaceholders = newDataset[0] || null;
             setData({
                 dataset: newDataset,
                 metadata: newMetadata,
+                placeholderValues: newPlaceholders,
                 metrics: null,
                 featureImportance: [],
                 history: [],
@@ -681,7 +690,7 @@ const useRandomForest = ()=>{
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "useRandomForest.useEffect": ()=>{
             // Only auto-train if a baseline has been set and the hyperparameters have changed.
-            if (data.baselineMetrics && JSON.stringify(state.hyperparameters) !== JSON.stringify(BASELINE_HYPERPARAMETERS)) {
+            if (data.baselineMetrics) {
                 const handler = setTimeout({
                     "useRandomForest.useEffect.handler": ()=>trainModel(false)
                 }["useRandomForest.useEffect.handler"], 500);
@@ -708,12 +717,6 @@ const useRandomForest = ()=>{
         state.targetColumn,
         state.testSize
     ]);
-    const handleStateChange = (type)=>{
-        return (payload)=>dispatch({
-                type,
-                payload
-            });
-    };
     const actions = {
         setTask: handleStateChange('SET_TASK'),
         setDataset: handleStateChange('SET_DATASET'),
@@ -733,7 +736,7 @@ const useRandomForest = ()=>{
         availableDatasets: DATASETS[state.task]
     };
 };
-_s(useRandomForest, "E/aP5eWJ4LMW/o5LznQNrHr9+GA=", false, function() {
+_s(useRandomForest, "iRM7Cb/OBFWjlAgsfuw0E8EyHhM=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$toast$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"]
     ];
@@ -7123,7 +7126,7 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
-function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetName, descriptions }) {
+function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetName, descriptions, placeholderValues }) {
     _s();
     const [predictionResult, setPredictionResult] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [isPredicting, setIsPredicting] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
@@ -7159,6 +7162,11 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetN
         resolver: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$hookform$2f$resolvers$2f$zod$2f$dist$2f$zod$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["zodResolver"])(formSchema),
         defaultValues
     });
+    const formKey = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
+        "RealTimePrediction.useMemo[formKey]": ()=>features.join('-')
+    }["RealTimePrediction.useMemo[formKey]"], [
+        features
+    ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "RealTimePrediction.useEffect": ()=>{
             form.reset(defaultValues);
@@ -7166,8 +7174,7 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetN
         // eslint-disable-next-line react-hooks/exhaustive-deps
         }
     }["RealTimePrediction.useEffect"], [
-        features,
-        defaultValues
+        formKey
     ]);
     const onSubmit = async (values)=>{
         setIsPredicting(true);
@@ -7176,11 +7183,6 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetN
         setPredictionResult(result);
         setIsPredicting(false);
     };
-    const formKey = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
-        "RealTimePrediction.useMemo[formKey]": ()=>features.join('-')
-    }["RealTimePrediction.useMemo[formKey]"], [
-        features
-    ]);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "grid grid-cols-1 md:grid-cols-2 gap-8",
         children: [
@@ -7195,27 +7197,27 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetN
                                         className: "w-5 h-5"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/real-time-prediction.tsx",
-                                        lineNumber: 81,
+                                        lineNumber: 82,
                                         columnNumber: 13
                                     }, this),
                                     descriptions.title
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                                lineNumber: 80,
+                                lineNumber: 81,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
                                 children: descriptions.description
                             }, void 0, false, {
                                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                                lineNumber: 84,
+                                lineNumber: 85,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/real-time-prediction.tsx",
-                        lineNumber: 79,
+                        lineNumber: 80,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -7237,44 +7239,45 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetN
                                                                 children: feature
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                                                                lineNumber: 97,
+                                                                lineNumber: 98,
                                                                 columnNumber: 25
                                                             }, void 0),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FormControl"], {
                                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
                                                                     type: "number",
                                                                     step: "any",
+                                                                    placeholder: placeholderValues?.[feature]?.toString() ?? '',
                                                                     ...field,
                                                                     value: field.value ?? ''
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/real-time-prediction.tsx",
-                                                                    lineNumber: 99,
+                                                                    lineNumber: 100,
                                                                     columnNumber: 27
                                                                 }, void 0)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                                                                lineNumber: 98,
+                                                                lineNumber: 99,
                                                                 columnNumber: 25
                                                             }, void 0),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                                                                lineNumber: 101,
+                                                                lineNumber: 108,
                                                                 columnNumber: 25
                                                             }, void 0)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/real-time-prediction.tsx",
-                                                        lineNumber: 96,
+                                                        lineNumber: 97,
                                                         columnNumber: 23
                                                     }, void 0)
                                             }, feature, false, {
                                                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                                                lineNumber: 91,
+                                                lineNumber: 92,
                                                 columnNumber: 19
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/real-time-prediction.tsx",
-                                        lineNumber: 89,
+                                        lineNumber: 90,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -7285,36 +7288,36 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetN
                                                 className: "mr-2 h-4 w-4 animate-spin"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                                                lineNumber: 108,
+                                                lineNumber: 115,
                                                 columnNumber: 34
                                             }, this),
                                             "Predict"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/real-time-prediction.tsx",
-                                        lineNumber: 107,
+                                        lineNumber: 114,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, formKey, true, {
                                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                                lineNumber: 88,
+                                lineNumber: 89,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/real-time-prediction.tsx",
-                            lineNumber: 87,
+                            lineNumber: 88,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/real-time-prediction.tsx",
-                        lineNumber: 86,
+                        lineNumber: 87,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                lineNumber: 78,
+                lineNumber: 79,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7328,20 +7331,20 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetN
                                         children: descriptions.resultTitle
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/real-time-prediction.tsx",
-                                        lineNumber: 119,
+                                        lineNumber: 126,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
                                         children: descriptions.resultDescription
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/real-time-prediction.tsx",
-                                        lineNumber: 120,
+                                        lineNumber: 127,
                                         columnNumber: 18
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                                lineNumber: 118,
+                                lineNumber: 125,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -7350,7 +7353,7 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetN
                                     className: "h-8 w-8 animate-spin text-primary"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/real-time-prediction.tsx",
-                                    lineNumber: 126,
+                                    lineNumber: 133,
                                     columnNumber: 21
                                 }, this) : predictionResult ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "text-center",
@@ -7360,7 +7363,7 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetN
                                             children: taskType === 'regression' ? 'Predicted Value' : 'Predicted Class'
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/real-time-prediction.tsx",
-                                            lineNumber: 129,
+                                            lineNumber: 136,
                                             columnNumber: 25
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -7373,31 +7376,31 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetN
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/real-time-prediction.tsx",
-                                            lineNumber: 130,
+                                            lineNumber: 137,
                                             columnNumber: 25
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/real-time-prediction.tsx",
-                                    lineNumber: 128,
+                                    lineNumber: 135,
                                     columnNumber: 21
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                     className: "text-muted-foreground",
                                     children: descriptions.idleText
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/real-time-prediction.tsx",
-                                    lineNumber: 138,
+                                    lineNumber: 145,
                                     columnNumber: 21
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                                lineNumber: 124,
+                                lineNumber: 131,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/real-time-prediction.tsx",
-                        lineNumber: 117,
+                        lineNumber: 124,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$explain$2d$prediction$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ExplainPrediction"], {
@@ -7407,23 +7410,23 @@ function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetN
                         isLoading: isLoading || isPredicting
                     }, void 0, false, {
                         fileName: "[project]/src/components/real-time-prediction.tsx",
-                        lineNumber: 143,
+                        lineNumber: 150,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/real-time-prediction.tsx",
-                lineNumber: 116,
+                lineNumber: 123,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/real-time-prediction.tsx",
-        lineNumber: 77,
+        lineNumber: 78,
         columnNumber: 5
     }, this);
 }
-_s(RealTimePrediction, "9FGr670BdvA0ZY02v6YhJyd7Syc=", false, function() {
+_s(RealTimePrediction, "la5/Gr4mNzjjZmLo938qPDtjT4k=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$hook$2d$form$2f$dist$2f$index$2e$esm$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useForm"]
     ];
@@ -11332,7 +11335,8 @@ function DashboardPage() {
                                 isLoading: isLoading || !data.metrics,
                                 onPredict: actions.predict,
                                 datasetName: state.datasetName,
-                                descriptions: descriptions.prediction
+                                descriptions: descriptions.prediction,
+                                placeholderValues: data.placeholderValues
                             }, void 0, false, {
                                 fileName: "[project]/src/app/dashboard/page.tsx",
                                 lineNumber: 600,
@@ -11370,12 +11374,12 @@ function DashboardPage() {
                     availableDatasets: availableDatasets
                 }, void 0, false, {
                     fileName: "[project]/src/app/dashboard/page.tsx",
-                    lineNumber: 617,
+                    lineNumber: 618,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/dashboard/page.tsx",
-                lineNumber: 616,
+                lineNumber: 617,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SidebarInset"], {
@@ -11391,12 +11395,12 @@ function DashboardPage() {
                                         className: "md:hidden",
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$panel$2d$left$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__PanelLeft$3e$__["PanelLeft"], {}, void 0, false, {
                                             fileName: "[project]/src/app/dashboard/page.tsx",
-                                            lineNumber: 629,
+                                            lineNumber: 630,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/dashboard/page.tsx",
-                                        lineNumber: 628,
+                                        lineNumber: 629,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -11409,7 +11413,7 @@ function DashboardPage() {
                                                 height: 32
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/dashboard/page.tsx",
-                                                lineNumber: 632,
+                                                lineNumber: 633,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -11417,30 +11421,30 @@ function DashboardPage() {
                                                 children: "Forest Insights"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/dashboard/page.tsx",
-                                                lineNumber: 633,
+                                                lineNumber: 634,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/dashboard/page.tsx",
-                                        lineNumber: 631,
+                                        lineNumber: 632,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/dashboard/page.tsx",
-                                lineNumber: 627,
+                                lineNumber: 628,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$theme$2d$toggle$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ThemeToggle"], {}, void 0, false, {
                                 fileName: "[project]/src/app/dashboard/page.tsx",
-                                lineNumber: 636,
+                                lineNumber: 637,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/dashboard/page.tsx",
-                        lineNumber: 626,
+                        lineNumber: 627,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -11448,13 +11452,13 @@ function DashboardPage() {
                         children: renderContent()
                     }, void 0, false, {
                         fileName: "[project]/src/app/dashboard/page.tsx",
-                        lineNumber: 638,
+                        lineNumber: 639,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/dashboard/page.tsx",
-                lineNumber: 625,
+                lineNumber: 626,
                 columnNumber: 7
             }, this)
         ]

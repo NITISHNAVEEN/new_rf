@@ -25,10 +25,11 @@ interface RealTimePredictionProps {
     resultTitle: string;
     resultDescription: string;
     idleText: string;
-  }
+  };
+  placeholderValues: Record<string, any> | null;
 }
 
-export function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetName, descriptions }: RealTimePredictionProps) {
+export function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetName, descriptions, placeholderValues }: RealTimePredictionProps) {
   const [predictionResult, setPredictionResult] = useState<Prediction | null>(null);
   const [isPredicting, setIsPredicting] = useState(false);
 
@@ -57,11 +58,13 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
     defaultValues,
   });
   
+  const formKey = useMemo(() => features.join('-'), [features]);
+
   useEffect(() => {
     form.reset(defaultValues);
     setPredictionResult(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [features, defaultValues]);
+  }, [formKey]);
 
   const onSubmit = async (values: FormValues) => {
     setIsPredicting(true);
@@ -70,8 +73,6 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
     setPredictionResult(result);
     setIsPredicting(false);
   };
-  
-  const formKey = useMemo(() => features.join('-'), [features]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -96,7 +97,13 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
                       <FormItem>
                         <FormLabel className="text-xs">{feature}</FormLabel>
                         <FormControl>
-                          <Input type="number" step="any" {...field} value={field.value ?? ''} />
+                          <Input 
+                            type="number" 
+                            step="any" 
+                            placeholder={placeholderValues?.[feature]?.toString() ?? ''}
+                            {...field} 
+                            value={field.value ?? ''} 
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -150,5 +157,3 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
     </div>
   );
 }
-
-    

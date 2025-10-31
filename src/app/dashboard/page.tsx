@@ -604,6 +604,7 @@ export default function DashboardPage() {
                   onPredict={actions.predict}
                   datasetName={state.datasetName}
                   descriptions={descriptions.prediction}
+                  placeholderValues={data.placeholderValues}
               />
           </TabsContent>
         </Tabs>

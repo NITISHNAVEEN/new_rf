@@ -106,3 +106,22 @@ export type DatasetMetadata = {
       type: string;
   }>;
 };
+
+export type Data = {
+  dataset: Record<string, any>[];
+  metrics: (Metric & { confusionMatrix?: number[][] }) | null;
+  featureImportance: FeatureImportance[];
+  history: Prediction[];
+  chartData: ChartDataPoint[] | null;
+  insights: string;
+  baselineMetrics: (Metric & { confusionMatrix?: number[][] }) | null;
+  baselineFeatureImportance: FeatureImportance[];
+  baselineChartData: ChartDataPoint[] | null;
+  decisionTree: DecisionTree | null;
+  rocCurveData: CurveDataPoint[] | null;
+  prCurveData: CurveDataPoint[] | null;
+  pdpData: PdpData | null;
+  forestSimulation: ForestSimulation | null;
+  metadata: DatasetMetadata | null;
+  placeholderValues: Record<string, any> | null;
+};
