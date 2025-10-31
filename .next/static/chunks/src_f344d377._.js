@@ -193,48 +193,57 @@ const pseudoRandom = (seed)=>{
     let x = Math.sin(seed) * 10000;
     return x - Math.floor(x);
 };
-const generateMockTree = (features, task, hyperparameters, depth = 0, seed = 1)=>{
-    const nodeSeed = seed + depth * 10;
-    const maxSamples = 200 / (depth + 1);
-    const minSamples = hyperparameters.min_samples_leaf;
-    const currentSamples = Math.floor(pseudoRandom(nodeSeed * 6) * (maxSamples - minSamples) + minSamples);
-    // Termination conditions:
-    // 1. Max depth is reached.
-    // 2. Not enough samples to split.
-    if (depth >= (hyperparameters.max_depth ?? 10) || currentSamples < hyperparameters.min_samples_split) {
-        let value;
+const generateMockTree = (features, task, hyperparameters, depth = 0, seed = 1, parentSamples = 2000)=>{
+    const { max_depth = 10, min_samples_split, min_samples_leaf } = hyperparameters;
+    const nodeSeed = seed + depth;
+    // Determine current samples based on parent, ensuring it decreases
+    const sampleSplitRatio = 0.4 + pseudoRandom(nodeSeed) * 0.2; // split between 40/60
+    const samples = Math.floor(parentSamples * sampleSplitRatio);
+    // --- Termination Conditions ---
+    // 1. Max depth is reached
+    // 2. Not enough samples to create a meaningful split
+    // 3. Not enough samples to satisfy leaf node requirements
+    if (depth >= max_depth || samples < min_samples_split || samples < min_samples_leaf * 2 // Not enough samples to create two valid leaves
+    ) {
+        let leafValue;
         if (task === 'regression') {
-            value = [
+            leafValue = [
                 pseudoRandom(nodeSeed * 2) * 3 + 1
-            ];
+            ]; // Mock prediction value
         } else {
-            const class1Samples = Math.floor(pseudoRandom(nodeSeed * 2) * currentSamples);
-            value = [
-                currentSamples - class1Samples,
+            // Mock class distribution
+            const class1Samples = Math.floor(pseudoRandom(nodeSeed * 2) * samples);
+            leafValue = [
+                samples - class1Samples,
                 class1Samples
             ];
         }
         return {
             type: 'leaf',
-            value: value,
-            samples: currentSamples
+            value: leafValue,
+            samples: samples
         };
     }
-    let value;
+    // --- Node Creation ---
+    // If termination conditions are not met, create a decision node.
+    let nodeValue;
     let impurity;
     let criterion = 'MSE';
     if (task === 'regression') {
-        const baseValue = pseudoRandom(nodeSeed * 2) * 3 + 1;
-        impurity = pseudoRandom(nodeSeed * 3);
-        value = [
-            baseValue
+        nodeValue = [
+            pseudoRandom(nodeSeed * 3) * 3 + 1
         ];
+        impurity = pseudoRandom(nodeSeed * 4) * 10;
         criterion = 'MSE';
     } else {
-        const class0Samples = Math.floor(pseudoRandom(nodeSeed * 2) * currentSamples);
-        const class1Samples = currentSamples - class0Samples;
-        const p0 = class0Samples / currentSamples;
-        const p1 = class1Samples / currentSamples;
+        const class0 = Math.floor(pseudoRandom(nodeSeed * 3) * samples);
+        const class1 = samples - class0;
+        nodeValue = [
+            class0,
+            class1
+        ];
+        const p0 = class0 / samples;
+        const p1 = class1 / samples;
         if (hyperparameters.criterion === 'entropy') {
             impurity = -(p0 * Math.log2(p0 || 1)) - p1 * Math.log2(p1 || 1);
             criterion = 'Entropy';
@@ -242,24 +251,21 @@ const generateMockTree = (features, task, hyperparameters, depth = 0, seed = 1)=
             impurity = 1 - (p0 ** 2 + p1 ** 2);
             criterion = 'Gini';
         }
-        value = [
-            class0Samples,
-            class1Samples
-        ];
     }
-    const feature = features[Math.floor(pseudoRandom(nodeSeed * 4) * features.length)];
-    const threshold = pseudoRandom(nodeSeed * 5) * 10 + 5;
+    const feature = features[Math.floor(pseudoRandom(nodeSeed * 5) * features.length)];
+    const threshold = pseudoRandom(nodeSeed * 6) * 100;
     return {
         type: 'node',
         feature,
-        threshold: threshold,
-        samples: currentSamples,
+        threshold,
+        samples,
         impurity,
         criterion,
-        value,
+        value: nodeValue,
+        // Recursively create two children, ensuring they get a fraction of the parent's samples
         children: [
-            generateMockTree(features, task, hyperparameters, depth + 1, seed + 1),
-            generateMockTree(features, task, hyperparameters, depth + 1, seed + 2)
+            generateMockTree(features, task, hyperparameters, depth + 1, seed + 1, samples),
+            generateMockTree(features, task, hyperparameters, depth + 1, seed + (max_depth - depth + 1) * 2, samples)
         ]
     };
 };
