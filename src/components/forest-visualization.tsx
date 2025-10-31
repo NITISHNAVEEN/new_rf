@@ -45,9 +45,9 @@ const MiniTree = ({ tree, taskType, onTreeClick, classLabel }: { tree: TreeSimul
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={onTreeClick}>
+          <div className="flex flex-col items-center gap-1 cursor-pointer group" onClick={onTreeClick}>
              <div className={cn(
-              "relative w-12 h-12 rounded-full bg-muted flex items-center justify-center transition-all duration-500",
+              "relative w-12 h-12 rounded-full bg-muted flex items-center justify-center transition-all duration-500 group-hover:animate-vibrate",
               finalColor
             )}>
               <Trees className={cn("h-6 w-6 text-white transition-colors")} />
