@@ -48,17 +48,17 @@ export function DashboardSidebar({ state, actions, status, datasetHeaders, avail
                   className="flex"
                 >
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="regression" id="r1" />
-                    <Label htmlFor="r1">Regression</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
                     <RadioGroupItem value="classification" id="r2" />
                     <Label htmlFor="r2">Classification</Label>
                   </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="regression" id="r1" />
+                    <Label htmlFor="r1">Regression</Label>
+                  </div>
                 </RadioGroup>
                 <HelpTooltip>
-                  <p><b>Regression</b> predicts a continuous value (e.g., a house price, a patient's weight).</p>
                   <p><b>Classification</b> predicts a category (e.g., wine is 'good' or 'bad', a tumor is 'malignant' or 'benign').</p>
+                  <p><b>Regression</b> predicts a continuous value (e.g., a house price, a patient's weight).</p>
                 </HelpTooltip>
               </div>
             </SidebarGroupContent>

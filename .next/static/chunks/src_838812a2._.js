@@ -1381,16 +1381,16 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                         className: "flex items-center space-x-2",
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$radio$2d$group$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["RadioGroupItem"], {
-                                                                value: "regression",
-                                                                id: "r1"
+                                                                value: "classification",
+                                                                id: "r2"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/dashboard-sidebar.tsx",
                                                                 lineNumber: 51,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                htmlFor: "r1",
-                                                                children: "Regression"
+                                                                htmlFor: "r2",
+                                                                children: "Classification"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/dashboard-sidebar.tsx",
                                                                 lineNumber: 52,
@@ -1406,16 +1406,16 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                         className: "flex items-center space-x-2",
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$radio$2d$group$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["RadioGroupItem"], {
-                                                                value: "classification",
-                                                                id: "r2"
+                                                                value: "regression",
+                                                                id: "r1"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/dashboard-sidebar.tsx",
                                                                 lineNumber: 55,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                htmlFor: "r2",
-                                                                children: "Classification"
+                                                                htmlFor: "r1",
+                                                                children: "Regression"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/dashboard-sidebar.tsx",
                                                                 lineNumber: 56,
@@ -1438,13 +1438,13 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("b", {
-                                                                children: "Regression"
+                                                                children: "Classification"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/dashboard-sidebar.tsx",
                                                                 lineNumber: 60,
                                                                 columnNumber: 22
                                                             }, this),
-                                                            " predicts a continuous value (e.g., a house price, a patient's weight)."
+                                                            " predicts a category (e.g., wine is 'good' or 'bad', a tumor is 'malignant' or 'benign')."
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/dashboard-sidebar.tsx",
@@ -1454,13 +1454,13 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("b", {
-                                                                children: "Classification"
+                                                                children: "Regression"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/dashboard-sidebar.tsx",
                                                                 lineNumber: 61,
                                                                 columnNumber: 22
                                                             }, this),
-                                                            " predicts a category (e.g., wine is 'good' or 'bad', a tumor is 'malignant' or 'benign')."
+                                                            " predicts a continuous value (e.g., a house price, a patient's weight)."
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/dashboard-sidebar.tsx",
