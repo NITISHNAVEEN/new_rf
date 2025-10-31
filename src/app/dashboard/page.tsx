@@ -521,7 +521,7 @@ export default function DashboardPage() {
                           <CardDescription>{descriptions.summary}</CardDescription>
                       </CardHeader>
                       <CardContent>
-                          <SummaryStatistics dataset={data.dataset} task={state.task} targetColumn={state.targetColumn} />
+                          <SummaryStatistics dataset={data.dataset} task={state.task} targetColumn={state.targetColumn} metadata={data.metadata} />
                       </CardContent>
                   </Card>
                    <Card>
@@ -530,7 +530,7 @@ export default function DashboardPage() {
                           <CardDescription>Shows the percentage of missing values for each feature in the dataset.</CardDescription>
                       </CardHeader>
                       <CardContent>
-                          <MissingValuesChart dataset={data.dataset} />
+                          <MissingValuesChart dataset={data.dataset} metadata={data.metadata} />
                       </CardContent>
                   </Card>
                   <Card>
@@ -551,7 +551,7 @@ export default function DashboardPage() {
                           <CardDescription>{descriptions.correlation}</CardDescription>
                       </CardHeader>
                       <CardContent>
-                          <CorrelationHeatmap dataset={data.dataset} task={state.task} targetColumn={state.targetColumn} />
+                          <CorrelationHeatmap dataset={data.dataset} task={state.task} targetColumn={state.targetColumn} metadata={data.metadata} />
                       </CardContent>
                   </Card>
                    <Card>

@@ -1,13 +1,16 @@
 'use client';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { TaskType } from "@/lib/types";
+import { DatasetMetadata, TaskType } from "@/lib/types";
 import { useMemo } from "react";
 import { ChartContainer } from "./ui/chart";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import { HelpCircle } from "lucide-react";
 
 interface SummaryStatisticsProps {
     dataset: Record<string, any>[];
     task: TaskType;
     targetColumn: string;
+    metadata: DatasetMetadata | null;
 }
 
 function calculateNumericStats(data: number[]) {
@@ -26,7 +29,7 @@ function calculateNumericStats(data: number[]) {
     return { mean, median, std, min, max };
 }
 
-export function SummaryStatistics({ dataset, task, targetColumn }: SummaryStatisticsProps) {
+export function SummaryStatistics({ dataset, task, targetColumn, metadata }: SummaryStatisticsProps) {
     const numericStats = useMemo(() => {
         if (!dataset || dataset.length === 0) return [];
         const numericFeatures = Object.keys(dataset[0] || {}).filter(key => typeof dataset[0][key] === 'number' && key !== targetColumn);
@@ -53,7 +56,22 @@ export function SummaryStatistics({ dataset, task, targetColumn }: SummaryStatis
                 <TableBody>
                     {numericStats.map(stat => (
                         <TableRow key={stat.feature}>
-                            <TableCell>{stat.feature}</TableCell>
+                            <TableCell>
+                                <div className="flex items-center gap-2">
+                                    <span>{stat.feature}</span>
+                                     {metadata?.attributes[stat.feature] && (
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
+                                            </TooltipTrigger>
+                                            <TooltipContent className="max-w-xs">
+                                                <p className="font-bold">{stat.feature}</p>
+                                                <p>{metadata.attributes[stat.feature].description}</p>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    )}
+                                </div>
+                            </TableCell>
                             <TableCell>{stat.mean.toFixed(2)}</TableCell>
                             <TableCell>{stat.median.toFixed(2)}</TableCell>
                             <TableCell>{stat.std.toFixed(2)}</TableCell>

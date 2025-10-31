@@ -11,12 +11,15 @@ import {
 } from "@/components/ui/table"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useMemo } from "react";
-import type { TaskType } from "@/lib/types";
+import type { DatasetMetadata, TaskType } from "@/lib/types";
+import { HelpCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface CorrelationHeatmapProps {
     dataset: Record<string, any>[];
     task: TaskType;
     targetColumn: string;
+    metadata: DatasetMetadata | null;
 }
 
 function calculateCorrelationMatrix(dataset: Record<string, any>[], task: TaskType, targetColumn: string) {
@@ -109,7 +112,27 @@ const getCorrelationDescription = (value: number, feature1: string, feature2: st
     );
 };
 
-export function CorrelationHeatmap({ dataset, task, targetColumn }: CorrelationHeatmapProps) {
+const HeaderWithTooltip = ({ header, metadata }: { header: string; metadata: DatasetMetadata | null }) => {
+    const description = metadata?.attributes[header]?.description;
+    return (
+         <div className="flex items-center gap-1 justify-center">
+            <span>{header}</span>
+            {description && (
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <HelpCircle className="h-3 w-3 text-muted-foreground cursor-help" />
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-xs">
+                        <p className="font-bold">{header}</p>
+                        <p>{description}</p>
+                    </TooltipContent>
+                </Tooltip>
+            )}
+        </div>
+    );
+};
+
+export function CorrelationHeatmap({ dataset, task, targetColumn, metadata }: CorrelationHeatmapProps) {
     const correlationMatrix = useMemo(() => calculateCorrelationMatrix(dataset, task, targetColumn), [dataset, task, targetColumn]);
     const headers = Object.keys(correlationMatrix);
 
@@ -122,7 +145,7 @@ export function CorrelationHeatmap({ dataset, task, targetColumn }: CorrelationH
                             <TableHead className="min-w-[100px]"></TableHead>
                             {headers.map(header => (
                                 <TableHead key={header} className="text-center transform -rotate-45 h-32">
-                                    {header}
+                                    <HeaderWithTooltip header={header} metadata={metadata} />
                                 </TableHead>
                             ))}
                         </TableRow>
@@ -130,7 +153,9 @@ export function CorrelationHeatmap({ dataset, task, targetColumn }: CorrelationH
                     <TableBody>
                         {headers.map(rowHeader => (
                             <TableRow key={rowHeader}>
-                                <TableHead>{rowHeader}</TableHead>
+                                <TableHead>
+                                    <HeaderWithTooltip header={rowHeader} metadata={metadata} />
+                                </TableHead>
                                 {headers.map(colHeader => {
                                     const value = correlationMatrix[rowHeader][colHeader];
                                     return (

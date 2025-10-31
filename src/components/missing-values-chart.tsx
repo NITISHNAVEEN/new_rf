@@ -6,12 +6,40 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import { useMemo } from "react";
+import { DatasetMetadata } from '@/lib/types';
+import { HelpCircle } from 'lucide-react';
+import { Tooltip as UiTooltip, TooltipContent as UiTooltipContent } from '@/components/ui/tooltip';
 
 interface MissingValuesChartProps {
     dataset: Record<string, any>[];
+    metadata: DatasetMetadata | null;
 }
 
-export function MissingValuesChart({ dataset }: MissingValuesChartProps) {
+const CustomYAxisTick = (props: any) => {
+    const { x, y, payload, metadata } = props;
+    const featureName = payload.value;
+    const description = metadata?.attributes[featureName]?.description;
+
+    return (
+        <g transform={`translate(${x},${y})`}>
+             <UiTooltip>
+                <UiTooltipContent side="right" className="max-w-xs">
+                    <p className='font-bold'>{featureName}</p>
+                    <p>{description || 'No description available.'}</p>
+                </UiTooltipContent>
+                <TooltipTrigger asChild>
+                    <text x={0} y={0} dy={4} textAnchor="end" fill="hsl(var(--foreground))" className="text-xs cursor-help flex items-center">
+                        {featureName.length > 15 ? `${featureName.substring(0, 13)}...` : featureName}
+                        {description && <HelpCircle className="h-3 w-3 ml-1 inline-block" />}
+                    </text>
+                </TooltipTrigger>
+            </UiTooltip>
+        </g>
+    );
+};
+
+
+export function MissingValuesChart({ dataset, metadata }: MissingValuesChartProps) {
     const missingData = useMemo(() => {
         if (!dataset || dataset.length === 0) return [];
 
@@ -37,11 +65,19 @@ export function MissingValuesChart({ dataset }: MissingValuesChartProps) {
                     <BarChart
                       data={missingData}
                       layout="vertical"
-                      margin={{ top: 5, right: 30, left: 100, bottom: 5 }}
+                      margin={{ top: 5, right: 30, left: 10, bottom: 5 }}
                     >
                         <CartesianGrid strokeDasharray="3 3" horizontal={false} />
                         <XAxis type="number" domain={[0, 100]} label={{ value: 'Percentage Missing', position: 'insideBottom', offset: -5 }}/>
-                        <YAxis dataKey="name" type="category" tick={{ fontSize: 12 }} />
+                        <YAxis 
+                            dataKey="name" 
+                            type="category" 
+                            tickLine={false}
+                            axisLine={false}
+                            tick={<CustomYAxisTick metadata={metadata} />}
+                            interval={0}
+                            width={120}
+                        />
                         <Tooltip
                             cursor={{fill: 'hsl(var(--accent))'}}
                             content={<ChartTooltipContent formatter={(value) => `${(value as number).toFixed(2)}%`} />}

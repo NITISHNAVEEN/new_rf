@@ -1,6 +1,6 @@
 'use client';
 
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 import type { DatasetMetadata, FeatureImportance } from '@/lib/types';
 import { HelpCircle } from 'lucide-react';
@@ -21,7 +21,7 @@ const CustomYAxisTick = (props: any) => {
         <g transform={`translate(${x},${y})`}>
             <UiTooltip>
                 <TooltipTrigger asChild>
-                     <text x={0} y={0} dy={4} textAnchor="end" fill="hsl(var(--foreground))" className="text-xs cursor-help">
+                     <text x={0} y={0} dy={4} textAnchor="end" fill="hsl(var(--foreground))" className="text-xs cursor-help flex items-center">
                         {featureName.length > 15 ? `${featureName.substring(0, 13)}...` : featureName}
                     </text>
                 </TooltipTrigger>
@@ -50,6 +50,7 @@ export function FeatureImportanceChart({ tunedData, baselineData, metadata }: Fe
   return (
     <div className="h-[250px] md:h-[350px]">
       <ChartContainer config={{}} className="h-full w-full">
+        <ResponsiveContainer>
         <BarChart
           data={combinedData}
           layout="vertical"
@@ -64,12 +65,14 @@ export function FeatureImportanceChart({ tunedData, baselineData, metadata }: Fe
             axisLine={false}
             tick={<CustomYAxisTick metadata={metadata} />}
             interval={0}
+            width={100}
           />
           <Tooltip cursor={{ fill: 'hsl(var(--accent))' }} content={<ChartTooltipContent />} />
           <Legend />
           <Bar dataKey="baseline" name="Baseline" fill="hsl(var(--secondary-foreground))" radius={[0, 4, 4, 0]} />
           <Bar dataKey="tuned" name="Tuned" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} />
         </BarChart>
+        </ResponsiveContainer>
       </ChartContainer>
     </div>
   );
