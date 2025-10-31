@@ -18,9 +18,17 @@ interface RealTimePredictionProps {
   taskType: TaskType;
   isLoading: boolean;
   onPredict: (values: Record<string, number>) => Promise<Prediction>;
+  datasetName: string;
+  descriptions: {
+    title: string;
+    description: string;
+    resultTitle: string;
+    resultDescription: string;
+    idleText: string;
+  }
 }
 
-export function RealTimePrediction({ features, taskType, isLoading, onPredict }: RealTimePredictionProps) {
+export function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetName, descriptions }: RealTimePredictionProps) {
   const [predictionResult, setPredictionResult] = useState<Prediction | null>(null);
   const [isPredicting, setIsPredicting] = useState(false);
 
@@ -71,9 +79,9 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict }:
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <TestTube2 className="w-5 h-5" />
-            Make a Prediction
+            {descriptions.title}
           </CardTitle>
-          <CardDescription>Enter values for the features below to get a real-time prediction.</CardDescription>
+          <CardDescription>{descriptions.description}</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -88,7 +96,7 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict }:
                       <FormItem>
                         <FormLabel className="text-xs">{feature}</FormLabel>
                         <FormControl>
-                          <Input type="number" step="any" {...field} />
+                          <Input type="number" step="any" {...field} value={field.value ?? ''} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -108,9 +116,9 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict }:
       <div className="space-y-8">
         <Card>
             <CardHeader>
-                <CardTitle>Prediction Result</CardTitle>
+                <CardTitle>{descriptions.resultTitle}</CardTitle>
                  <CardDescription>
-                  This is the model's prediction based on the input values you provided.
+                  {descriptions.resultDescription}
                 </CardDescription>
             </CardHeader>
             <CardContent className="flex items-center justify-center h-48">
@@ -119,10 +127,15 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict }:
                 ) : predictionResult ? (
                     <div className="text-center">
                         <p className="text-muted-foreground">{taskType === 'regression' ? 'Predicted Value' : 'Predicted Class'}</p>
-                        <p className="text-5xl font-bold">{predictionResult.prediction}</p>
+                        <p className="text-5xl font-bold">
+                          {taskType === 'classification' && datasetName === 'wine-quality' ? (predictionResult.prediction === 1 ? 'Good' : 'Bad') : ''}
+                          {taskType === 'classification' && datasetName === 'breast-cancer' ? (predictionResult.prediction === 0 ? 'Malignant' : 'Benign') : ''}
+                          {taskType === 'classification' && datasetName === 'digits' ? predictionResult.prediction : ''}
+                          {taskType === 'regression' ? predictionResult.prediction : ''}
+                        </p>
                     </div>
                 ) : (
-                    <p className="text-muted-foreground">Submit feature values to see a prediction.</p>
+                    <p className="text-muted-foreground">{descriptions.idleText}</p>
                 )}
             </CardContent>
         </Card>
@@ -137,3 +150,5 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict }:
     </div>
   );
 }
+
+    
