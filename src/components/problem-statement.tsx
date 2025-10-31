@@ -33,16 +33,18 @@ export function ProblemStatement({ metadata, datasetName }: ProblemStatementProp
             <Card className="overflow-hidden">
                 <CardContent className="p-0">
                     <div className="grid md:grid-cols-2">
-                        <div className="p-6">
-                            <h2 className="text-2xl font-bold tracking-tight flex items-center gap-2 mb-2">
-                                <BookOpen className="h-6 w-6" />
-                                Problem Statement
-                            </h2>
-                            <p className="text-muted-foreground">
-                                {metadata.story}
-                            </p>
+                        <div className="p-6 flex flex-col">
+                            <div className="flex-1">
+                                <h2 className="text-2xl font-bold tracking-tight flex items-center gap-2 mb-2">
+                                    <BookOpen className="h-6 w-6" />
+                                    Problem Statement
+                                </h2>
+                                <p className="text-muted-foreground">
+                                    {metadata.story}
+                                </p>
+                            </div>
                             <CollapsibleTrigger asChild>
-                                <Button variant="link" className="p-0 h-auto mt-4">
+                                <Button variant="link" className="p-0 h-auto mt-4 self-start">
                                     View Dataset Attributes
                                     <ChevronDown className={cn("ml-2 h-4 w-4 transition-transform", isOpen && "rotate-180")} />
                                 </Button>
