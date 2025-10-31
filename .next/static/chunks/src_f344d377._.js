@@ -195,12 +195,13 @@ const pseudoRandom = (seed)=>{
 };
 const generateMockTree = (features, task, hyperparameters, depth = 0, seed = 1)=>{
     const nodeSeed = seed + depth * 10;
-    const currentSamples = Math.floor(pseudoRandom(nodeSeed * 6) * (200 / (depth + 1)) + hyperparameters.min_samples_leaf);
+    const maxSamples = 200 / (depth + 1);
+    const minSamples = hyperparameters.min_samples_leaf;
+    const currentSamples = Math.floor(pseudoRandom(nodeSeed * 6) * (maxSamples - minSamples) + minSamples);
     // Termination conditions:
     // 1. Max depth is reached.
     // 2. Not enough samples to split.
-    // 3. It's a small node and we randomly decide to make it a leaf.
-    if (depth >= (hyperparameters.max_depth ?? 10) || currentSamples < hyperparameters.min_samples_split || currentSamples < hyperparameters.min_samples_split * 2 && pseudoRandom(seed) > 0.5) {
+    if (depth >= (hyperparameters.max_depth ?? 10) || currentSamples < hyperparameters.min_samples_split) {
         let value;
         if (task === 'regression') {
             value = [
