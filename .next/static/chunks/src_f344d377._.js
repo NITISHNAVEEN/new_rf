@@ -95,19 +95,19 @@ const BASELINE_HYPERPARAMETERS = {
 const DATASETS = {
     regression: [
         {
-            name: 'California Housing (Real Estate / Geography)',
+            name: 'California Housing (Real Estate)',
             value: 'california-housing',
             data: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$california$2d$housing$2e$json__$28$json$29$__["default"],
             target: 'MedHouseVal'
         },
         {
-            name: 'Diabetes (Medical / Health)',
+            name: 'Diabetes (Medical)',
             value: 'diabetes',
             data: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$diabetes$2e$json__$28$json$29$__["default"],
             target: 'DiseaseProgression'
         },
         {
-            name: 'Linnerud (Physiological / Sports)',
+            name: 'Linnerud (Physiological)',
             value: 'linnerud',
             data: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$linnerud$2e$json__$28$json$29$__["default"],
             target: 'Weight'
@@ -115,13 +115,13 @@ const DATASETS = {
     ],
     classification: [
         {
-            name: 'Wine Quality (Chemistry / Food)',
+            name: 'Wine Quality (Chemistry)',
             value: 'wine-quality',
             data: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$wine$2d$quality$2e$json__$28$json$29$__["default"],
             target: 'quality'
         },
         {
-            name: 'Breast Cancer Wisconsin (Medical / Health)',
+            name: 'Breast Cancer Wisconsin (Medical)',
             value: 'breast-cancer',
             data: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$breast$2d$cancer$2e$json__$28$json$29$__["default"],
             target: 'Diagnosis'
@@ -196,22 +196,14 @@ const pseudoRandom = (seed)=>{
 const generateMockTree = (features, task, hyperparameters, depth = 0, seed = 1, parentSamples = 2000)=>{
     const { max_depth = 10, min_samples_split, min_samples_leaf } = hyperparameters;
     const nodeSeed = seed + depth;
-    // Determine current samples based on parent, ensuring it decreases
-    const sampleSplitRatio = 0.4 + pseudoRandom(nodeSeed) * 0.2; // split between 40/60
-    const samples = Math.floor(parentSamples * sampleSplitRatio);
-    // --- Termination Conditions ---
-    // 1. Max depth is reached
-    // 2. Not enough samples to create a meaningful split
-    // 3. Not enough samples to satisfy leaf node requirements
-    if (depth >= max_depth || samples < min_samples_split || samples < min_samples_leaf * 2 // Not enough samples to create two valid leaves
-    ) {
+    const samples = Math.max(min_samples_leaf, Math.floor(parentSamples * (0.4 + pseudoRandom(nodeSeed) * 0.2)));
+    if (depth >= max_depth || samples < min_samples_split) {
         let leafValue;
         if (task === 'regression') {
             leafValue = [
                 pseudoRandom(nodeSeed * 2) * 3 + 1
-            ]; // Mock prediction value
+            ];
         } else {
-            // Mock class distribution
             const class1Samples = Math.floor(pseudoRandom(nodeSeed * 2) * samples);
             leafValue = [
                 samples - class1Samples,
@@ -224,8 +216,6 @@ const generateMockTree = (features, task, hyperparameters, depth = 0, seed = 1, 
             samples: samples
         };
     }
-    // --- Node Creation ---
-    // If termination conditions are not met, create a decision node.
     let nodeValue;
     let impurity;
     let criterion = 'MSE';
@@ -244,13 +234,8 @@ const generateMockTree = (features, task, hyperparameters, depth = 0, seed = 1, 
         ];
         const p0 = class0 / samples;
         const p1 = class1 / samples;
-        if (hyperparameters.criterion === 'entropy') {
-            impurity = -(p0 * Math.log2(p0 || 1)) - p1 * Math.log2(p1 || 1);
-            criterion = 'Entropy';
-        } else {
-            impurity = 1 - (p0 ** 2 + p1 ** 2);
-            criterion = 'Gini';
-        }
+        impurity = hyperparameters.criterion === 'entropy' ? -(p0 * Math.log2(p0 || 1)) - p1 * Math.log2(p1 || 1) : 1 - (p0 ** 2 + p1 ** 2);
+        criterion = hyperparameters.criterion === 'entropy' ? 'Entropy' : 'Gini';
     }
     const feature = features[Math.floor(pseudoRandom(nodeSeed * 5) * features.length)];
     const threshold = pseudoRandom(nodeSeed * 6) * 100;
@@ -262,7 +247,6 @@ const generateMockTree = (features, task, hyperparameters, depth = 0, seed = 1, 
         impurity,
         criterion,
         value: nodeValue,
-        // Recursively create two children, ensuring they get a fraction of the parent's samples
         children: [
             generateMockTree(features, task, hyperparameters, depth + 1, seed + 1, samples),
             generateMockTree(features, task, hyperparameters, depth + 1, seed + (max_depth - depth + 1) * 2, samples)
