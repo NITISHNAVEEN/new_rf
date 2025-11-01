@@ -272,3 +272,5 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
     </TooltipProvider>
   );
 }
+
+    
