@@ -147,7 +147,10 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
                 </Form>
               </CardContent>
             </Card>
-
+        </div>
+        
+        {/* Right Column */}
+        <div className="flex flex-col gap-8">
             <Card>
               <CardHeader>
                   <CardTitle>{descriptions.resultTitle}</CardTitle>
@@ -174,10 +177,16 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
               </CardContent>
             </Card>
 
+            <ExplainPrediction
+                prediction={predictionResult || undefined}
+                featureNames={features}
+                taskType={taskType}
+                isLoading={isLoading || isPredicting}
+            />
         </div>
-        
-        {/* Right Column */}
-        <div className="flex flex-col gap-8">
+      </div>
+
+      <div className="mt-8">
             <Card>
                 <CardHeader>
                     <CardTitle className='flex items-center gap-2'>
@@ -194,7 +203,7 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
                             <Loader2 className="h-8 w-8 animate-spin text-primary" />
                          </div>
                      ) : treesToShow.length > 0 ? (
-                        <div className={`grid grid-cols-${treesToShow.length} gap-4`}>
+                        <div className={`grid grid-cols-1 ${treesToShow.length === 3 ? 'md:grid-cols-3' : ''} gap-4`}>
                           {treesToShow.map(tree => (
                             <div key={tree.id} className="border rounded-lg p-2 h-[400px] overflow-auto">
                               <p className='text-center text-sm font-semibold mb-2'>Tree {tree.id}</p>
@@ -211,7 +220,7 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
             </Card>
 
             {simulationData && simulationData.trees.length > 3 && (
-              <Card>
+              <Card className="mt-8">
                   <CardHeader>
                       <CardTitle>Prediction Breakdown</CardTitle>
                       <CardDescription>How individual trees contribute to the final prediction.</CardDescription>
@@ -231,15 +240,6 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
                   </CardContent>
               </Card>
             )}
-        </div>
-      </div>
-      <div className="mt-8">
-        <ExplainPrediction
-            prediction={predictionResult || undefined}
-            featureNames={features}
-            taskType={taskType}
-            isLoading={isLoading || isPredicting}
-        />
       </div>
     </TooltipProvider>
   );

@@ -55,7 +55,7 @@ export function ProblemStatement({ metadata, datasetName }: ProblemStatementProp
                                 src={placeholderImage.imageUrl}
                                 alt={placeholderImage.description}
                                 fill
-                                className="object-cover md:rounded-bl-lg"
+                                className="object-cover"
                                 data-ai-hint={placeholderImage.imageHint}
                             />
                         </div>
