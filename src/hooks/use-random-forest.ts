@@ -26,13 +26,13 @@ import breastCancerDataset from '@/lib/data/breast-cancer.json';
 import digitsDataset from '@/lib/data/digits.json';
 import datasetsMetadata from '@/lib/data/datasets-metadata.json';
 
-import { getFeatureImportanceInsights } from '@/lib/actions';
+import { getFeatureImportanceInsights, getPredictionExplanation } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
 
 type Status = 'idle' | 'loading' | 'success' | 'error';
 
 const BASELINE_HYPERPARAMETERS: Hyperparameters = {
-  n_estimators: 10,
+  n_estimators: 3,
   max_depth: 3,
   min_samples_split: 2,
   min_samples_leaf: 1,
@@ -596,3 +596,5 @@ export const useRandomForest = () => {
 
   return { state, data, status, actions, availableDatasets: DATASETS[state.task] };
 };
+
+    
