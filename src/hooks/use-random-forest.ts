@@ -405,12 +405,13 @@ const mockPredict = (
     values: Record<string, number>,
     state: State,
 ): Prediction => {
-  const { hyperparameters, task, targetColumn, testSize } = state;
+  const { task, selectedFeatures } = state;
   const seedState = { ...state, selectedFeatures: Object.keys(values) };
   const seed = createSeed(seedState, 'predict');
   
-  const numTrees = 20; // Simulate 20 trees for real-time prediction
+  const numTrees = state.hyperparameters.n_estimators;
   const individualPredictions: number[] = [];
+  const forestSimulation = generateForestSimulation(seedState, seed);
 
   for (let i = 0; i < numTrees; i++) {
     const treeSeed = seed + i;
@@ -441,6 +442,7 @@ const mockPredict = (
     actual: -1, // No actual value for real-time prediction
     prediction: finalPrediction,
     individualPredictions: individualPredictions,
+    forestSimulation: forestSimulation,
   };
 };
 
@@ -596,5 +598,3 @@ export const useRandomForest = () => {
 
   return { state, data, status, actions, availableDatasets: DATASETS[state.task] };
 };
-
-    

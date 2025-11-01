@@ -15,6 +15,7 @@ import { ExplainPrediction } from './explain-prediction';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { PredictionContributionChart } from './prediction-contribution-chart';
 import { DecisionTreeSnapshot } from './decision-tree-snapshot';
+import { Slider } from './ui/slider';
 
 interface RealTimePredictionProps {
   features: string[];
@@ -31,12 +32,12 @@ interface RealTimePredictionProps {
   };
   placeholderValues: Record<string, any> | null;
   metadata: DatasetMetadata | null;
-  simulationData: ForestSimulation | null;
 }
 
-export function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetName, descriptions, placeholderValues, metadata, simulationData }: RealTimePredictionProps) {
+export function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetName, descriptions, placeholderValues, metadata }: RealTimePredictionProps) {
   const [predictionResult, setPredictionResult] = useState<Prediction | null>(null);
   const [isPredicting, setIsPredicting] = useState(false);
+  const [selectedTreeIndex, setSelectedTreeIndex] = useState(0);
 
   const formSchema = useMemo(() => z.object(
     features.reduce((acc, feature) => {
@@ -68,6 +69,7 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
   useEffect(() => {
     form.reset(defaultValues);
     setPredictionResult(null);
+    setSelectedTreeIndex(0);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formKey]);
 
@@ -76,16 +78,12 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
     setPredictionResult(null);
     const result = await onPredict(values as Record<string, number>);
     setPredictionResult(result);
+    setSelectedTreeIndex(0);
     setIsPredicting(false);
   };
-
-  const treesToShow = useMemo(() => {
-    if (!simulationData) return [];
-    if (simulationData.trees.length === 3) {
-      return simulationData.trees;
-    }
-    return simulationData.trees.slice(0, 1);
-  }, [simulationData]);
+  
+  const trees = predictionResult?.forestSimulation?.trees;
+  const currentTree = trees ? trees[selectedTreeIndex] : null;
 
   return (
     <TooltipProvider>
@@ -193,23 +191,37 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
                       <GitMerge className='w-5 h-5' />
                       Decision Tree Visualization
                     </CardTitle>
-                    <CardDescription>
-                      {treesToShow.length > 1 ? 'Here are the decision trees that contributed to the prediction.' : 'Here is a sample decision tree used for the prediction.'}
-                    </CardDescription>
+                     {isPredicting ? (
+                        <CardDescription>Generating decision trees based on your input...</CardDescription>
+                     ) : trees && trees.length > 0 ? (
+                        <CardDescription>
+                            Showing Tree {trees.length > 1 ? `${selectedTreeIndex + 1} of ${trees.length}` : '1 of 1'}. Use the slider to browse trees.
+                        </CardDescription>
+                     ) : (
+                        <CardDescription>
+                           Click "Predict" to generate decision trees based on your input.
+                        </CardDescription>
+                     )}
                 </CardHeader>
                 <CardContent>
                      {isPredicting ? (
                          <div className="flex items-center justify-center h-48">
                             <Loader2 className="h-8 w-8 animate-spin text-primary" />
                          </div>
-                     ) : treesToShow.length > 0 ? (
-                        <div className={`grid grid-cols-1 ${treesToShow.length === 3 ? 'md:grid-cols-3' : ''} gap-4`}>
-                          {treesToShow.map(tree => (
-                            <div key={tree.id} className="border rounded-lg p-2 h-[400px] overflow-auto">
-                              <p className='text-center text-sm font-semibold mb-2'>Tree {tree.id}</p>
-                              <DecisionTreeSnapshot tree={tree.tree} taskType={taskType} />
-                            </div>
-                          ))}
+                     ) : trees && trees.length > 0 ? (
+                        <div className="space-y-4">
+                           {trees.length > 1 && (
+                             <Slider
+                                value={[selectedTreeIndex]}
+                                onValueChange={([value]) => setSelectedTreeIndex(value)}
+                                min={0}
+                                max={trees.length - 1}
+                                step={1}
+                              />
+                           )}
+                           <div className="border rounded-lg p-2 h-[400px] overflow-auto">
+                              {currentTree && <DecisionTreeSnapshot tree={currentTree.tree} taskType={taskType} />}
+                           </div>
                         </div>
                      ) : (
                          <div className="flex items-center justify-center h-48 text-muted-foreground">
@@ -218,28 +230,6 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
                      )}
                 </CardContent>
             </Card>
-
-            {simulationData && simulationData.trees.length > 3 && (
-              <Card className="mt-8">
-                  <CardHeader>
-                      <CardTitle>Prediction Breakdown</CardTitle>
-                      <CardDescription>How individual trees contribute to the final prediction.</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                      {isPredicting ? (
-                          <div className="flex items-center justify-center h-48">
-                              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                          </div>
-                      ) : predictionResult ? (
-                          <PredictionContributionChart prediction={predictionResult} taskType={taskType} datasetName={datasetName} />
-                      ) : (
-                          <div className="flex items-center justify-center h-48 text-muted-foreground">
-                              {descriptions.idleText}
-                          </div>
-                      )}
-                  </CardContent>
-              </Card>
-            )}
       </div>
     </TooltipProvider>
   );

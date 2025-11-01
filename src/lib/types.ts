@@ -41,6 +41,7 @@ export type Prediction = {
   actual: number;
   prediction: number;
   individualPredictions?: number[];
+  forestSimulation?: ForestSimulation;
 };
 
 export type ChartDataPoint = {
