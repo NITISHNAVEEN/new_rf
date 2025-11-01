@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { TaskType, Prediction, DatasetMetadata } from '@/lib/types';
+import { TaskType, Prediction, DatasetMetadata, ForestSimulation } from '@/lib/types';
 import { Loader2, TestTube2, HelpCircle, GitMerge } from 'lucide-react';
 import { ExplainPrediction } from './explain-prediction';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
@@ -32,9 +32,10 @@ interface RealTimePredictionProps {
   };
   placeholderValues: Record<string, any> | null;
   metadata: DatasetMetadata | null;
+  simulationData: ForestSimulation | null;
 }
 
-export function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetName, descriptions, placeholderValues, metadata }: RealTimePredictionProps) {
+export function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetName, descriptions, placeholderValues, metadata, simulationData }: RealTimePredictionProps) {
   const [predictionResult, setPredictionResult] = useState<Prediction | null>(null);
   const [isPredicting, setIsPredicting] = useState(false);
   const [selectedTreeIndex, setSelectedTreeIndex] = useState(0);
@@ -197,7 +198,7 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
                         <CardDescription>
                              {trees.length <= 3 
                                 ? `Showing all ${trees.length} trees used in the prediction.`
-                                : `Showing Tree ${selectedTreeIndex + 1} of ${trees.length}. Use the slider to browse trees.`
+                                : `Showing a summary of the ${trees.length} trees used in the prediction.`
                              }
                         </CardDescription>
                      ) : (
@@ -228,18 +229,11 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
                                     ))}
                                 </div>
                             ) : (
-                                <div className="space-y-4">
-                                    <Slider
-                                        value={[selectedTreeIndex]}
-                                        onValueChange={([value]) => setSelectedTreeIndex(value)}
-                                        min={0}
-                                        max={trees.length - 1}
-                                        step={1}
-                                    />
-                                    <div className="border rounded-lg p-2 h-[400px] overflow-auto">
-                                        {currentTree && <DecisionTreeSnapshot tree={currentTree.tree} taskType={taskType} />}
-                                    </div>
-                                </div>
+                                <PredictionContributionChart
+                                    prediction={predictionResult}
+                                    taskType={taskType}
+                                    datasetName={datasetName}
+                                />
                             )}
                         </>
                     )}
@@ -250,27 +244,8 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
                      )}
                 </CardContent>
             </Card>
-
-            {trees && trees.length > 3 && (
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Individual Tree Contributions</CardTitle>
-                        <CardDescription>
-                            This chart shows the prediction from each individual tree in the forest.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <PredictionContributionChart
-                            prediction={predictionResult}
-                            taskType={taskType}
-                            datasetName={datasetName}
-                        />
-                    </CardContent>
-                </Card>
-            )}
       </div>
     </TooltipProvider>
   );
 }
 
-    
