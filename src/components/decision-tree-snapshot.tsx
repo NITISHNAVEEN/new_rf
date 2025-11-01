@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import type { DecisionTree, DecisionNode, LeafNode, TaskType } from '@/lib/types';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
@@ -160,7 +160,7 @@ export function DecisionTreeSnapshot({ tree, taskType }: { tree: DecisionTree | 
         <div className="relative w-full h-full font-sans flex flex-col">
              <TooltipProvider>
                 <div className='w-full h-full overflow-auto p-4'>
-                    <div className="flex justify-center w-fit mx-auto">
+                    <div className="flex justify-center w-fit min-w-full mx-auto">
                        <TreeBranch node={tree} taskType={taskType} />
                     </div>
                 </div>

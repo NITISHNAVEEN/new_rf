@@ -6,11 +6,10 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Trees, GitMerge, Info, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Trees, GitMerge, Info, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { TaskType, ForestSimulation, TreeSimulation, DecisionTree } from '@/lib/types';
 import { Skeleton } from './ui/skeleton';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { DecisionTreeSnapshot } from './decision-tree-snapshot';
 
 interface ForestVisualizationProps {
@@ -37,7 +36,7 @@ const getClassificationLabels = (datasetName: string) => {
     }
 };
 
-const MiniTree = ({ tree, taskType, onTreeClick, classLabel }: { tree: TreeSimulation, taskType: TaskType, onTreeClick: () => void, classLabel: string }) => {
+const MiniTree = ({ tree, taskType, onTreeClick, classLabel, isSelected }: { tree: TreeSimulation, taskType: TaskType, onTreeClick: () => void, classLabel: string, isSelected: boolean }) => {
   const finalColor = taskType === 'classification'
     ? tree.prediction === 1 ? 'bg-blue-500/80' : 'bg-red-500/80'
     : 'bg-green-500/80';
@@ -49,7 +48,8 @@ const MiniTree = ({ tree, taskType, onTreeClick, classLabel }: { tree: TreeSimul
           <div className="flex flex-col items-center gap-1 cursor-pointer group" onClick={onTreeClick}>
              <div className={cn(
               "relative w-12 h-12 rounded-full bg-muted flex items-center justify-center transition-all duration-500 group-hover:scale-125 animate-glow shadow-lg shadow-primary/50",
-              finalColor
+              finalColor,
+              isSelected && "ring-2 ring-offset-2 ring-primary ring-offset-background"
             )}>
               <Trees className={cn("h-6 w-6 text-white transition-colors")} />
             </div>
@@ -77,6 +77,7 @@ export function ForestVisualization({ simulationData, taskType, isLoading, onRet
   
   useEffect(() => {
     setCurrentPage(0);
+    setSelectedTreeId(null);
   }, [taskType, simulationData]);
 
   const classLabels = getClassificationLabels(datasetName);
@@ -91,7 +92,7 @@ export function ForestVisualization({ simulationData, taskType, isLoading, onRet
 
 
   const handleTreeClick = (treeId: number) => {
-    setSelectedTreeId(treeId);
+    setSelectedTreeId(currentId => currentId === treeId ? null : treeId);
   };
   
   const selectedTree = useMemo(() => {
@@ -126,7 +127,7 @@ export function ForestVisualization({ simulationData, taskType, isLoading, onRet
                 </CardHeader>
                 <CardContent>
                     <div className='flex justify-between items-center mb-4 gap-4'>
-                        <strong className="flex-1 text-sm font-semibold">Click the Trees</strong>
+                        <strong className="flex-1 text-sm font-semibold">Click the Trees to inspect</strong>
                         <div className="text-sm text-muted-foreground">
                             {simulationData.trees.length > 0 && `Showing ${currentPage * TREES_PER_PAGE + 1}-${Math.min((currentPage + 1) * TREES_PER_PAGE, simulationData.trees.length)} of ${simulationData.trees.length} trees`}
                         </div>
@@ -147,26 +148,32 @@ export function ForestVisualization({ simulationData, taskType, isLoading, onRet
                                 taskType={taskType}
                                 onTreeClick={() => handleTreeClick(tree.id)}
                                 classLabel={classLabel}
+                                isSelected={selectedTreeId === tree.id}
                             />
                         })}
                     </div>
                 </CardContent>
             </Card>
+
+             {selectedTree && (
+                <Card>
+                    <CardHeader>
+                        <div className='flex justify-between items-center'>
+                            <CardTitle>Decision Tree Snapshot (Tree ID: {selectedTreeId})</CardTitle>
+                            <Button variant="ghost" size="icon" onClick={() => setSelectedTreeId(null)}>
+                                <X className='w-4 h-4' />
+                            </Button>
+                        </div>
+                        <CardDescription>
+                            This is the structure of the selected decision tree. You can scroll to explore it.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="h-[500px]">
+                         <DecisionTreeSnapshot tree={selectedTree} taskType={taskType} />
+                    </CardContent>
+                </Card>
+            )}
         </div>
-         <Dialog open={selectedTreeId !== null} onOpenChange={(isOpen) => {
-            if (!isOpen) {
-                setSelectedTreeId(null);
-            }
-         }}>
-            <DialogContent className="max-w-7xl h-[90vh] flex flex-col">
-                <DialogHeader>
-                    <DialogTitle>Decision Tree Snapshot (Tree ID: {selectedTreeId})</DialogTitle>
-                </DialogHeader>
-                <div className="flex-1 w-full h-full min-h-0">
-                   <DecisionTreeSnapshot tree={selectedTree} taskType={taskType} />
-                </div>
-            </DialogContent>
-        </Dialog>
     </>
   )
 }
