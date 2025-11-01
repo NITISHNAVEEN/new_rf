@@ -20,11 +20,7 @@ const CustomYAxisTick = (props: any) => {
 
     return (
         <g transform={`translate(${x},${y})`}>
-            <UiTooltip>
-                <UiTooltipContent side="right" className="max-w-xs">
-                    <p className='font-bold'>{featureName}</p>
-                    <p>{description || 'No description available.'}</p>
-                </UiTooltipContent>
+            <UiTooltip delayDuration={100}>
                 <UiTooltipTrigger asChild>
                     <foreignObject x={-110} y={-8} width={120} height={20}>
                         <div className="flex items-center justify-end gap-1 w-full text-xs cursor-help text-right pr-2">
@@ -33,6 +29,10 @@ const CustomYAxisTick = (props: any) => {
                         </div>
                     </foreignObject>
                 </UiTooltipTrigger>
+                <UiTooltipContent side="right" className="max-w-xs">
+                    <p className='font-bold'>{featureName}</p>
+                    <p>{description || 'No description available.'}</p>
+                </UiTooltipContent>
             </UiTooltip>
         </g>
     );

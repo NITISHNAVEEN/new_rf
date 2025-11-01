@@ -616,6 +616,7 @@ export default function DashboardPage() {
                   descriptions={descriptions.prediction}
                   placeholderValues={data.placeholderValues}
                   metadata={data.metadata}
+                  simulationData={data.forestSimulation}
               />
           </TabsContent>
         </Tabs>

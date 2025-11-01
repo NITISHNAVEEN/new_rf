@@ -9,11 +9,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { TaskType, Prediction, DatasetMetadata } from '@/lib/types';
-import { Loader2, TestTube2, HelpCircle } from 'lucide-react';
+import { TaskType, Prediction, DatasetMetadata, ForestSimulation } from '@/lib/types';
+import { Loader2, TestTube2, HelpCircle, GitMerge } from 'lucide-react';
 import { ExplainPrediction } from './explain-prediction';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { PredictionContributionChart } from './prediction-contribution-chart';
+import { DecisionTreeSnapshot } from './decision-tree-snapshot';
 
 interface RealTimePredictionProps {
   features: string[];
@@ -30,9 +31,10 @@ interface RealTimePredictionProps {
   };
   placeholderValues: Record<string, any> | null;
   metadata: DatasetMetadata | null;
+  simulationData: ForestSimulation | null;
 }
 
-export function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetName, descriptions, placeholderValues, metadata }: RealTimePredictionProps) {
+export function RealTimePrediction({ features, taskType, isLoading, onPredict, datasetName, descriptions, placeholderValues, metadata, simulationData }: RealTimePredictionProps) {
   const [predictionResult, setPredictionResult] = useState<Prediction | null>(null);
   const [isPredicting, setIsPredicting] = useState(false);
 
@@ -76,6 +78,14 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
     setPredictionResult(result);
     setIsPredicting(false);
   };
+
+  const treesToShow = useMemo(() => {
+    if (!simulationData) return [];
+    if (simulationData.trees.length === 3) {
+      return simulationData.trees;
+    }
+    return simulationData.trees.slice(0, 1);
+  }, [simulationData]);
 
   return (
     <TooltipProvider>
@@ -137,29 +147,6 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
                 </Form>
               </CardContent>
             </Card>
-        </div>
-        
-        {/* Right Column */}
-        <div className="flex flex-col gap-8">
-            <Card>
-                <CardHeader>
-                    <CardTitle>Prediction Breakdown</CardTitle>
-                    <CardDescription>How individual trees contribute to the final prediction.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                     {isPredicting ? (
-                         <div className="flex items-center justify-center h-48">
-                            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                         </div>
-                     ) : predictionResult ? (
-                        <PredictionContributionChart prediction={predictionResult} taskType={taskType} datasetName={datasetName} />
-                     ) : (
-                         <div className="flex items-center justify-center h-48 text-muted-foreground">
-                            {descriptions.idleText}
-                         </div>
-                     )}
-                </CardContent>
-            </Card>
 
             <Card>
               <CardHeader>
@@ -186,6 +173,64 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
                   )}
               </CardContent>
             </Card>
+
+        </div>
+        
+        {/* Right Column */}
+        <div className="flex flex-col gap-8">
+            <Card>
+                <CardHeader>
+                    <CardTitle className='flex items-center gap-2'>
+                      <GitMerge className='w-5 h-5' />
+                      Decision Tree Visualization
+                    </CardTitle>
+                    <CardDescription>
+                      {treesToShow.length > 1 ? 'Here are the decision trees that contributed to the prediction.' : 'Here is a sample decision tree used for the prediction.'}
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                     {isPredicting ? (
+                         <div className="flex items-center justify-center h-48">
+                            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                         </div>
+                     ) : treesToShow.length > 0 ? (
+                        <div className={`grid grid-cols-${treesToShow.length} gap-4`}>
+                          {treesToShow.map(tree => (
+                            <div key={tree.id} className="border rounded-lg p-2 h-[400px] overflow-auto">
+                              <p className='text-center text-sm font-semibold mb-2'>Tree {tree.id}</p>
+                              <DecisionTreeSnapshot tree={tree.tree} taskType={taskType} />
+                            </div>
+                          ))}
+                        </div>
+                     ) : (
+                         <div className="flex items-center justify-center h-48 text-muted-foreground">
+                            {descriptions.idleText}
+                         </div>
+                     )}
+                </CardContent>
+            </Card>
+
+            {simulationData && simulationData.trees.length > 3 && (
+              <Card>
+                  <CardHeader>
+                      <CardTitle>Prediction Breakdown</CardTitle>
+                      <CardDescription>How individual trees contribute to the final prediction.</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                      {isPredicting ? (
+                          <div className="flex items-center justify-center h-48">
+                              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                          </div>
+                      ) : predictionResult ? (
+                          <PredictionContributionChart prediction={predictionResult} taskType={taskType} datasetName={datasetName} />
+                      ) : (
+                          <div className="flex items-center justify-center h-48 text-muted-foreground">
+                              {descriptions.idleText}
+                          </div>
+                      )}
+                  </CardContent>
+              </Card>
+            )}
         </div>
       </div>
       <div className="mt-8">

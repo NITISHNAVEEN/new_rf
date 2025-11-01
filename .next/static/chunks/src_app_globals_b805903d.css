@@ -706,6 +706,10 @@ body {
   height: 350px;
 }
 
+.h-\[400px\] {
+  height: 400px;
+}
+
 .h-\[90vh\] {
   height: 90vh;
 }
@@ -754,6 +758,14 @@ body {
   min-height: 200px;
 }
 
+.min-h-\[400px\] {
+  min-height: 400px;
+}
+
+.min-h-\[6rem\] {
+  min-height: 6rem;
+}
+
 .min-h-\[80px\] {
   min-height: 80px;
 }
@@ -772,6 +784,10 @@ body {
 
 .w-1\/2 {
   width: 50%;
+}
+
+.w-1\/3 {
+  width: 33.3333%;
 }
 
 .w-10 {
@@ -836,6 +852,10 @@ body {
 
 .w-8 {
   width: 2rem;
+}
+
+.w-80 {
+  width: 20rem;
 }
 
 .w-9 {
@@ -1034,20 +1054,6 @@ body {
   animation: 1s linear infinite spin;
 }
 
-@keyframes bounce-subtle {
-  0%, 100% {
-    transform: translateY(0)scale(1);
-  }
-
-  50% {
-    transform: translateY(-4px)scale(1.05);
-  }
-}
-
-.animate-bounce-subtle {
-  animation: 1.5s ease-in-out infinite bounce-subtle;
-}
-
 .cursor-default {
   cursor: default;
 }
@@ -1208,6 +1214,12 @@ body {
   --tw-space-y-reverse: 0;
   margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+}
+
+.space-y-8 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(2rem * var(--tw-space-y-reverse));
 }
 
 .self-start {
@@ -1404,6 +1416,10 @@ body {
 
 .bg-primary {
   background-color: hsl(var(--primary));
+}
+
+.bg-primary\/10 {
+  background-color: hsl(var(--primary) / .1);
 }
 
 .bg-red-100 {
@@ -1630,6 +1646,11 @@ body {
 
 .text-\[0\.8rem\] {
   font-size: .8rem;
+}
+
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
 
 .text-lg {
@@ -2036,10 +2057,6 @@ body {
 
 .focus-within\:z-20:focus-within {
   z-index: 20;
-}
-
-.hover\:animate-bounce-subtle:hover {
-  animation: 1.5s ease-in-out infinite bounce-subtle;
 }
 
 .hover\:bg-accent:hover {
@@ -2903,6 +2920,10 @@ body {
     margin-bottom: calc(2rem * var(--tw-space-y-reverse));
   }
 
+  .md\:rounded-bl-lg {
+    border-bottom-left-radius: var(--radius);
+  }
+
   .md\:opacity-0 {
     opacity: 0;
   }
@@ -2942,6 +2963,10 @@ body {
 
   .lg\:col-span-4 {
     grid-column: span 4 / span 4;
+  }
+
+  .lg\:h-\[500px\] {
+    height: 500px;
   }
 
   .lg\:grid-cols-10 {
