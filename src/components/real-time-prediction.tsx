@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { TaskType, Prediction, DatasetMetadata, ForestSimulation } from '@/lib/types';
+import { TaskType, Prediction, DatasetMetadata } from '@/lib/types';
 import { Loader2, TestTube2, HelpCircle, GitMerge } from 'lucide-react';
 import { ExplainPrediction } from './explain-prediction';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
@@ -84,6 +84,58 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
   
   const trees = predictionResult?.forestSimulation?.trees;
   const currentTree = trees ? trees[selectedTreeIndex] : null;
+
+  const renderDecisionTrees = () => {
+    if (isPredicting) {
+        return (
+            <div className="flex items-center justify-center h-48">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+        );
+    }
+    if (!trees || trees.length === 0) {
+        return (
+            <div className="flex items-center justify-center h-48 text-muted-foreground">
+                {descriptions.idleText}
+            </div>
+        );
+    }
+
+    // If 3 or fewer trees, show them all in a grid
+    if (trees.length <= 3) {
+        return (
+            <div className={`grid grid-cols-1 md:grid-cols-${trees.length} gap-4`}>
+                {trees.map((tree, index) => (
+                    <Card key={index} className="flex flex-col">
+                        <CardHeader>
+                            <CardTitle className="text-base">Tree {tree.id}</CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex-1 border rounded-lg p-2 h-[400px] overflow-auto">
+                            <DecisionTreeSnapshot tree={tree.tree} taskType={taskType} />
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
+        );
+    }
+
+    // If more than 3 trees, show a single tree with a slider
+    return (
+        <div className="space-y-4">
+            <Slider
+                value={[selectedTreeIndex]}
+                onValueChange={([value]) => setSelectedTreeIndex(value)}
+                min={0}
+                max={trees.length - 1}
+                step={1}
+            />
+            <div className="border rounded-lg p-2 h-[400px] overflow-auto">
+                {currentTree && <DecisionTreeSnapshot tree={currentTree.tree} taskType={taskType} />}
+            </div>
+        </div>
+    );
+};
+
 
   return (
     <TooltipProvider>
@@ -184,7 +236,7 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
         </div>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-8 space-y-8">
             <Card>
                 <CardHeader>
                     <CardTitle className='flex items-center gap-2'>
@@ -195,7 +247,10 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
                         <CardDescription>Generating decision trees based on your input...</CardDescription>
                      ) : trees && trees.length > 0 ? (
                         <CardDescription>
-                            Showing Tree {trees.length > 1 ? `${selectedTreeIndex + 1} of ${trees.length}` : '1 of 1'}. Use the slider to browse trees.
+                             {trees.length <= 3 
+                                ? `Showing all ${trees.length} trees used in the prediction.`
+                                : `Showing Tree ${selectedTreeIndex + 1} of ${trees.length}. Use the slider to browse trees.`
+                             }
                         </CardDescription>
                      ) : (
                         <CardDescription>
@@ -204,32 +259,27 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
                      )}
                 </CardHeader>
                 <CardContent>
-                     {isPredicting ? (
-                         <div className="flex items-center justify-center h-48">
-                            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                         </div>
-                     ) : trees && trees.length > 0 ? (
-                        <div className="space-y-4">
-                           {trees.length > 1 && (
-                             <Slider
-                                value={[selectedTreeIndex]}
-                                onValueChange={([value]) => setSelectedTreeIndex(value)}
-                                min={0}
-                                max={trees.length - 1}
-                                step={1}
-                              />
-                           )}
-                           <div className="border rounded-lg p-2 h-[400px] overflow-auto">
-                              {currentTree && <DecisionTreeSnapshot tree={currentTree.tree} taskType={taskType} />}
-                           </div>
-                        </div>
-                     ) : (
-                         <div className="flex items-center justify-center h-48 text-muted-foreground">
-                            {descriptions.idleText}
-                         </div>
-                     )}
+                     {renderDecisionTrees()}
                 </CardContent>
             </Card>
+
+            {trees && trees.length > 3 && (
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Individual Tree Contributions</CardTitle>
+                        <CardDescription>
+                            This chart shows the prediction from each individual tree in the forest.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <PredictionContributionChart
+                            prediction={predictionResult}
+                            taskType={taskType}
+                            datasetName={datasetName}
+                        />
+                    </CardContent>
+                </Card>
+            )}
       </div>
     </TooltipProvider>
   );
