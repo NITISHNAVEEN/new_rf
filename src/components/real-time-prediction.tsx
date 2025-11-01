@@ -85,58 +85,6 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
   const trees = predictionResult?.forestSimulation?.trees;
   const currentTree = trees ? trees[selectedTreeIndex] : null;
 
-  const renderDecisionTrees = () => {
-    if (isPredicting) {
-        return (
-            <div className="flex items-center justify-center h-48">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-        );
-    }
-    if (!trees || trees.length === 0) {
-        return (
-            <div className="flex items-center justify-center h-48 text-muted-foreground">
-                {descriptions.idleText}
-            </div>
-        );
-    }
-
-    // If 3 or fewer trees, show them all in a grid
-    if (trees.length <= 3) {
-        return (
-            <div className={`grid grid-cols-1 md:grid-cols-${trees.length} gap-4`}>
-                {trees.map((tree, index) => (
-                    <Card key={index} className="flex flex-col">
-                        <CardHeader>
-                            <CardTitle className="text-base">Tree {tree.id}</CardTitle>
-                        </CardHeader>
-                        <CardContent className="flex-1 border rounded-lg p-2 h-[400px] overflow-auto">
-                            <DecisionTreeSnapshot tree={tree.tree} taskType={taskType} />
-                        </CardContent>
-                    </Card>
-                ))}
-            </div>
-        );
-    }
-
-    // If more than 3 trees, show a single tree with a slider
-    return (
-        <div className="space-y-4">
-            <Slider
-                value={[selectedTreeIndex]}
-                onValueChange={([value]) => setSelectedTreeIndex(value)}
-                min={0}
-                max={trees.length - 1}
-                step={1}
-            />
-            <div className="border rounded-lg p-2 h-[400px] overflow-auto">
-                {currentTree && <DecisionTreeSnapshot tree={currentTree.tree} taskType={taskType} />}
-            </div>
-        </div>
-    );
-};
-
-
   return (
     <TooltipProvider>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -259,7 +207,47 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
                      )}
                 </CardHeader>
                 <CardContent>
-                     {renderDecisionTrees()}
+                    {isPredicting && (
+                        <div className="flex items-center justify-center h-48">
+                            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                        </div>
+                    )}
+                    {!isPredicting && trees && trees.length > 0 && (
+                        <>
+                            {trees.length <= 3 ? (
+                                <div className={`grid grid-cols-1 md:grid-cols-${trees.length} gap-4`}>
+                                    {trees.map((tree, index) => (
+                                        <Card key={index} className="flex flex-col">
+                                            <CardHeader>
+                                                <CardTitle className="text-base">Tree {tree.id}</CardTitle>
+                                            </CardHeader>
+                                            <CardContent className="flex-1 border rounded-lg p-2 h-[400px] overflow-auto">
+                                                <DecisionTreeSnapshot tree={tree.tree} taskType={taskType} />
+                                            </CardContent>
+                                        </Card>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="space-y-4">
+                                    <Slider
+                                        value={[selectedTreeIndex]}
+                                        onValueChange={([value]) => setSelectedTreeIndex(value)}
+                                        min={0}
+                                        max={trees.length - 1}
+                                        step={1}
+                                    />
+                                    <div className="border rounded-lg p-2 h-[400px] overflow-auto">
+                                        {currentTree && <DecisionTreeSnapshot tree={currentTree.tree} taskType={taskType} />}
+                                    </div>
+                                </div>
+                            )}
+                        </>
+                    )}
+                     {!isPredicting && (!trees || trees.length === 0) && (
+                        <div className="flex items-center justify-center h-48 text-muted-foreground">
+                            {descriptions.idleText}
+                        </div>
+                     )}
                 </CardContent>
             </Card>
 
