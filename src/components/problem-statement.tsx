@@ -42,6 +42,9 @@ export function ProblemStatement({ metadata, datasetName }: ProblemStatementProp
                                 <p className="text-muted-foreground">
                                     {metadata.story}
                                 </p>
+                                <p className="text-muted-foreground mt-2">
+                                    Hover over the graphs and toolkits with the circular help symbol to see the output and description respectively.
+                                </p>
                             </div>
                             <CollapsibleTrigger asChild>
                                 <Button variant="link" className="p-0 h-auto mt-4 self-start">
