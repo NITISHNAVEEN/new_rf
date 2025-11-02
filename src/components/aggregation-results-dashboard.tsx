@@ -133,7 +133,11 @@ export function AggregationResultsDashboard({ simulationData, taskType, isLoadin
                                 <YAxis />
                                 <RechartsTooltip 
                                     cursor={{ fill: 'hsl(var(--accent))' }} 
-                                    contentStyle={{ backgroundColor: 'hsl(var(--background))', border: '1px solid hsl(var(--border))' }}
+                                    contentStyle={{ 
+                                      backgroundColor: 'hsl(var(--background))', 
+                                      border: '1px solid hsl(var(--border))',
+                                      borderRadius: 'calc(var(--radius) - 4px)'
+                                    }}
                                 />
                                 <Bar dataKey="votes" fill="hsl(var(--primary))">
                                     {voteData.map((entry, index) => (
@@ -221,7 +225,11 @@ export function AggregationResultsDashboard({ simulationData, taskType, isLoadin
                   <XAxis dataKey="id" label={{ value: 'Tree ID', position: 'insideBottom', offset: -5 }} />
                   <YAxis label={{ value: 'Prediction', angle: -90, position: 'insideLeft' }} />
                   <RechartsTooltip
-                      contentStyle={{ backgroundColor: 'hsl(var(--background))', border: '1px solid hsl(var(--border))' }}
+                      contentStyle={{ 
+                        backgroundColor: 'hsl(var(--background))', 
+                        border: '1px solid hsl(var(--border))',
+                        borderRadius: 'calc(var(--radius) - 4px)'
+                      }}
                       formatter={(value: number, name, props) => [`${value.toFixed(3) ?? ''}`, `Tree ${props.payload.id}`]}
                       cursor={{ fill: 'hsl(var(--accent))' }}
                   />

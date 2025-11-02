@@ -43,7 +43,11 @@ export function PredictionContributionChart({ prediction, taskType, datasetName 
                         <YAxis tick={{ fontSize: 10 }} />
                         <RechartsTooltip
                             cursor={{ fill: 'hsl(var(--accent))' }}
-                            contentStyle={{ backgroundColor: 'hsl(var(--background))', border: '1px solid hsl(var(--border))' }}
+                            contentStyle={{ 
+                              backgroundColor: 'hsl(var(--background))', 
+                              border: '1px solid hsl(var(--border))',
+                              borderRadius: 'calc(var(--radius) - 4px)'
+                            }}
                             formatter={(value: number) => [value.toFixed(3), 'Prediction']}
                         />
                         <Bar dataKey="prediction" fill="hsl(var(--primary))" />
@@ -79,7 +83,11 @@ export function PredictionContributionChart({ prediction, taskType, datasetName 
                     <YAxis type="category" dataKey="name" tick={{ fontSize: 10 }} width={80} />
                     <RechartsTooltip
                         cursor={{ fill: 'hsl(var(--accent))' }}
-                        contentStyle={{ backgroundColor: 'hsl(var(--background))', border: '1px solid hsl(var(--border))' }}
+                        contentStyle={{ 
+                          backgroundColor: 'hsl(var(--background))', 
+                          border: '1px solid hsl(var(--border))',
+                          borderRadius: 'calc(var(--radius) - 4px)'
+                        }}
                     />
                     <Bar dataKey="votes" fill="hsl(var(--primary))" name="Tree Votes">
                         <LabelList dataKey="votes" position="right" style={{ fill: "hsl(var(--foreground))" }} />
