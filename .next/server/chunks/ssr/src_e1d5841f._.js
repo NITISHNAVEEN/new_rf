@@ -362,7 +362,12 @@ const generateForestSimulation = (state, seed)=>{
         if (task === 'regression') {
             prediction = 1 + pseudoRandom(treeSeed + 1) * 4;
         } else {
-            prediction = pseudoRandom(treeSeed + 2) > 0.4 ? 1 : 0;
+            if (hyperparameters.n_estimators === 3 && i === 2) {
+                // For baseline with 3 trees, make the last one different
+                prediction = pseudoRandom(treeSeed + 2) > 0.4 ? 0 : 1;
+            } else {
+                prediction = pseudoRandom(treeSeed + 2) > 0.4 ? 1 : 0;
+            }
         }
         return {
             id: i,
