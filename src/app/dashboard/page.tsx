@@ -330,7 +330,7 @@ export default function DashboardPage() {
             <Image src="/logo.png" alt="Logo" width={400} height={400} />
             <h3 className="text-2xl font-bold tracking-tight mb-2">Welcome to Forest Insights</h3>
             <p className="text-muted-foreground mb-4">
-              Train a baseline model or adjust parameters in the sidebar to begin.
+              Train a baseline model or adjust parameters in the sidebar to begin to learn <span className="font-bold text-primary">Random Forest</span> through visualisation.
             </p>
             <Button onClick={actions.trainBaselineModel}>
               Train Baseline Model
