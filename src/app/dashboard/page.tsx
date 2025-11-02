@@ -443,7 +443,7 @@ export default function DashboardPage() {
                                       <TooltipTrigger asChild>
                                         <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
                                       </TooltipTrigger>
-                                      <TooltipContent side="top" className="max-w-xs">
+                                      <TooltipContent side="bottom" className="max-w-xs">
                                         <p>This table summarizes the performance of the classification model. It shows how many predictions were correct versus incorrect for each class.</p>
                                       </TooltipContent>
                                     </Tooltip>

@@ -4171,6 +4171,7 @@ __turbopack_context__.s({
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$bot$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Bot$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/bot.js [app-client] (ecmascript) <export default as Bot>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/loader-circle.js [app-client] (ecmascript) <export default as Loader2>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$brain$2d$circuit$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__BrainCircuit$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/brain-circuit.js [app-client] (ecmascript) <export default as BrainCircuit>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$3a$25cc9d__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$text$2f$javascript$3e$__ = __turbopack_context__.i("[project]/src/lib/data:25cc9d [app-client] (ecmascript) <text/javascript>");
@@ -4180,9 +4181,11 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$s
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/button.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$toast$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/hooks/use-toast.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/utils.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tooltip$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/tooltip.tsx [app-client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
 'use client';
+;
 ;
 ;
 ;
@@ -4233,7 +4236,7 @@ function ExplainPrediction({ prediction, featureNames, taskType, isLoading, card
                             children: "Predicted Value:"
                         }, void 0, false, {
                             fileName: "[project]/src/components/explain-prediction.tsx",
-                            lineNumber: 57,
+                            lineNumber: 58,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -4241,13 +4244,13 @@ function ExplainPrediction({ prediction, featureNames, taskType, isLoading, card
                             children: prediction.prediction
                         }, void 0, false, {
                             fileName: "[project]/src/components/explain-prediction.tsx",
-                            lineNumber: 58,
+                            lineNumber: 59,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/explain-prediction.tsx",
-                    lineNumber: 56,
+                    lineNumber: 57,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4258,7 +4261,7 @@ function ExplainPrediction({ prediction, featureNames, taskType, isLoading, card
                             children: "Actual Value:"
                         }, void 0, false, {
                             fileName: "[project]/src/components/explain-prediction.tsx",
-                            lineNumber: 61,
+                            lineNumber: 62,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -4266,19 +4269,19 @@ function ExplainPrediction({ prediction, featureNames, taskType, isLoading, card
                             children: prediction.actual
                         }, void 0, false, {
                             fileName: "[project]/src/components/explain-prediction.tsx",
-                            lineNumber: 62,
+                            lineNumber: 63,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/explain-prediction.tsx",
-                    lineNumber: 60,
+                    lineNumber: 61,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/explain-prediction.tsx",
-            lineNumber: 55,
+            lineNumber: 56,
             columnNumber: 7
         }, this);
     };
@@ -4293,19 +4296,56 @@ function ExplainPrediction({ prediction, featureNames, taskType, isLoading, card
                             className: "w-5 h-5"
                         }, void 0, false, {
                             fileName: "[project]/src/components/explain-prediction.tsx",
-                            lineNumber: 71,
-                            columnNumber: 56
+                            lineNumber: 73,
+                            columnNumber: 13
                         }, this),
-                        "AI Prediction Explanation"
+                        "AI Prediction Explanation",
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tooltip$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Tooltip"], {
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tooltip$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TooltipTrigger"], {
+                                    asChild: true,
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$bot$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Bot$3e$__["Bot"], {
+                                        className: "h-4 w-4 text-muted-foreground cursor-help"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/explain-prediction.tsx",
+                                        lineNumber: 77,
+                                        columnNumber: 20
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/explain-prediction.tsx",
+                                    lineNumber: 76,
+                                    columnNumber: 17
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tooltip$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TooltipContent"], {
+                                    side: "bottom",
+                                    className: "max-w-xs",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                        children: "Uses a generative AI model to explain the most recent prediction from the test set, highlighting which features were most influential."
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/explain-prediction.tsx",
+                                        lineNumber: 80,
+                                        columnNumber: 21
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/explain-prediction.tsx",
+                                    lineNumber: 79,
+                                    columnNumber: 17
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/components/explain-prediction.tsx",
+                            lineNumber: 75,
+                            columnNumber: 14
+                        }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/explain-prediction.tsx",
-                    lineNumber: 71,
+                    lineNumber: 72,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/explain-prediction.tsx",
-                lineNumber: 70,
+                lineNumber: 71,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -4313,7 +4353,7 @@ function ExplainPrediction({ prediction, featureNames, taskType, isLoading, card
                     className: "h-10 w-full"
                 }, void 0, false, {
                     fileName: "[project]/src/components/explain-prediction.tsx",
-                    lineNumber: 75,
+                    lineNumber: 87,
                     columnNumber: 13
                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Dialog"], {
                     children: [
@@ -4326,12 +4366,12 @@ function ExplainPrediction({ prediction, featureNames, taskType, isLoading, card
                                 children: "Explain Latest Prediction"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/explain-prediction.tsx",
-                                lineNumber: 79,
+                                lineNumber: 91,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/explain-prediction.tsx",
-                            lineNumber: 78,
+                            lineNumber: 90,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DialogContent"], {
@@ -4342,12 +4382,12 @@ function ExplainPrediction({ prediction, featureNames, taskType, isLoading, card
                                         children: "AI-Powered Explanation"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/explain-prediction.tsx",
-                                        lineNumber: 85,
+                                        lineNumber: 97,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/explain-prediction.tsx",
-                                    lineNumber: 84,
+                                    lineNumber: 96,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4358,7 +4398,7 @@ function ExplainPrediction({ prediction, featureNames, taskType, isLoading, card
                                             children: "Here is an explanation for the first prediction from the latest model run."
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/explain-prediction.tsx",
-                                            lineNumber: 88,
+                                            lineNumber: 100,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4366,7 +4406,7 @@ function ExplainPrediction({ prediction, featureNames, taskType, isLoading, card
                                             children: getPredictionDetails()
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/explain-prediction.tsx",
-                                            lineNumber: 92,
+                                            lineNumber: 104,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -4377,21 +4417,21 @@ function ExplainPrediction({ prediction, featureNames, taskType, isLoading, card
                                                     className: "mr-2 h-4 w-4 animate-spin"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/explain-prediction.tsx",
-                                                    lineNumber: 97,
+                                                    lineNumber: 109,
                                                     columnNumber: 38
                                                 }, this),
                                                 explanation ? 'Re-explain' : 'Explain'
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/explain-prediction.tsx",
-                                            lineNumber: 96,
+                                            lineNumber: 108,
                                             columnNumber: 17
                                         }, this),
                                         isExplaining && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Skeleton"], {
                                             className: "h-24 w-full"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/explain-prediction.tsx",
-                                            lineNumber: 101,
+                                            lineNumber: 113,
                                             columnNumber: 34
                                         }, this),
                                         explanation && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4399,36 +4439,36 @@ function ExplainPrediction({ prediction, featureNames, taskType, isLoading, card
                                             children: explanation
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/explain-prediction.tsx",
-                                            lineNumber: 103,
+                                            lineNumber: 115,
                                             columnNumber: 21
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/explain-prediction.tsx",
-                                    lineNumber: 87,
+                                    lineNumber: 99,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/explain-prediction.tsx",
-                            lineNumber: 83,
+                            lineNumber: 95,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/explain-prediction.tsx",
-                    lineNumber: 77,
+                    lineNumber: 89,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/explain-prediction.tsx",
-                lineNumber: 73,
+                lineNumber: 85,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/explain-prediction.tsx",
-        lineNumber: 69,
+        lineNumber: 70,
         columnNumber: 5
     }, this);
 }
@@ -11309,7 +11349,7 @@ function DashboardPage() {
                                                                                     columnNumber: 39
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tooltip$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TooltipContent"], {
-                                                                                    side: "top",
+                                                                                    side: "bottom",
                                                                                     className: "max-w-xs",
                                                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                                                         children: "This table summarizes the performance of the classification model. It shows how many predictions were correct versus incorrect for each class."

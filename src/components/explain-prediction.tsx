@@ -10,6 +10,7 @@ import { Button } from './ui/button';
 import type { Prediction, TaskType } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
 interface ExplainPredictionProps {
   prediction?: Prediction;
@@ -68,7 +69,18 @@ export function ExplainPrediction({ prediction, featureNames, taskType, isLoadin
   return (
     <Card className={cn(cardClassName)}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2"><BrainCircuit className="w-5 h-5" />AI Prediction Explanation</CardTitle>
+        <CardTitle className="flex items-center gap-2">
+            <BrainCircuit className="w-5 h-5" />
+            AI Prediction Explanation
+             <Tooltip>
+                <TooltipTrigger asChild>
+                   <Bot className="h-4 w-4 text-muted-foreground cursor-help" />
+                </TooltipTrigger>
+                <TooltipContent side="bottom" className="max-w-xs">
+                    <p>Uses a generative AI model to explain the most recent prediction from the test set, highlighting which features were most influential.</p>
+                </TooltipContent>
+            </Tooltip>
+        </CardTitle>
       </CardHeader>
       <CardContent>
         {isLoading && !prediction ? (
@@ -112,5 +124,3 @@ export function ExplainPrediction({ prediction, featureNames, taskType, isLoadin
     </Card>
   );
 }
-
-    
