@@ -1284,6 +1284,10 @@ body {
   border-radius: calc(var(--radius)  - 4px);
 }
 
+.rounded {
+  border-radius: .25rem;
+}
+
 .border {
   border-width: 1px;
 }
@@ -1445,6 +1449,10 @@ body {
 
 .bg-transparent {
   background-color: #0000;
+}
+
+.bg-background\/80 {
+  background-color: hsl(var(--background) / .8);
 }
 
 .fill-current {

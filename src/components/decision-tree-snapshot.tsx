@@ -160,8 +160,11 @@ export function DecisionTreeSnapshot({ tree, taskType }: { tree: DecisionTree | 
     }
     
     return (
-        <div className="relative w-full h-full font-sans overflow-auto p-4">
-             <div className="absolute bottom-4 right-4 z-10 flex gap-2">
+        <div className="relative w-full h-full font-sans">
+             <div className="absolute bottom-4 right-4 z-10 flex items-center gap-2">
+                <span className="text-sm font-medium bg-background/80 px-2 py-1 rounded">
+                    {Math.round(zoom * 100)}%
+                </span>
                 <Button variant="outline" size="icon" onClick={() => setZoom(z => Math.max(0.2, z - 0.1))}>
                     <ZoomOut className="h-4 w-4" />
                 </Button>
@@ -169,14 +172,16 @@ export function DecisionTreeSnapshot({ tree, taskType }: { tree: DecisionTree | 
                     <ZoomIn className="h-4 w-4" />
                 </Button>
             </div>
-            <TooltipProvider>
-                <div 
-                    className="flex justify-center w-fit min-w-full mx-auto transition-transform duration-300"
-                    style={{ transform: `scale(${zoom})`, transformOrigin: 'top center' }}
-                >
-                    <TreeBranch node={tree} taskType={taskType} />
-                </div>
-            </TooltipProvider>
+            <div className='w-full h-full overflow-auto'>
+                <TooltipProvider>
+                    <div 
+                        className="flex justify-center w-fit min-w-full mx-auto p-4 transition-transform duration-300"
+                        style={{ transform: `scale(${zoom})`, transformOrigin: 'top center' }}
+                    >
+                        <TreeBranch node={tree} taskType={taskType} />
+                    </div>
+                </TooltipProvider>
+            </div>
         </div>
     );
 }
