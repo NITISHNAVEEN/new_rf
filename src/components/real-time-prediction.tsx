@@ -190,6 +190,50 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
                 <CardHeader>
                     <CardTitle className='flex items-center gap-2'>
                       <GitMerge className='w-5 h-5' />
+                      Individual Tree Contributions
+                    </CardTitle>
+                     {isPredicting ? (
+                        <CardDescription>Generating prediction contributions...</CardDescription>
+                     ) : trees && trees.length > 0 ? (
+                        <CardDescription>
+                           {taskType === 'classification' 
+                            ? `See the voting of each tree out of ${trees.length} trees.`
+                            : `See the individual prediction from each of the ${trees.length} trees and how they contribute to the final average.`
+                           }
+                        </CardDescription>
+                     ) : (
+                        <CardDescription>
+                           Click "Predict" to see individual tree contributions.
+                        </CardDescription>
+                     )}
+                </CardHeader>
+                <CardContent className="flex items-center justify-center">
+                    {isPredicting && (
+                        <div className="flex items-center justify-center h-48">
+                            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                        </div>
+                    )}
+                    {!isPredicting && trees && trees.length > 0 && (
+                        <div className="w-full">
+                            <PredictionContributionChart
+                                prediction={predictionResult}
+                                taskType={taskType}
+                                datasetName={datasetName}
+                            />
+                        </div>
+                    )}
+                     {!isPredicting && (!trees || trees.length === 0) && (
+                        <div className="flex items-center justify-center h-48 text-muted-foreground">
+                            {descriptions.idleText}
+                        </div>
+                     )}
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle className='flex items-center gap-2'>
+                      <GitMerge className='w-5 h-5' />
                       Decision Tree Visualization
                     </CardTitle>
                      {isPredicting ? (
@@ -241,17 +285,6 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
                                     )
                                 ))}
                             </div>
-                            
-                            {trees.length >= 3 && (
-                                <div className="mt-8">
-                                    <h3 className="text-lg font-semibold mb-2">Individual Tree Contributions</h3>
-                                     <PredictionContributionChart
-                                        prediction={predictionResult}
-                                        taskType={taskType}
-                                        datasetName={datasetName}
-                                    />
-                                </div>
-                            )}
                         </>
                     )}
                      {!isPredicting && (!trees || trees.length === 0) && (
@@ -265,6 +298,3 @@ export function RealTimePrediction({ features, taskType, isLoading, onPredict, d
     </TooltipProvider>
   );
 }
-
-
-

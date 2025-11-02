@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Bar, BarChart, XAxis, YAxis, ResponsiveContainer, Tooltip as RechartsTooltip, ReferenceLine, Cell } from 'recharts';
+import { Bar, BarChart, XAxis, YAxis, ResponsiveContainer, Tooltip as RechartsTooltip, ReferenceLine, Cell, LabelList } from 'recharts';
 import { Prediction, TaskType } from '@/lib/types';
 
 interface PredictionContributionChartProps {
@@ -38,7 +38,7 @@ export function PredictionContributionChart({ prediction, taskType, datasetName 
         return (
             <div className="h-[200px] w-full">
                 <ResponsiveContainer>
-                    <BarChart data={chartData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
+                    <BarChart data={chartData} margin={{ top: 5, right: 30, left: -10, bottom: 5 }}>
                         <XAxis dataKey="name" tick={{ fontSize: 10 }} />
                         <YAxis tick={{ fontSize: 10 }} />
                         <RechartsTooltip
@@ -72,9 +72,9 @@ export function PredictionContributionChart({ prediction, taskType, datasetName 
     }));
 
     return (
-        <div className="h-[200px] w-full">
+        <div className="h-[120px] w-full">
             <ResponsiveContainer>
-                <BarChart data={voteData} layout="vertical" margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                <BarChart data={voteData} layout="vertical" margin={{ top: 5, right: 30, left: 10, bottom: 5 }}>
                     <XAxis type="number" tick={{ fontSize: 10 }} />
                     <YAxis type="category" dataKey="name" tick={{ fontSize: 10 }} width={80} />
                     <RechartsTooltip
@@ -82,6 +82,7 @@ export function PredictionContributionChart({ prediction, taskType, datasetName 
                         contentStyle={{ backgroundColor: 'hsl(var(--background))', border: '1px solid hsl(var(--border))' }}
                     />
                     <Bar dataKey="votes" fill="hsl(var(--primary))" name="Tree Votes">
+                        <LabelList dataKey="votes" position="right" style={{ fill: "hsl(var(--foreground))" }} />
                         {voteData.map((entry, index) => (
                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
