@@ -42,7 +42,7 @@ export function ProblemStatement({ metadata, datasetName }: ProblemStatementProp
                                 <p className="text-muted-foreground">
                                     {metadata.story}
                                 </p>
-                                <p className="text-muted-foreground mt-2">
+                                <p className="text-foreground mt-2 font-semibold">
                                     Hover over the graphs and toolkits with the circular help symbol to see the output and description respectively.
                                 </p>
                             </div>
