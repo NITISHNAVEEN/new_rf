@@ -5,43 +5,12 @@ import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Responsive
 import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 import type { DatasetMetadata, FeatureImportance } from '@/lib/types';
 import { Tooltip as UiTooltip, TooltipContent as UiTooltipContent, TooltipProvider, TooltipTrigger as UiTooltipTrigger } from '@/components/ui/tooltip';
-import { HelpCircle } from 'lucide-react';
 
 interface FeatureImportanceChartProps {
   tunedData: FeatureImportance[];
   baselineData: FeatureImportance[];
   metadata: DatasetMetadata | null;
 }
-
-const CustomYAxisTick = (props: any) => {
-    const { x, y, payload, metadata } = props;
-    const featureName = payload.value;
-    const description = metadata?.attributes[featureName]?.description;
-
-    return (
-        <g transform={`translate(${x},${y})`}>
-            <UiTooltip delayDuration={100}>
-                <UiTooltipTrigger asChild>
-                     <text x={-25} y={4} textAnchor="end" fill="hsl(var(--foreground))" className="text-xs cursor-pointer flex items-center">
-                        {featureName}
-                    </text>
-                </UiTooltipTrigger>
-                 {description && (
-                    <UiTooltipContent side="right" className="max-w-xs">
-                        <p className='font-bold'>{featureName}</p>
-                        <p>{description}</p>
-                    </UiTooltipContent>
-                 )}
-            </UiTooltip>
-             {description && (
-                <foreignObject x={-20} y={-5} width={16} height={16}>
-                    <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
-                </foreignObject>
-            )}
-        </g>
-    );
-};
-
 
 export function FeatureImportanceChart({ tunedData, baselineData, metadata }: FeatureImportanceChartProps) {
   
@@ -57,13 +26,12 @@ export function FeatureImportanceChart({ tunedData, baselineData, metadata }: Fe
 
   return (
     <div className="h-[250px] md:h-[350px]">
-      <TooltipProvider>
         <ChartContainer config={{}} className="h-full w-full">
           <ResponsiveContainer>
           <BarChart
             data={combinedData}
             layout="vertical"
-            margin={{ left: 120, right: 30, top: 20, bottom: 20 }}
+            margin={{ left: 100, right: 30, top: 20, bottom: 20 }}
           >
             <CartesianGrid horizontal={false} strokeDasharray="3 3" />
             <XAxis type="number" />
@@ -72,9 +40,9 @@ export function FeatureImportanceChart({ tunedData, baselineData, metadata }: Fe
               type="category"
               tickLine={false}
               axisLine={false}
-              tick={<CustomYAxisTick metadata={metadata} />}
+              tick={{ fontSize: 12, width: 150 }}
               interval={0}
-              width={100}
+              width={110}
             />
             <Tooltip cursor={{ fill: 'hsl(var(--accent))' }} content={<ChartTooltipContent />} />
             <Legend />
@@ -83,7 +51,6 @@ export function FeatureImportanceChart({ tunedData, baselineData, metadata }: Fe
           </BarChart>
           </ResponsiveContainer>
         </ChartContainer>
-      </TooltipProvider>
     </div>
   );
 }
