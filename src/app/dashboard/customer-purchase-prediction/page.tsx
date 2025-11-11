@@ -1,8 +1,7 @@
-
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,7 +10,15 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
+  CardDescription,
 } from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   ArrowLeft,
   Sparkles,
@@ -20,11 +27,11 @@ import {
   ShieldCheck,
   BarChart,
   Info,
-  ArrowDown,
   User,
-  BadgeDollarSign,
-  School,
+  Wallet,
+  GraduationCap,
   Star,
+  ArrowDown,
 } from 'lucide-react';
 import {
   Tooltip,
@@ -32,29 +39,23 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
+import { useRouter } from 'next/navigation';
 
-type CustomerDetails = {
-  age: 'Youth' | 'Middle Aged' | 'Senior';
-  income: 'High' | 'Medium' | 'Low';
-  student: 'Yes' | 'No';
-  creditRating: 'Fair' | 'Excellent';
+type CustomerInfo = {
+  age: 'youth' | 'middle_aged' | 'senior';
+  income: 'high' | 'medium' | 'low';
+  student: 'yes' | 'no';
+  credit_rating: 'fair' | 'excellent';
 };
 
 type TreeNodeProps = {
   condition: string;
   isPath?: boolean;
   isLeaf?: boolean;
-  result?: 'Buy' | 'Don\'t Buy';
+  result?: 'Buys' | 'Doesn\'t Buy';
   children?: React.ReactNode;
 };
 
@@ -72,9 +73,9 @@ const TreeNode = ({
         {
           'border-primary bg-primary/10': isPath,
           'border-destructive bg-destructive/10':
-            isLeaf && result === 'Don\'t Buy' && isPath,
+            isLeaf && result === 'Doesn\'t Buy' && isPath,
           'border-green-500 bg-green-500/10':
-            isLeaf && result === 'Buy' && isPath,
+            isLeaf && result === 'Buys' && isPath,
         }
       )}
     >
@@ -89,30 +90,30 @@ const TreeNode = ({
 );
 
 type DecisionTreeProps = {
-  conditions: CustomerDetails | null;
+  customerInfo: CustomerInfo | null;
   treeId: number;
   isActive: boolean;
 };
 
-const DecisionTree = ({ conditions, treeId, isActive }: DecisionTreeProps) => {
+const DecisionTree = ({ customerInfo, treeId, isActive }: DecisionTreeProps) => {
   const [paths, setPaths] = React.useState<string[]>([]);
   const seed = treeId;
-  const conditionOptions = ['age', 'student', 'creditRating', 'income'];
+  const conditionOptions = ['age', 'income', 'student', 'credit_rating'];
   const op1 = conditionOptions[seed % 4];
   const op2 = conditionOptions[(seed + 1) % 4];
   const op3 = conditionOptions[(seed + 2) % 4];
 
   React.useEffect(() => {
-    if (isActive && conditions) {
+    if (isActive && customerInfo) {
       let currentPath: string[] = ['root'];
 
       const checkCondition = (op: string) => {
-        const val = conditions[op as keyof CustomerDetails];
+        const val = customerInfo[op as keyof CustomerInfo];
         const seedValue = (seed + op.length);
-        if (op === 'age') return val === ['Youth', 'Middle Aged', 'Senior'][seedValue % 3];
-        if (op === 'student') return val === 'Yes';
-        if (op === 'creditRating') return val === 'Excellent';
-        if (op === 'income') return val === ['High', 'Medium', 'Low'][seedValue % 3];
+        if (op === 'age') return val === ['youth', 'middle_aged', 'senior'][seedValue % 3];
+        if (op === 'income') return val === ['high', 'medium', 'low'][seedValue % 3];
+        if (op === 'student') return val === (seedValue % 2 === 0 ? 'yes' : 'no');
+        if (op === 'credit_rating') return val === (seedValue % 2 === 0 ? 'excellent' : 'fair');
         return false;
       };
 
@@ -135,20 +136,20 @@ const DecisionTree = ({ conditions, treeId, isActive }: DecisionTreeProps) => {
     } else if (!isActive) {
       setPaths([]);
     }
-  }, [isActive, conditions, treeId, op1, op2, op3, seed]);
+  }, [isActive, customerInfo, treeId, op1, op2, op3, seed]);
 
   const isPath = (id: string) => isActive && paths.includes(id);
 
   const getConditionString = (op: string) => {
     const seedValue = (seed + op.length);
-    if (op === 'age') return `Age is ${['Youth', 'Mid-Age', 'Senior'][seedValue % 3]}?`;
-    if (op === 'student') return 'Is a Student?';
-    if (op === 'creditRating') return 'Credit is Excellent?';
-    if (op === 'income') return `Income is ${['High', 'Med', 'Low'][seedValue % 3]}?`;
+     if (op === 'age') return `Age is ${['Youth', 'M. Aged', 'Senior'][seedValue % 3]}?`;
+    if (op === 'income') return `Income is ${['High', 'Medium', 'Low'][seedValue % 3]}?`;
+    if (op === 'student') return `Is Student?`;
+    if (op === 'credit_rating') return `Credit is ${['Excellent', 'Fair'][seedValue % 2]}?`;
     return '';
   };
   
-  const getResult = (pathSeed: number) => (pathSeed % 3 === 0 ? 'Don\'t Buy' : 'Buy');
+  const getResult = (pathSeed: number) => (pathSeed % 3 === 0 ? 'Doesn\'t Buy' : 'Buys');
 
   return (
     <TreeNode condition={getConditionString(op1)} isPath={isPath('root')}>
@@ -185,57 +186,57 @@ const DecisionTree = ({ conditions, treeId, isActive }: DecisionTreeProps) => {
 
 export default function PredictPage() {
   const router = useRouter();
-  const [conditions, setConditions] = React.useState<CustomerDetails>({
-    age: 'Youth',
-    income: 'Medium',
-    student: 'No',
-    creditRating: 'Fair',
+  const [customerInfo, setCustomerInfo] = React.useState<CustomerInfo>({
+    age: 'youth',
+    income: 'medium',
+    student: 'no',
+    credit_rating: 'fair',
   });
-  const [conditionsForPrediction, setConditionsForPrediction] = React.useState<CustomerDetails | null>(null);
+  const [infoForPrediction, setInfoForPrediction] = React.useState<CustomerInfo | null>(null);
   const [isMounted, setIsMounted] = React.useState(false);
   const [isPredicting, setIsPredicting] = React.useState(false);
-  const [prediction, setPrediction] = React.useState<'Buy' | 'Don\'t Buy' | null>(null);
-  const [treeResults, setTreeResults] = React.useState<('Buy' | 'Don\'t Buy')[]>([]);
+  const [prediction, setPrediction] = React.useState<'Buys' | 'Doesn\'t Buy' | null>(null);
+  const [treeResults, setTreeResults] = React.useState<('Buys' | 'Doesn\'t Buy')[]>([]);
   const [numTrees, setNumTrees] = useState(3);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  const handleInputChange = (field: keyof CustomerDetails, value: string) => {
-    setConditions((prev) => ({ ...prev, [field]: value as any }));
+  const handleInputChange = (field: keyof CustomerInfo, value: string) => {
+    setCustomerInfo((prev) => ({ ...prev, [field]: value as any }));
     reset();
   };
 
   const handlePredict = () => {
     setIsPredicting(true);
-    setConditionsForPrediction(conditions);
+    setInfoForPrediction(customerInfo);
   };
 
   React.useEffect(() => {
-    if (isPredicting && conditionsForPrediction) {
+    if (isPredicting && infoForPrediction) {
       const timeoutId = setTimeout(() => {
-        const results: ('Buy' | 'Don\'t Buy')[] = [];
+        const results: ('Buys' | 'Doesn\'t Buy')[] = [];
         for (let i = 1; i <= numTrees; i++) {
           const seed = i;
-          const conditionOptions = ['age', 'student', 'creditRating', 'income'];
+          const conditionOptions = ['age', 'income', 'student', 'credit_rating'];
           const op1 = conditionOptions[seed % 4];
           const op2 = conditionOptions[(seed + 1) % 4];
           const op3 = conditionOptions[(seed + 2) % 4];
 
           const checkCondition = (op: string) => {
-            const val = conditionsForPrediction[op as keyof CustomerDetails];
+            const val = infoForPrediction[op as keyof CustomerInfo];
             const seedValue = (seed + op.length);
-            if (op === 'age') return val === ['Youth', 'Middle Aged', 'Senior'][seedValue % 3];
-            if (op === 'student') return val === 'Yes';
-            if (op === 'creditRating') return val === 'Excellent';
-            if (op === 'income') return val === ['High', 'Medium', 'Low'][seedValue % 3];
+            if (op === 'age') return val === ['youth', 'middle_aged', 'senior'][seedValue % 3];
+            if (op === 'income') return val === ['high', 'medium', 'low'][seedValue % 3];
+            if (op === 'student') return val === (seedValue % 2 === 0 ? 'yes' : 'no');
+            if (op === 'credit_rating') return val === (seedValue % 2 === 0 ? 'excellent' : 'fair');
             return false;
           };
 
-          const getResult = (pathSeed: number) => (pathSeed % 3 === 0 ? 'Don\'t Buy' : 'Buy');
+          const getResult = (pathSeed: number) => (pathSeed % 3 === 0 ? 'Doesn\'t Buy' : 'Buys');
 
-          let result: 'Buy' | 'Don\'t Buy';
+          let result: 'Buys' | 'Doesn\'t Buy';
           if (checkCondition(op1)) {
             if (checkCondition(op2)) {
               result = getResult(seed + 1);
@@ -254,8 +255,8 @@ export default function PredictPage() {
 
         setTreeResults(results);
 
-        const playCount = results.filter((r) => r === 'Buy').length;
-        const finalPrediction = playCount >= numTrees / 2 ? 'Buy' : 'Don\'t Buy';
+        const playCount = results.filter((r) => r === 'Buys').length;
+        const finalPrediction = playCount >= numTrees / 2 ? 'Buys' : 'Doesn\'t Buy';
 
         setPrediction(finalPrediction);
         setIsPredicting(false);
@@ -263,59 +264,80 @@ export default function PredictPage() {
 
       return () => clearTimeout(timeoutId);
     }
-  }, [isPredicting, conditionsForPrediction, numTrees]);
+  }, [isPredicting, infoForPrediction, numTrees]);
 
   const reset = () => {
     setPrediction(null);
     setTreeResults([]);
-    setConditionsForPrediction(null);
+    setInfoForPrediction(null);
   };
 
   const allFieldsFilled =
-    conditions.age && conditions.income && conditions.student && conditions.creditRating;
+    customerInfo.age && customerInfo.income && customerInfo.student && customerInfo.credit_rating;
 
   if (!isMounted) {
     return null;
   }
 
-  const buyVotes = prediction ? treeResults.filter((r) => r === 'Buy').length : 0;
+  const buyVotes = prediction ? treeResults.filter((r) => r === 'Buys').length : 0;
   const dontBuyVotes = prediction ? treeResults.length - buyVotes : 0;
 
   const customerInputs = [
-    { id: 'age', field: 'age', label: 'Age Group', icon: User, tooltip: 'The age group of the customer.', options: ['Youth', 'Middle Aged', 'Senior'] },
-    { id: 'income', field: 'income', label: 'Income Level', icon: BadgeDollarSign, tooltip: 'The income level of the customer.', options: ['High', 'Medium', 'Low'] },
-    { id: 'student', field: 'student', label: 'Is Student?', icon: School, tooltip: 'Whether the customer is a student.', options: ['Yes', 'No'] },
-    { id: 'creditRating', field: 'creditRating', label: 'Credit Rating', icon: Star, tooltip: 'The customer\'s credit rating.', options: ['Fair', 'Excellent'] },
+    {
+      id: 'age',
+      field: 'age',
+      label: 'Age Group',
+      icon: User,
+      tooltip: 'The age group of the customer.',
+      options: ['youth', 'middle_aged', 'senior'],
+    },
+    {
+      id: 'income',
+      field: 'income',
+      label: 'Income Level',
+      icon: Wallet,
+      tooltip: 'The income level of the customer.',
+      options: ['high', 'medium', 'low'],
+    },
+    {
+      id: 'student',
+      field: 'student',
+      label: 'Is a Student?',
+      icon: GraduationCap,
+      tooltip: 'Whether the customer is a student.',
+      options: ['yes', 'no'],
+    },
+    { id: 'credit_rating', field: 'credit_rating', label: 'Credit Rating', icon: Star, tooltip: 'The customer\'s credit rating.', options: ['fair', 'excellent'] },
   ];
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <header className="sticky top-0 z-30 flex items-center h-16 px-4 border-b bg-header-background/80 backdrop-blur-sm" style={{ backgroundColor: '#2563EB' }}>
+      <header className="sticky top-0 z-30 flex items-center h-16 px-4 border-b bg-primary/10 backdrop-blur-sm">
         <Button variant="ghost" size="icon" onClick={() => router.back()}>
-            <ArrowLeft className="w-5 h-5 text-white" />
+            <ArrowLeft className="w-5 h-5" />
         </Button>
-        <h1 className="ml-4 text-xl font-semibold text-white">Customer Purchase Prediction</h1>
+        <h1 className="ml-4 text-xl font-semibold">Customer Purchase Prediction</h1>
       </header>
       <main className="flex-1 p-4 md:p-6 flex flex-col items-center">
         <div className="w-full max-w-4xl mx-auto">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold tracking-tight text-foreground">Customer Details</h2>
+            <h2 className="text-3xl font-bold tracking-tight text-foreground">Customer Profile</h2>
             <p className="mt-2 text-lg text-muted-foreground">
-              Enter the customer's details to predict if they will buy a computer.
+              Select the customer's attributes to predict if they will buy a computer.
             </p>
           </div>
           <TooltipProvider>
-            <Card className="bg-blue-50/20 dark:bg-blue-900/10 border-blue-200/50 shadow-sm">
+            <Card className="bg-yellow-50/20 dark:bg-yellow-900/10 border-yellow-200/50 shadow-sm">
               <CardContent className="p-6 grid md:grid-cols-2 gap-8 items-center">
                 <div className="w-full h-full rounded-lg overflow-hidden flex items-center justify-center">
-                    <Image
-                        src="https://t4.ftcdn.net/jpg/05/66/23/59/360_F_566235954_3pNPfH3SgvKkE1SIUgLdYpL22M1GZhrP.jpg"
-                        alt="Customer with laptop"
-                        width={400}
-                        height={400}
-                        data-ai-hint="customer shopping computer"
-                        className="object-cover rounded-md"
-                    />
+                  <Image
+                    src="https://www.compu2nd.in/blog/big_img/5947bdcfb309b00e8a65189626dc7377600.jpeg"
+                    alt="Computer Shop"
+                    width={400}
+                    height={400}
+                    data-ai-hint="computer shop"
+                    className="object-cover rounded-md"
+                  />
                 </div>
                 <div className="space-y-6">
                   {customerInputs.map(
@@ -341,8 +363,8 @@ export default function PredictPage() {
                             </Tooltip>
                           </div>
                           <Select
-                            value={conditions[field as keyof CustomerDetails]}
-                            onValueChange={(value) => handleInputChange(field as keyof CustomerDetails, value)}
+                            value={customerInfo[field as keyof CustomerInfo]}
+                            onValueChange={(value) => handleInputChange(field as keyof CustomerInfo, value)}
                           >
                             <SelectTrigger id={id} className="bg-background/80 capitalize">
                               <SelectValue placeholder={`Select ${label}`} />
@@ -350,7 +372,7 @@ export default function PredictPage() {
                             <SelectContent>
                               {options.map((option) => (
                                 <SelectItem key={option} value={option} className="capitalize">
-                                  {option}
+                                  {option.replace('_', ' ')}
                                 </SelectItem>
                               ))}
                             </SelectContent>
@@ -409,9 +431,9 @@ export default function PredictPage() {
                   </CardHeader>
                   <CardContent className="flex justify-center p-4 min-h-[150px]">
                     <DecisionTree
-                      conditions={conditionsForPrediction}
+                      customerInfo={infoForPrediction}
                       treeId={i + 1}
-                      isActive={!!conditionsForPrediction}
+                      isActive={!!infoForPrediction}
                     />
                   </CardContent>
                   {prediction && treeResults.length > 0 && (
@@ -419,8 +441,8 @@ export default function PredictPage() {
                       Prediction:{' '}
                       <span
                         className={cn('font-bold ml-1', {
-                          'text-destructive': treeResults[i] === 'Don\'t Buy',
-                          'text-green-500': treeResults[i] === 'Buy',
+                          'text-destructive': treeResults[i] === 'Doesn\'t Buy',
+                          'text-green-500': treeResults[i] === 'Buys',
                         })}
                       >
                         {treeResults[i] || '...'}
@@ -446,8 +468,8 @@ export default function PredictPage() {
                         <div key={index} className="flex flex-col items-center space-y-2 flex-shrink-0">
                           <div
                             className={cn(
-                              'w-16 h-16 rounded-full flex items-center justify-center text-center text-white font-bold shadow-lg p-1',
-                               result === 'Don\'t Buy' ? 'bg-destructive text-xs' : 'bg-green-500 text-sm'
+                              'w-16 h-16 rounded-full flex items-center justify-center text-center text-white font-bold text-xs shadow-lg p-1',
+                              result === 'Doesn\'t Buy' ? 'bg-destructive' : 'bg-green-500'
                             )}
                           >
                            {result}
@@ -457,8 +479,8 @@ export default function PredictPage() {
                           </span>
                            <span
                             className={cn('font-bold ml-1 text-sm', {
-                              'text-destructive': result === 'Don\'t Buy',
-                              'text-green-500': result === 'Buy',
+                              'text-destructive': result === 'Doesn\'t Buy',
+                              'text-green-500': result === 'Buys',
                             })}
                           >
                             {result}
@@ -482,8 +504,8 @@ export default function PredictPage() {
                       </div>
                       <div
                         className={cn(
-                          'w-24 h-24 rounded-full flex items-center justify-center text-white font-bold shadow-xl text-center p-2',
-                          prediction === 'Don\'t Buy' ? 'bg-destructive text-lg' : 'bg-green-500 text-xl'
+                          'w-24 h-24 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-xl text-center p-2',
+                          prediction === 'Doesn\'t Buy' ? 'bg-destructive' : 'bg-green-500'
                         )}
                       >
                        {prediction}
@@ -492,8 +514,8 @@ export default function PredictPage() {
                         Final Result:{' '}
                         <span
                           className={cn({
-                            'text-destructive': prediction === 'Don\'t Buy',
-                            'text-green-500': prediction === 'Buy',
+                            'text-destructive': prediction === 'Doesn\'t Buy',
+                            'text-green-500': prediction === 'Buys',
                           })}
                         >
                           {prediction}
@@ -545,14 +567,14 @@ export default function PredictPage() {
                       className={cn(
                         'w-full text-center font-semibold text-lg',
                         {
-                          'text-destructive': prediction === 'Don\'t Buy',
-                          'text-green-500': prediction === 'Buy',
+                          'text-destructive': prediction === 'Doesn\'t Buy',
+                          'text-green-500': prediction === 'Buys',
                         }
                       )}
                     >
-                      {prediction === 'Don\'t Buy'
-                        ? 'This collective approach gives higher confidence in the "Don\'t Buy" prediction.'
-                        : 'This collective approach gives higher confidence in the "Buy" prediction.'}
+                      {prediction === 'Doesn\'t Buy'
+                        ? 'This collective approach gives higher confidence in the "Doesn\'t Buy" prediction.'
+                        : 'This collective approach gives higher confidence in the "Buys" prediction.'}
                     </p>
                   </CardFooter>
                 </Card>
@@ -564,5 +586,3 @@ export default function PredictPage() {
     </div>
   );
 }
-
-    

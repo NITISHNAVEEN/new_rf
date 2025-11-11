@@ -1428,10 +1428,6 @@ body {
   border-color: #fef08a80;
 }
 
-.border-blue-200\/50 {
-  border-color: #bfdbfe80;
-}
-
 .border-l-transparent {
   border-left-color: #0000;
 }
@@ -1594,10 +1590,6 @@ body {
 
 .bg-yellow-50\/20 {
   background-color: #fefce833;
-}
-
-.bg-blue-50\/20 {
-  background-color: #eff6ff33;
 }
 
 .bg-gradient-to-t {
@@ -3043,10 +3035,6 @@ body {
 
 .dark\:bg-yellow-900\/10:is(.dark *) {
   background-color: #713f121a;
-}
-
-.dark\:bg-blue-900\/10:is(.dark *) {
-  background-color: #1e3a8a1a;
 }
 
 .dark\:text-blue-400:is(.dark *) {
