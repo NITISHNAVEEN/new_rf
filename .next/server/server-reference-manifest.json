@@ -2,12 +2,17 @@
   "node": {
     "40c87b95e9c8a6aba346d19dffd2e61fe92eba1bfd": {
       "workers": {
+        "app/dashboard/customer-purchase-data/page": {
+          "moduleId": "[project]/.next-internal/server/app/dashboard/customer-purchase-data/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        },
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },
       "layer": {
+        "app/dashboard/customer-purchase-data/page": "action-browser",
         "app/dashboard/page": "action-browser"
       }
     },
