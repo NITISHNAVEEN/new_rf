@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import {
@@ -234,6 +234,7 @@ const DecisionTree = ({ vitals, treeId, isActive }: DecisionTreeProps) => {
 };
 
 export default function PredictPage() {
+  const router = useRouter();
   const [vitals, setVitals] = React.useState<Vitals>({
     bloodPressure: '120',
     cholesterol: '200',
@@ -391,11 +392,9 @@ export default function PredictPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <header className="sticky top-0 z-30 flex items-center h-16 px-4 border-b bg-header-background/80 backdrop-blur-sm">
-        <Link href="/dashboard">
-          <Button variant="ghost" size="icon">
+        <Button variant="ghost" size="icon" onClick={() => router.back()}>
             <ArrowLeft className="w-5 h-5" />
-          </Button>
-        </Link>
+        </Button>
         <h1 className="ml-4 text-xl font-semibold">
           Heart Attack Prediction
         </h1>
