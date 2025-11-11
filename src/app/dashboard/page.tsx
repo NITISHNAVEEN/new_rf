@@ -266,6 +266,7 @@ export default function DashboardPage() {
   const { state, data, status, actions, availableDatasets } = useRandomForest();
   const isLoading = status === 'loading';
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [numTrees, setNumTrees] = useState(3);
 
   const descriptions = domainSpecificText[state.datasetName as keyof typeof domainSpecificText] || domainSpecificText.default;
   const metricDescriptions = descriptions.metrics;
@@ -776,8 +777,6 @@ export default function DashboardPage() {
   };
   
   const renderHeartAttackPredictionPage = () => {
-    const [numTrees, setNumTrees] = useState(3);
-
     const onSubmit = (values: FormValues) => {
         console.log(values);
         // Here you would call the prediction logic
