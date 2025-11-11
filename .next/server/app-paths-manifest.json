@@ -1,7 +1,4 @@
 {
-  "/dashboard/customer-purchase-data/page": "app/dashboard/customer-purchase-data/page.js",
-  "/dashboard/customer-purchase-prediction/page": "app/dashboard/customer-purchase-prediction/page.js",
-  "/dashboard/heart-attack-prediction/page": "app/dashboard/heart-attack-prediction/page.js",
   "/dashboard/page": "app/dashboard/page.js",
   "/page": "app/page.js"
 }
