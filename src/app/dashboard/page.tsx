@@ -773,21 +773,25 @@ export default function DashboardPage() {
 
   return (
     <>
-      <Sidebar collapsible="icon" side="left" variant="inset">
-        <DashboardSidebar
-          state={state}
-          actions={actions}
-          status={status}
-          datasetHeaders={Object.keys(data.dataset?.[0] ?? {})}
-          availableDatasets={availableDatasets}
-        />
-      </Sidebar>
+      {state.userLevel === 'advanced' && (
+        <Sidebar collapsible="icon" side="left" variant="inset">
+            <DashboardSidebar
+            state={state}
+            actions={actions}
+            status={status}
+            datasetHeaders={Object.keys(data.dataset?.[0] ?? {})}
+            availableDatasets={availableDatasets}
+            />
+        </Sidebar>
+      )}
       <SidebarInset className="flex flex-col">
         <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 mb-4">
           <div className="flex items-center gap-2">
-            <SidebarTrigger className={cn("md:hidden", state.userLevel === 'beginner' && 'hidden')} >
-              <PanelLeft />
-            </SidebarTrigger>
+            {state.userLevel === 'advanced' && (
+                <SidebarTrigger className="md:hidden">
+                    <PanelLeft />
+                </SidebarTrigger>
+            )}
             <div className="flex items-center gap-2">
                 <Image src="/logo.png" alt="Logo" width={32} height={32} />
                 <h1 className="text-2xl font-semibold">Forest Insights</h1>

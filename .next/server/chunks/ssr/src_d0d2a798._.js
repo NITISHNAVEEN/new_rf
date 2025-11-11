@@ -182,7 +182,7 @@ const getInitialStateForTask = (task, datasetName)=>{
 };
 const initialState = {
     ...getInitialStateForTask('classification', 'wine-quality'),
-    userLevel: 'advanced'
+    userLevel: 'beginner'
 };
 const reducer = (state, action)=>{
     switch(action.type){
@@ -203,7 +203,7 @@ const reducer = (state, action)=>{
         case 'SET_DATASET':
             {
                 const selectedDataset = Object.values(DATASETS).flat().find((d)=>d.value === action.payload) ?? DATASETS[state.task][0];
-                const newTask = Object.keys(DATASETS.classification).some((key)=>DATASETS.classification[key].value === action.payload) ? 'classification' : 'regression';
+                const newTask = Object.keys(DATASETS.classification).some((key)=>DATASETS.classification.some((d)=>d.value === action.payload)) ? 'classification' : 'regression';
                 const allHeaders = Object.keys(selectedDataset.data[0] ?? {});
                 const targetColumn = selectedDataset.target;
                 const selectedFeatures = allHeaders.filter((h)=>h !== targetColumn);
