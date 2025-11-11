@@ -391,13 +391,13 @@ export default function DashboardPage() {
             </RadioGroup>
         </div>
 
-        <div className="mt-12 w-full max-w-4xl">
+        <div className="mt-12 w-full max-w-5xl">
             <h2 className="text-2xl font-bold">Choose Your Role</h2>
             <p className="mt-2 text-muted-foreground">Select a persona to see how different professionals can benefit from this powerful algorithm.</p>
             <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
                 {roles.map((role) => (
                     <Card key={role.name} className="flex flex-col text-left overflow-hidden hover:shadow-xl transition-shadow">
-                        <div className="relative h-40 w-full">
+                        <div className="relative h-48 w-full">
                             <Image src={role.image} alt={`${role.name} icon`} layout="fill" objectFit="cover" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                             <h3 className="absolute bottom-4 left-4 text-2xl font-bold text-white">{role.name}</h3>

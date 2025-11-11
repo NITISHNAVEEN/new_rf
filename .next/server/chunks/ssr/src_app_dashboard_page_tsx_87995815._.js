@@ -437,21 +437,21 @@ function DashboardPage() {
         const roles = [
             {
                 name: 'Doctor',
-                image: '/doctor.png',
+                image: 'https://st.depositphotos.com/1006318/3172/i/950/depositphotos_31727769-stock-photo-medical-team-doctor-man-and.jpg',
                 description: 'Doctors can predict heart attack risk using random forest rather than considering complex numerous features.',
                 dataset: 'breast-cancer',
                 role: 'doctor'
             },
             {
                 name: 'Sports Coach',
-                image: '/sport.png',
+                image: 'https://st5.depositphotos.com/62628780/62449/i/450/depositphotos_624490934-stock-photo-sports-tennis-black-couple-tennis.jpg',
                 description: 'Coach can decide a good day to play tennis without worrying about the factors which influence play.',
                 dataset: 'linnerud',
                 role: 'coach'
             },
             {
                 name: 'Computer Seller',
-                image: '/computer.png',
+                image: 'https://t4.ftcdn.net/jpg/05/66/23/59/360_F_566235954_3pNPfH3SgvKkE1SIUgLdYpL22M1GZhrP.jpg',
                 description: 'Computer seller can predict whether the customer will buy a computer or not.',
                 dataset: 'wine-quality',
                 role: 'seller'
@@ -539,7 +539,7 @@ function DashboardPage() {
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "mt-12 w-full max-w-4xl",
+                    className: "mt-12 w-full max-w-5xl",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                             className: "text-2xl font-bold",
@@ -563,7 +563,7 @@ function DashboardPage() {
                                     className: "flex flex-col text-left overflow-hidden hover:shadow-xl transition-shadow",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "relative h-40 w-full",
+                                            className: "relative h-48 w-full",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                                     src: role.image,
