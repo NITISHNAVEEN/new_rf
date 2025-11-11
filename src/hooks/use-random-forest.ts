@@ -342,9 +342,9 @@ const generatePdpData = (features: string[], dataset: Record<string, any>[], tas
     return pdp;
 };
 
-const generateForestSimulation = (state: Omit<State, 'userLevel' | 'selectedRole' | 'showSyntheticData' | 'showHeartAttackPrediction'>, seed: number): ForestSimulation => {
+const generateForestSimulation = (state: Omit<State, 'userLevel' | 'selectedRole' | 'showSyntheticData' | 'showHeartAttackPrediction'>, seed: number, numTreesOverride?: number): ForestSimulation => {
     const { selectedFeatures, task, hyperparameters } = state;
-    const numTrees = hyperparameters.n_estimators;
+    const numTrees = numTreesOverride ?? hyperparameters.n_estimators;
 
     const trees: TreeSimulation[] = Array.from({ length: numTrees }, (_, i) => {
         const treeSeed = seed + i * 50;
@@ -461,14 +461,14 @@ const mockTrainModel = async (
 const mockPredict = (
     values: Record<string, number>,
     state: Omit<State, 'userLevel' | 'selectedRole' | 'showSyntheticData' | 'showHeartAttackPrediction'>,
+    numTrees: number
 ): Prediction => {
-  const { task, selectedFeatures } = state;
+  const { task } = state;
   const seedState = { ...state, selectedFeatures: Object.keys(values) };
   const seed = createSeed(seedState, 'predict');
   
-  const numTrees = state.hyperparameters.n_estimators;
   const individualPredictions: number[] = [];
-  const forestSimulation = generateForestSimulation(seedState, seed);
+  const forestSimulation = generateForestSimulation(seedState, seed, numTrees);
 
   for (let i = 0; i < numTrees; i++) {
     const treeSeed = seed + i;
@@ -477,8 +477,12 @@ const mockPredict = (
       const baseValue = Object.values(values).reduce((sum, v, i) => sum + v * pseudoRandom(treeSeed + i), 0) / (Object.keys(values).length || 1);
       treePrediction = (baseValue % 5) + pseudoRandom(treeSeed + 1) * (i % 5);
     } else {
-      const score = Object.values(values).reduce((sum, v, i) => sum + v * pseudoRandom(treeSeed + i), 0);
-      treePrediction = score > (50 + (pseudoRandom(treeSeed) - 0.5) * 20) ? 1 : 0;
+       // Simple logic for binary classification based on a "score"
+        const score = Object.values(values).reduce((sum, v) => sum + v, 0);
+        // Risky if score is "high"
+        const threshold = 400 + (pseudoRandom(treeSeed) * 50 - 25);
+        // Prediction is 0 for risky, 1 for risk less
+        treePrediction = score > threshold ? 0 : 1;
     }
     individualPredictions.push(treePrediction);
   }
@@ -487,9 +491,11 @@ const mockPredict = (
   if (task === 'regression') {
     finalPrediction = individualPredictions.reduce((a, b) => a + b, 0) / numTrees;
   } else {
-    const votes: { [key: number]: number } = { 0: 0, 1: 0 };
-    individualPredictions.forEach(p => { votes[p]++; });
-    finalPrediction = votes[1] > votes[0] ? 1 : 0;
+    const votes = individualPredictions.reduce((acc, p) => {
+        acc[p] = (acc[p] || 0) + 1;
+        return acc;
+    }, {} as Record<number, number>);
+    finalPrediction = (votes[1] || 0) >= (votes[0] || 0) ? 1 : 0;
   }
 
   return {
@@ -641,10 +647,10 @@ export const useRandomForest = () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [JSON.stringify(state.hyperparameters), state.testSize]);
     
-    const predict = useCallback(async (values: Record<string, number>): Promise<Prediction> => {
+    const predict = useCallback(async (values: Record<string, number>, numTrees: number): Promise<Prediction> => {
         await new Promise(res => setTimeout(res, 1000));
         const { userLevel, selectedRole, showSyntheticData, showHeartAttackPrediction, ...stateForPrediction } = state;
-        return mockPredict(values, stateForPrediction);
+        return mockPredict(values, stateForPrediction, numTrees);
     }, [state]);
 
   const actions = {

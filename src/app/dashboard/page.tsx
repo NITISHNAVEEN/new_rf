@@ -3,7 +3,7 @@
 'use client';
 
 import Image from 'next/image';
-import { TreePine, BarChart3, Target, PanelLeft, LineChart, BeakerIcon, AreaChart, Lightbulb, GitMerge, BrainCircuit, Activity, TestTube2, HelpCircle, BookOpen, HeartPulse, ShieldCheck, User, Laptop, ArrowLeft, Database, Zap, FileText, FlaskConical, Trees, ArrowRight, Info } from 'lucide-react';
+import { TreePine, BarChart3, Target, PanelLeft, LineChart, BeakerIcon, AreaChart, Lightbulb, GitMerge, BrainCircuit, Activity, TestTube2, HelpCircle, BookOpen, HeartPulse, ShieldCheck, User, Laptop, ArrowLeft, Database, Zap, FileText, FlaskConical, Trees, ArrowRight, Info, Package, Loader2 } from 'lucide-react';
 import { useRandomForest } from '@/hooks/use-random-forest';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -221,7 +221,7 @@ const domainSpecificText = {
     metrics: {
         accuracy: "What percentage of handwritten digits did the model correctly guess? It's the model's overall score.",
         precision: "When the model predicts a digit is a '7', how often is it actually a '7'? High precision means the model is very sure of its predictions.",
-        recall: "Out of all the handwritten '7's in the dataset, how many did the model find? High recall means the model is good at not missing any."
+        recall: "Of all the handwritten '7's in the dataset, how many did the model find? High recall means the model is good at not missing any."
     }
   },
   default: {
@@ -267,6 +267,9 @@ export default function DashboardPage() {
   const isLoading = status === 'loading';
   const [activeTab, setActiveTab] = useState('dashboard');
   const [numTrees, setNumTrees] = useState(3);
+  const [predictionResult, setPredictionResult] = useState<Prediction | null>(null);
+  const [isPredicting, setIsPredicting] = useState(false);
+  const [animationState, setAnimationState] = useState<'idle' | 'predicting' | 'finished'>('idle');
 
   const descriptions = domainSpecificText[state.datasetName as keyof typeof domainSpecificText] || domainSpecificText.default;
   const metricDescriptions = descriptions.metrics;
@@ -777,9 +780,16 @@ export default function DashboardPage() {
   };
   
   const renderHeartAttackPredictionPage = () => {
-    const onSubmit = (values: FormValues) => {
-        console.log(values);
-        // Here you would call the prediction logic
+    const onSubmit = async (values: FormValues) => {
+        setIsPredicting(true);
+        setAnimationState('predicting');
+        const result = await actions.predict(values as any, numTrees);
+        setPredictionResult(result);
+
+        setTimeout(() => {
+            setAnimationState('finished');
+            setIsPredicting(false);
+        }, 3000); // Duration of the animation
     };
 
     const inputFields = [
@@ -788,6 +798,12 @@ export default function DashboardPage() {
         { name: 'Heart Rate', icon: HeartPulse, placeholder: '75' },
         { name: 'Blood Sugar', icon: FlaskConical, placeholder: '99' }
     ];
+    
+    const handleRunNewPrediction = () => {
+        setAnimationState('idle');
+        setPredictionResult(null);
+        form.reset();
+    };
 
     return (
       <div className="flex-1 flex flex-col bg-slate-50 dark:bg-slate-900/50 rounded-lg">
@@ -798,10 +814,14 @@ export default function DashboardPage() {
           <h2 className="ml-4 text-xl font-semibold">Heart Attack Prediction</h2>
         </header>
         <main className="flex-1 p-6 md:p-10 flex flex-col items-center">
-          <h1 className="text-3xl font-bold tracking-tight">Patient Vitals Input</h1>
-          <p className="mt-2 text-muted-foreground">Enter the patient's vitals to predict the risk of a heart attack.</p>
-          
-          <Card className="mt-8 w-full max-w-4xl p-6">
+          {animationState !== 'finished' && (
+            <>
+              <h1 className="text-3xl font-bold tracking-tight">Patient Vitals Input</h1>
+              <p className="mt-2 text-muted-foreground">Enter the patient's vitals to predict the risk of a heart attack.</p>
+            </>
+          )}
+
+          <Card className={cn("mt-8 w-full max-w-4xl p-6 transition-opacity duration-500", animationState !== 'idle' && 'opacity-50 pointer-events-none')}>
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div className="relative w-full h-64 md:h-full rounded-lg overflow-hidden">
                 <Image
@@ -848,7 +868,7 @@ export default function DashboardPage() {
               </Form>
             </div>
           </Card>
-          <div className="mt-8 w-full max-w-xl space-y-4">
+          <div className={cn("mt-8 w-full max-w-xl space-y-4 transition-opacity duration-500", animationState !== 'idle' && 'opacity-50 pointer-events-none')}>
             <div className="flex justify-between items-center">
                 <Label>Number of Decision Trees: {numTrees}</Label>
             </div>
@@ -859,11 +879,60 @@ export default function DashboardPage() {
                 max={10}
                 step={1}
             />
-            <Button className="w-full bg-blue-600 hover:bg-blue-700" onClick={form.handleSubmit(onSubmit)}>
-                <Zap className="mr-2 h-4 w-4" />
-                Predict
+            <Button className="w-full bg-blue-600 hover:bg-blue-700" onClick={form.handleSubmit(onSubmit)} disabled={isPredicting}>
+                {isPredicting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Zap className="mr-2 h-4 w-4" />}
+                {isPredicting ? 'Predicting...' : 'Predict'}
             </Button>
           </div>
+          
+          {animationState === 'predicting' && (
+            <div className="w-full max-w-4xl mt-12 text-center">
+                <p className="text-muted-foreground mb-4">Feeding patient data to the Random Forest model...</p>
+                <div className="relative h-40">
+                    <Package className="absolute top-1/2 left-4 -translate-y-1/2 h-10 w-10 text-blue-500 animate-data-packet" />
+                    <div className="absolute top-1/2 right-4 -translate-y-1/2 flex gap-12">
+                        {[...Array(3)].map((_, i) => (
+                           <div key={i} className="flex flex-col items-center gap-2">
+                                <Trees className={cn("h-16 w-16 text-primary/50 animate-tree-process", `animation-delay-${i * 500}ms`)} />
+                                <span className="text-xs font-semibold">Tree {i + 1}</span>
+                           </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+          )}
+
+          {animationState === 'finished' && predictionResult && (
+            <div className="w-full max-w-4xl mt-12 text-center animate-fade-in">
+                <h2 className="text-2xl font-bold tracking-tight">Prediction Complete</h2>
+                <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+                     {predictionResult.individualPredictions?.slice(0, 3).map((pred, i) => (
+                        <Card key={i}>
+                            <CardHeader>
+                                <CardTitle>Decision Tree {i + 1}</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="p-4 bg-muted rounded-lg">
+                                    <p className="text-sm text-muted-foreground">Prediction</p>
+                                    <p className={cn("text-3xl font-bold", pred === 1 ? 'text-green-500' : 'text-red-500')}>
+                                        {pred === 1 ? 'Risk Less' : 'Risky'}
+                                    </p>
+                                </div>
+                            </CardContent>
+                        </Card>
+                     ))}
+                </div>
+                <div className="mt-8 p-4 bg-background rounded-lg border">
+                    <p className="text-muted-foreground">Final Prediction (Majority Vote)</p>
+                    <p className={cn("text-4xl font-bold", predictionResult.prediction === 1 ? 'text-green-600' : 'text-red-600')}>
+                        {predictionResult.prediction === 1 ? 'Risk Less' : 'Risky'}
+                    </p>
+                </div>
+                 <Button onClick={handleRunNewPrediction} className="mt-8">
+                    Run New Prediction
+                </Button>
+            </div>
+          )}
         </main>
       </div>
     );
