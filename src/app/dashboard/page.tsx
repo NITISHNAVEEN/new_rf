@@ -332,21 +332,21 @@ export default function DashboardPage() {
     const roles = [
       {
         name: 'Doctor',
-        image: '/doctor.png',
+        image: 'https://st.depositphotos.com/1006318/3172/i/950/depositphotos_31727769-stock-photo-medical-team-doctor-man-and.jpg',
         description: 'Doctors can predict heart attack risk using random forest rather than considering complex numerous features.',
         dataset: 'breast-cancer',
         role: 'doctor',
       },
       {
         name: 'Sports Coach',
-        image: '/sport.png',
+        image: 'https://st5.depositphotos.com/62628780/62449/i/450/depositphotos_624490934-stock-photo-sports-tennis-black-couple-tennis.jpg',
         description: 'Coach can decide a good day to play tennis without worrying about the factors which influence play.',
         dataset: 'linnerud',
         role: 'coach',
       },
       {
         name: 'Computer Seller',
-        image: '/computer.png',
+        image: 'https://t4.ftcdn.net/jpg/05/66/23/59/360_F_566235954_3pNPfH3SgvKkE1SIUgLdYpL22M1GZhrP.jpg',
         description: 'Computer seller can predict whether the customer will buy a computer or not.',
         dataset: 'wine-quality',
         role: 'seller',
