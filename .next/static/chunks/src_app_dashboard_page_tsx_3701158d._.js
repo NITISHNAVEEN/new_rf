@@ -3,7 +3,7 @@
     chunks: [
   "static/chunks/src_components_645db1de._.js",
   "static/chunks/src_app_dashboard_page_tsx_04fd597f._.js",
-  "static/chunks/src_29e9a846._.js",
+  "static/chunks/src_6d440fc9._.js",
   "static/chunks/node_modules_next_ad19fc41._.js",
   "static/chunks/node_modules_lodash_e693ce99._.js",
   "static/chunks/node_modules_recharts_es6_d4e6d450._.js",

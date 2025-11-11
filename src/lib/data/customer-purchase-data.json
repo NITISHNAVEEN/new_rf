@@ -1,0 +1,17 @@
+
+[
+    { "Age": "Youth", "Income": "High", "Student": "No", "Credit Rating": "Fair", "Buys Computer?": "No" },
+    { "Age": "Youth", "Income": "High", "Student": "No", "Credit Rating": "Excellent", "Buys Computer?": "No" },
+    { "Age": "Middle Aged", "Income": "High", "Student": "No", "Credit Rating": "Fair", "Buys Computer?": "Yes" },
+    { "Age": "Senior", "Income": "Medium", "Student": "No", "Credit Rating": "Fair", "Buys Computer?": "Yes" },
+    { "Age": "Senior", "Income": "Low", "Student": "Yes", "Credit Rating": "Fair", "Buys Computer?": "Yes" },
+    { "Age": "Senior", "Income": "Low", "Student": "Yes", "Credit Rating": "Excellent", "Buys Computer?": "No" },
+    { "Age": "Middle Aged", "Income": "Low", "Student": "Yes", "Credit Rating": "Excellent", "Buys Computer?": "Yes" },
+    { "Age": "Youth", "Income": "Medium", "Student": "No", "Credit Rating": "Fair", "Buys Computer?": "No" },
+    { "Age": "Youth", "Income": "Low", "Student": "Yes", "Credit Rating": "Fair", "Buys Computer?": "Yes" },
+    { "Age": "Senior", "Income": "Medium", "Student": "Yes", "Credit Rating": "Fair", "Buys Computer?": "Yes" },
+    { "Age": "Youth", "Income": "Medium", "Student": "Yes", "Credit Rating": "Excellent", "Buys Computer?": "Yes" },
+    { "Age": "Middle Aged", "Income": "Medium", "Student": "No", "Credit Rating": "Excellent", "Buys Computer?": "Yes" },
+    { "Age": "Middle Aged", "Income": "High", "Student": "Yes", "Credit Rating": "Fair", "Buys Computer?": "Yes" },
+    { "Age": "Senior", "Income": "Medium", "Student": "No", "Credit Rating": "Excellent", "Buys Computer?": "No" }
+]

@@ -154,3 +154,11 @@ export type TennisWeatherData = {
     "Wind": "Weak" | "Strong";
     "Play Tennis?": "No" | "Yes";
 };
+
+export type CustomerPurchaseData = {
+    "Age": "Youth" | "Middle Aged" | "Senior";
+    "Income": "High" | "Medium" | "Low";
+    "Student": "No" | "Yes";
+    "Credit Rating": "Fair" | "Excellent";
+    "Buys Computer?": "No" | "Yes";
+};
