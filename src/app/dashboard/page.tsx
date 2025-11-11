@@ -269,6 +269,24 @@ export default function DashboardPage() {
 
   const descriptions = domainSpecificText[state.datasetName as keyof typeof domainSpecificText] || domainSpecificText.default;
   const metricDescriptions = descriptions.metrics;
+  
+  const predictionFeatures = ['Blood Pressure', 'Cholesterol', 'Heart Rate', 'Blood Sugar'];
+  const formSchema = z.object(
+      predictionFeatures.reduce((acc, feature) => {
+          acc[feature.replace(/\s+/g, '')] = z.string().refine(val => !isNaN(parseFloat(val)), { message: "Must be a number" });
+          return acc;
+      }, {} as Record<string, z.ZodType<any, any>>)
+  );
+  type FormValues = z.infer<typeof formSchema>;
+  const form = useForm<FormValues>({
+      resolver: zodResolver(formSchema),
+      defaultValues: {
+          BloodPressure: '120',
+          Cholesterol: '200',
+          HeartRate: '75',
+          BloodSugar: '99',
+      }
+  });
 
   const renderKpiCards = (
     metrics: Metric | null,
@@ -758,24 +776,6 @@ export default function DashboardPage() {
   };
   
   const renderHeartAttackPredictionPage = () => {
-    const predictionFeatures = ['Blood Pressure', 'Cholesterol', 'Heart Rate', 'Blood Sugar'];
-    const formSchema = z.object(
-        predictionFeatures.reduce((acc, feature) => {
-            acc[feature.replace(/\s+/g, '')] = z.string().refine(val => !isNaN(parseFloat(val)), { message: "Must be a number" });
-            return acc;
-        }, {} as Record<string, z.ZodType<any, any>>)
-    );
-    type FormValues = z.infer<typeof formSchema>;
-    const form = useForm<FormValues>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            BloodPressure: '120',
-            Cholesterol: '200',
-            HeartRate: '75',
-            BloodSugar: '99',
-        }
-    });
-    
     const [numTrees, setNumTrees] = useState(3);
 
     const onSubmit = (values: FormValues) => {
