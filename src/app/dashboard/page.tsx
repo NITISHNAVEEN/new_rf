@@ -559,6 +559,74 @@ export default function DashboardPage() {
     );
   };
 
+  const renderSellerPortal = () => {
+    return (
+      <div className="flex-1 flex flex-col bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+        <header className="flex items-center h-16 px-6 border-b bg-blue-200 dark:bg-blue-800/20 rounded-t-lg">
+          <Button variant="ghost" size="icon" onClick={() => actions.setSelectedRole(null)}>
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+          <h2 className="ml-4 text-xl font-semibold">Seller Portal</h2>
+        </header>
+        <main className="flex-1 p-6 md:p-10 text-center">
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Do you wish to harness the magic wand of random <br/> forest to predict whether your customer will buy a computer?</h1>
+          <p className="mt-4 text-muted-foreground">We can surely help you out.</p>
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <Card className="text-left">
+              <CardHeader>
+                <div className="flex items-center gap-4">
+                  <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900/30">
+                    <BrainCircuit className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <CardTitle>Random Forest for Your Aid, Sir/Madam!</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">Just fill in some inputs to predict whether the customer is likely to buy a computer or not. Random forest algorithm can solve your problem by using various decision trees which gives you the best result.</p>
+                <Button 
+                  className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white"
+                  onClick={() => {
+                    setActiveTab('prediction');
+                    actions.setUserLevel('advanced');
+                    actions.trainBaselineModel();
+                  }}
+                >
+                  <Zap className="mr-2 h-4 w-4" />
+                  Predict Now
+                </Button>
+              </CardContent>
+            </Card>
+            <Card className="text-left">
+              <CardHeader>
+                <div className="flex items-center gap-4">
+                  <div className="p-3 rounded-full bg-slate-100 dark:bg-slate-800">
+                    <Database className="h-6 w-6 text-slate-600 dark:text-slate-400" />
+                  </div>
+                  <CardTitle>View Customer Dataset</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">Explore the sample customer data that our Random Forest model uses to make predictions.</p>
+                <Button 
+                  variant="outline" 
+                  className="mt-6 w-full"
+                  onClick={() => {
+                    setActiveTab('explore');
+                    actions.setUserLevel('advanced');
+                    actions.trainBaselineModel();
+                  }}
+                >
+                  <Database className="mr-2 h-4 w-4" />
+                  View Dataset
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </main>
+      </div>
+    );
+  };
+
 
   const renderContent = () => {
     if (state.userLevel === 'beginner') {
@@ -567,6 +635,9 @@ export default function DashboardPage() {
       }
       if (state.selectedRole === 'coach') {
         return renderCoachPortal();
+      }
+      if (state.selectedRole === 'seller') {
+        return renderSellerPortal();
       }
       return renderBeginnerPage();
     }
