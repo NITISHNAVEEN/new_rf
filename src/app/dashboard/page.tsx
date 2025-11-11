@@ -332,19 +332,19 @@ export default function DashboardPage() {
     const roles = [
       {
         name: 'Doctor',
-        icon: HeartPulse,
+        image: '/doctor.png',
         description: 'Doctors can predict heart attack risk using random forest rather than considering complex numerous features.',
         dataset: 'breast-cancer',
       },
       {
         name: 'Sports Coach',
-        icon: Target,
+        image: '/sport.png',
         description: 'Coach can decide a good day to play tennis without worrying about the factors which influence play.',
         dataset: 'linnerud',
       },
       {
         name: 'Computer Seller',
-        icon: Laptop,
+        image: '/computer.png',
         description: 'Computer seller can predict whether the customer will buy a computer or not.',
         dataset: 'wine-quality',
       }
@@ -395,8 +395,8 @@ export default function DashboardPage() {
                 {roles.map((role) => (
                     <Card key={role.name} className="text-center hover:shadow-xl transition-shadow">
                         <CardHeader>
-                            <div className="mx-auto bg-primary/10 rounded-full p-4 w-fit">
-                                <role.icon className="w-8 h-8 text-primary" />
+                            <div className="mx-auto bg-primary/10 rounded-full p-4 w-20 h-20 flex items-center justify-center">
+                                <Image src={role.image} alt={`${role.name} icon`} width={48} height={48} className="w-12 h-12" />
                             </div>
                             <CardTitle className='pt-2'>{role.name}</CardTitle>
                         </CardHeader>
