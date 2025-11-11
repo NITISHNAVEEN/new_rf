@@ -51,12 +51,12 @@ const SimpleDecisionTree = ({ tree, userInput }: { tree: any, userInput: Record<
                     {node.feature} &lt;= {node.threshold.toFixed(2)}?
                 </Badge>
                 <div className="flex justify-center w-full">
-                    <div className="w-1/2 flex flex-col items-center">
+                    <div className="w-1/2 flex flex-col items-center px-1">
                         <span className="text-xs text-muted-foreground">Yes</span>
                         <div className={cn("w-0.5 h-4 bg-muted-foreground my-1", pathTakenHere && pathDirection === 'left' && "bg-blue-500")}></div>
                         {renderNode(leftChild, depth + 1, pathTakenHere && pathDirection === 'left')}
                     </div>
-                    <div className="w-1/2 flex flex-col items-center">
+                    <div className="w-1/2 flex flex-col items-center px-1">
                         <span className="text-xs text-muted-foreground">No</span>
                         <div className={cn("w-0.5 h-4 bg-muted-foreground my-1", pathTakenHere && pathDirection === 'right' && "bg-blue-500")}></div>
                         {renderNode(rightChild, depth + 1, pathTakenHere && pathDirection === 'right')}
@@ -66,7 +66,7 @@ const SimpleDecisionTree = ({ tree, userInput }: { tree: any, userInput: Record<
         );
     };
 
-    return <div className="p-4">{renderNode(tree, 0, true)}</div>;
+    return <div className="p-2">{renderNode(tree, 0, true)}</div>;
 };
 
 
@@ -78,25 +78,25 @@ export const PredictionDetails = ({ predictionResult, userInput }: PredictionDet
     return (
         <div className="mt-8 w-full max-w-6xl">
             <h2 className="text-2xl font-bold tracking-tight mb-4 text-center">Prediction Details</h2>
-            <div className={`grid grid-cols-1 md:grid-cols-3 gap-4`}>
+            <div className="flex gap-4 overflow-x-auto pb-4">
                 {trees.map((tree) => {
                     const treePrediction = tree.prediction;
                     const treePredictionLabel = treePrediction === 1 ? 'Risk Less' : 'Risky';
                     
                     return (
-                        <Card key={tree.id}>
+                        <Card key={tree.id} className="min-w-[350px] flex flex-col">
                             <CardHeader>
                                 <CardTitle className="text-base">Tree {tree.id + 1}</CardTitle>
                             </CardHeader>
-                            <CardContent className="flex-1 border rounded-lg p-2 h-[300px] overflow-auto">
+                            <CardContent className="flex-1 flex flex-col justify-center border rounded-lg p-2 h-[300px] overflow-auto">
                                 <SimpleDecisionTree tree={tree.tree} userInput={userInput} />
-                                <div className='text-center pt-4 border-t'>
-                                    <span className='font-semibold'>Prediction: </span>
-                                    <span className={cn(treePredictionLabel === 'Risky' ? 'text-red-500' : 'text-green-500', 'font-bold')}>
-                                        {treePredictionLabel}
-                                    </span>
-                                </div>
                             </CardContent>
+                            <div className='text-center p-4 border-t'>
+                                <span className='font-semibold'>Prediction: </span>
+                                <span className={cn(treePredictionLabel === 'Risky' ? 'text-red-500' : 'text-green-500', 'font-bold')}>
+                                    {treePredictionLabel}
+                                </span>
+                            </div>
                         </Card>
                     );
                 })}
