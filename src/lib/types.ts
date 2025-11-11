@@ -130,3 +130,11 @@ export type Data = {
 };
 
 export type Role = 'doctor' | 'coach' | 'seller';
+
+export type SyntheticPatientData = {
+    "Blood Pressure (Systolic)": number;
+    "Cholesterol": number;
+    "Heart Rate": number;
+    "Blood Sugar": number;
+    "Risk": "risky" | "risk less";
+};

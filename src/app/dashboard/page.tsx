@@ -41,6 +41,10 @@ import { useState } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import patientData from '@/lib/data/synthetic-patient-data.json';
+
 
 const domainSpecificText = {
   'california-housing': {
@@ -475,9 +479,7 @@ export default function DashboardPage() {
                   variant="outline" 
                   className="mt-6 w-full"
                   onClick={() => {
-                    setActiveTab('explore');
-                    actions.setUserLevel('advanced');
-                    actions.trainBaselineModel();
+                    actions.setShowSyntheticData(true);
                   }}
                 >
                   <Database className="mr-2 h-4 w-4" />
@@ -626,9 +628,61 @@ export default function DashboardPage() {
       </div>
     );
   };
+  
+  const renderSyntheticDataPage = () => {
+    return (
+      <div className="flex-1 flex flex-col bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+        <header className="flex items-center h-16 px-6 border-b bg-red-200 dark:bg-red-800/20 rounded-t-lg">
+          <Button variant="ghost" size="icon" onClick={() => actions.setShowSyntheticData(false)}>
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+          <h2 className="ml-4 text-xl font-semibold">Synthetic Patient Dataset</h2>
+        </header>
+        <main className="flex-1 p-6 md:p-10">
+          <Card>
+            <CardHeader>
+              <CardTitle>Patient Data</CardTitle>
+              <CardDescription>This is the complete dataset used to train and test our prediction model.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Blood Pressure (Systolic)</TableHead>
+                    <TableHead>Cholesterol</TableHead>
+                    <TableHead>Heart Rate</TableHead>
+                    <TableHead>Blood Sugar</TableHead>
+                    <TableHead>Risk</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {patientData.map((patient, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{patient['Blood Pressure (Systolic)']}</TableCell>
+                      <TableCell>{patient.Cholesterol}</TableCell>
+                      <TableCell>{patient['Heart Rate']}</TableCell>
+                      <TableCell>{patient['Blood Sugar']}</TableCell>
+                      <TableCell>
+                        <Badge variant={patient.Risk === 'risky' ? 'destructive' : 'default'} className={patient.Risk === 'risky' ? '' : 'bg-green-500'}>
+                          {patient.Risk}
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </main>
+      </div>
+    );
+  };
 
 
   const renderContent = () => {
+     if (state.showSyntheticData) {
+      return renderSyntheticDataPage();
+    }
     if (state.userLevel === 'beginner') {
        if (state.selectedRole === 'doctor') {
         return renderDoctorPortal();

@@ -1,0 +1,73 @@
+
+[
+    {
+        "Blood Pressure (Systolic)": 150,
+        "Cholesterol": 250,
+        "Heart Rate": 90,
+        "Blood Sugar": 130,
+        "Risk": "risky"
+    },
+    {
+        "Blood Pressure (Systolic)": 118,
+        "Cholesterol": 190,
+        "Heart Rate": 72,
+        "Blood Sugar": 95,
+        "Risk": "risk less"
+    },
+    {
+        "Blood Pressure (Systolic)": 160,
+        "Cholesterol": 280,
+        "Heart Rate": 95,
+        "Blood Sugar": 150,
+        "Risk": "risky"
+    },
+    {
+        "Blood Pressure (Systolic)": 125,
+        "Cholesterol": 210,
+        "Heart Rate": 78,
+        "Blood Sugar": 105,
+        "Risk": "risk less"
+    },
+    {
+        "Blood Pressure (Systolic)": 135,
+        "Cholesterol": 225,
+        "Heart Rate": 82,
+        "Blood Sugar": 115,
+        "Risk": "risky"
+    },
+    {
+        "Blood Pressure (Systolic)": 115,
+        "Cholesterol": 185,
+        "Heart Rate": 68,
+        "Blood Sugar": 92,
+        "Risk": "risk less"
+    },
+    {
+        "Blood Pressure (Systolic)": 145,
+        "Cholesterol": 230,
+        "Heart Rate": 88,
+        "Blood Sugar": 120,
+        "Risk": "risky"
+    },
+    {
+        "Blood Pressure (Systolic)": 110,
+        "Cholesterol": 180,
+        "Heart Rate": 65,
+        "Blood Sugar": 90,
+        "Risk": "risk less"
+    },
+    {
+        "Blood Pressure (Systolic)": 170,
+        "Cholesterol": 290,
+        "Heart Rate": 100,
+        "Blood Sugar": 160,
+        "Risk": "risky"
+    },
+    {
+        "Blood Pressure (Systolic)": 122,
+        "Cholesterol": 205,
+        "Heart Rate": 75,
+        "Blood Sugar": 100,
+        "Risk": "risk less"
+    }
+]

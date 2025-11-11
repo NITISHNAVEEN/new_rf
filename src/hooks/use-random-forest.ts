@@ -1,4 +1,5 @@
 
+
 'use client';
 import { useState, useReducer, useCallback, useEffect } from 'react';
 import type {
@@ -57,7 +58,7 @@ const DATASETS: Record<TaskType, DatasetOption[]> = {
     ]
 };
 
-const getInitialStateForTask = (task: TaskType, datasetName: string): Omit<State, 'userLevel' | 'selectedRole'> => {
+const getInitialStateForTask = (task: TaskType, datasetName: string): Omit<State, 'userLevel' | 'selectedRole' | 'showSyntheticData'> => {
     const datasetOption = DATASETS[task].find(d => d.value === datasetName) ?? DATASETS[task][0];
     const dataset = datasetOption.data;
     const allHeaders = Object.keys(dataset[0] ?? {});
@@ -84,6 +85,7 @@ type State = {
   testSize: number;
   userLevel: UserLevel;
   selectedRole: string | null;
+  showSyntheticData: boolean;
 };
 
 type Data = {
@@ -113,12 +115,14 @@ type Action =
   | { type: 'SET_TARGET_COLUMN'; payload: string }
   | { type: 'SET_TEST_SIZE'; payload: number }
   | { type: 'SET_USER_LEVEL'; payload: UserLevel }
-  | { type: 'SET_SELECTED_ROLE'; payload: string | null };
+  | { type: 'SET_SELECTED_ROLE'; payload: string | null }
+  | { type: 'SET_SHOW_SYNTHETIC_DATA', payload: boolean };
 
 const initialState: State = {
     ...getInitialStateForTask('classification', 'wine-quality'),
     userLevel: 'beginner',
     selectedRole: null,
+    showSyntheticData: false,
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -168,6 +172,8 @@ const reducer = (state: State, action: Action): State => {
         return { ...state, userLevel: action.payload, selectedRole: null }; // Reset role on level change
     case 'SET_SELECTED_ROLE':
         return { ...state, selectedRole: action.payload };
+    case 'SET_SHOW_SYNTHETIC_DATA':
+        return { ...state, showSyntheticData: action.payload };
     default:
       return state;
   }
@@ -244,7 +250,7 @@ const generateMockTree = (
 };
 
 
-const createSeed = (state: Omit<State, 'userLevel' | 'selectedRole'>, salt: string = '') => {
+const createSeed = (state: Omit<State, 'userLevel' | 'selectedRole' | 'showSyntheticData'>, salt: string = '') => {
     let seed = 0;
     const str = JSON.stringify(state.hyperparameters) + state.testSize + state.targetColumn + state.task + state.datasetName + salt;
     for (let i = 0; i < str.length; i++) {
@@ -329,7 +335,7 @@ const generatePdpData = (features: string[], dataset: Record<string, any>[], tas
     return pdp;
 };
 
-const generateForestSimulation = (state: Omit<State, 'userLevel' | 'selectedRole'>, seed: number): ForestSimulation => {
+const generateForestSimulation = (state: Omit<State, 'userLevel' | 'selectedRole' | 'showSyntheticData'>, seed: number): ForestSimulation => {
     const { selectedFeatures, task, hyperparameters } = state;
     const numTrees = hyperparameters.n_estimators;
 
@@ -364,7 +370,7 @@ const generateForestSimulation = (state: Omit<State, 'userLevel' | 'selectedRole
 
 
 const mockTrainModel = async (
-  state: Omit<State, 'userLevel' | 'selectedRole'>,
+  state: Omit<State, 'userLevel' | 'selectedRole' | 'showSyntheticData'>,
   dataset: Record<string, any>[],
   isBaseline: boolean = false,
 ): Promise<Omit<Data, 'dataset' | 'insights' | 'baselineMetrics' | 'baselineFeatureImportance' | 'baselineChartData' | 'metadata' | 'placeholderValues'>> => {
@@ -447,7 +453,7 @@ const mockTrainModel = async (
 
 const mockPredict = (
     values: Record<string, number>,
-    state: Omit<State, 'userLevel' | 'selectedRole'>,
+    state: Omit<State, 'userLevel' | 'selectedRole' | 'showSyntheticData'>,
 ): Prediction => {
   const { task, selectedFeatures } = state;
   const seedState = { ...state, selectedFeatures: Object.keys(values) };
@@ -523,7 +529,7 @@ export const useRandomForest = () => {
       }
       setStatus('loading');
       try {
-        const { userLevel, selectedRole, ...stateForTraining } = state;
+        const { userLevel, selectedRole, showSyntheticData, ...stateForTraining } = state;
         const currentDataset = DATASETS[stateForTraining.task].find(d => d.value === stateForTraining.datasetName)?.data ?? [];
         
         const effectiveState = isBaseline ? { ...stateForTraining, hyperparameters: BASELINE_HYPERPARAMETERS } : stateForTraining;
@@ -630,7 +636,7 @@ export const useRandomForest = () => {
     
     const predict = useCallback(async (values: Record<string, number>): Promise<Prediction> => {
         await new Promise(res => setTimeout(res, 1000));
-        const { userLevel, selectedRole, ...stateForPrediction } = state;
+        const { userLevel, selectedRole, showSyntheticData, ...stateForPrediction } = state;
         return mockPredict(values, stateForPrediction);
     }, [state]);
 
@@ -643,6 +649,7 @@ export const useRandomForest = () => {
     setTestSize: handleStateChange('SET_TEST_SIZE'),
     setUserLevel: handleStateChange('SET_USER_LEVEL'),
     setSelectedRole: handleStateChange('SET_SELECTED_ROLE'),
+    setShowSyntheticData: handleStateChange('SET_SHOW_SYNTHETIC_DATA'),
     trainModel: () => trainModel(false),
     trainBaselineModel: () => trainModel(true),
     predict,
