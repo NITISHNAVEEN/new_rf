@@ -415,7 +415,7 @@ export default function PredictPage() {
               <CardContent className="p-6 grid md:grid-cols-2 gap-8 items-center">
                 <div className="w-full h-full rounded-lg overflow-hidden flex items-center justify-center">
                   <Image
-                    src="https://images.medicinenet.com/images/article/main_image/human-body.jpg"
+                    src="https://images.medicinenet.com/images/article/main_image/circulatory-system-pulmonary-hypertension-heart-illustration-rendering.jpg?output-quality=75"
                     alt="Human Body"
                     width={400}
                     height={400}
