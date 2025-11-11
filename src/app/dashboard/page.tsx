@@ -1,5 +1,3 @@
-
-
 'use client';
 
 import Image from 'next/image';
@@ -17,7 +15,7 @@ import { ConfusionMatrix } from '@/components/confusion-matrix';
 import { ExplainPrediction } from '@/components/explain-prediction';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Metric, RegressionMetric, ClassificationMetric, DatasetMetadata } from '@/lib/types';
+import { Metric, RegressionMetric, ClassificationMetric, DatasetMetadata, DecisionNode, LeafNode } from '@/lib/types';
 import { FeatureDistributionChart } from '@/components/feature-distribution-chart';
 import { CorrelationHeatmap } from '@/components/correlation-heatmap';
 import { SummaryStatistics } from '@/components/summary-statistics';
@@ -37,7 +35,7 @@ import { ForestVisualization } from '@/components/forest-visualization';
 import { AggregationResultsDashboard } from '@/components/aggregation-results-dashboard';
 import { ProblemStatement } from '@/components/problem-statement';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
@@ -779,17 +777,143 @@ export default function DashboardPage() {
     );
   };
   
+    const PredictionAnimation = ({ formValues, predictionResult }: { formValues: FormValues, predictionResult: Prediction | null }) => {
+        const [visibleTrees, setVisibleTrees] = useState(0);
+
+        useEffect(() => {
+            if (predictionResult) {
+                const timer1 = setTimeout(() => setVisibleTrees(1), 500);
+                const timer2 = setTimeout(() => setVisibleTrees(2), 1500);
+                const timer3 = setTimeout(() => setVisibleTrees(3), 2500);
+                return () => {
+                    clearTimeout(timer1);
+                    clearTimeout(timer2);
+                    clearTimeout(timer3);
+                };
+            } else {
+                setVisibleTrees(0);
+            }
+        }, [predictionResult]);
+        
+        if (!predictionResult || !predictionResult.forestSimulation) return null;
+
+        const SimpleDecisionTree = ({ tree, userInput }: { tree: DecisionNode | LeafNode, userInput: Record<string, number>}) => {
+            const renderNode = (node: DecisionNode | LeafNode, depth = 0): JSX.Element => {
+                const isLeaf = node.type === 'leaf';
+                
+                let evaluationResult: boolean | undefined = undefined;
+                if (!isLeaf) {
+                    const featureName = (node as DecisionNode).feature;
+                    const featureKey = featureName.replace(/\s+/g, '');
+                    const userValue = userInput[featureKey];
+                    if (userValue !== undefined) {
+                        evaluationResult = userValue <= (node as DecisionNode).threshold;
+                    }
+                }
+                
+                const nodeIsActive = (path: 'left' | 'right') => {
+                    if (evaluationResult === undefined) return false;
+                    return (path === 'left' && evaluationResult) || (path === 'right' && !evaluationResult);
+                }
+
+                const getLeafValue = (leafNode: LeafNode) => {
+                    return leafNode.value.indexOf(Math.max(...leafNode.value)) === 0 ? 'Risky' : 'Risk Less';
+                };
+
+                const isFinalPath = (n: DecisionNode | LeafNode): boolean => {
+                    if (n.type === 'leaf') return true;
+
+                    const featureName = (n as DecisionNode).feature;
+                    const featureKey = featureName.replace(/\s+/g, '');
+                    const userValue = userInput[featureKey];
+
+                     if (userValue === undefined) return false;
+
+                    const evaluation = userValue <= (n as DecisionNode).threshold;
+                    const child = evaluation ? (n as DecisionNode).children[0] : (n as DecisionNode).children[1];
+                    return isFinalPath(child);
+                };
+
+
+                if (isLeaf) {
+                     const isFinalLeaf = isFinalPath(node);
+                    return (
+                        <div className="flex flex-col items-center">
+                            <Badge variant="outline" className={cn("border-2", isFinalLeaf ? "border-red-500 text-red-500 font-bold" : "border-gray-300")}>
+                                {getLeafValue(node as LeafNode)}
+                            </Badge>
+                        </div>
+                    );
+                }
+        
+                return (
+                    <div className="flex flex-col items-center">
+                        <Badge className="bg-blue-100 text-blue-800 border-2 border-blue-400 hover:bg-blue-200">
+                            {(node as DecisionNode).feature} &lt;= {(node as DecisionNode).threshold.toFixed(2)}?
+                        </Badge>
+                        <div className="flex mt-2 w-full justify-center relative">
+                            <div className="absolute top-0 h-4 w-px bg-gray-300"></div>
+                            <div className={cn("absolute top-4 h-px w-1/2", nodeIsActive('left') ? 'bg-red-500' : 'bg-gray-300')}></div>
+                             <div className={cn("absolute top-4 h-px w-1/2 left-1/2", nodeIsActive('right') ? 'bg-red-500' : 'bg-gray-300')}></div>
+                        </div>
+                        <div className="flex mt-2 w-full justify-around pt-6 relative">
+                            <div className="absolute top-0 left-[25%] -translate-x-1/2 text-xs">Yes</div>
+                            <div className="absolute top-0 right-[25%] translate-x-1/2 text-xs">No</div>
+                            <div className="w-1/2 flex justify-center">
+                                {renderNode((node as DecisionNode).children[0], depth + 1)}
+                            </div>
+                            <div className="w-1/2 flex justify-center">
+                                {renderNode((node as DecisionNode).children[1], depth + 1)}
+                            </div>
+                        </div>
+                    </div>
+                );
+            };
+        
+            return renderNode(tree);
+        };
+
+
+        return (
+            <div className="w-full max-w-5xl mt-8 text-center animate-fade-in">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                    {predictionResult.forestSimulation.trees.slice(0, 3).map((treeSim, i) => (
+                        <div key={i} className={cn("transition-opacity duration-500", i < visibleTrees ? "opacity-100" : "opacity-0")}>
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Decision Tree {i + 1}</CardTitle>
+                                </CardHeader>
+                                <CardContent className="min-h-[200px] flex items-center justify-center">
+                                    <SimpleDecisionTree tree={treeSim.tree} userInput={form.getValues() as any} />
+                                </CardContent>
+                                <div className='text-center p-4 border-t'>
+                                    <span className='font-semibold'>Prediction: </span>
+                                    <span className={cn(treeSim.prediction === 0 ? 'text-red-500' : 'text-green-500', 'font-bold')}>
+                                        {treeSim.prediction === 0 ? 'Risky' : 'Risk Less'}
+                                    </span>
+                                </div>
+                            </Card>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    };
+
+
   const renderHeartAttackPredictionPage = () => {
     const onSubmit = async (values: FormValues) => {
         setIsPredicting(true);
         setAnimationState('predicting');
+        // Await prediction result
         const result = await actions.predict(values as any, numTrees);
         setPredictionResult(result);
-
+        
+        // Start animation after getting result
         setTimeout(() => {
             setAnimationState('finished');
             setIsPredicting(false);
-        }, 3000); // Duration of the animation
+        }, 3000); 
     };
 
     const inputFields = [
@@ -888,40 +1012,16 @@ export default function DashboardPage() {
           {animationState === 'predicting' && (
             <div className="w-full max-w-4xl mt-12 text-center">
                 <p className="text-muted-foreground mb-4">Feeding patient data to the Random Forest model...</p>
-                <div className="relative h-40">
-                    <Package className="absolute top-1/2 left-4 -translate-y-1/2 h-10 w-10 text-blue-500 animate-data-packet" />
-                    <div className="absolute top-1/2 right-4 -translate-y-1/2 flex gap-12">
-                        {[...Array(3)].map((_, i) => (
-                           <div key={i} className="flex flex-col items-center gap-2">
-                                <Trees className={cn("h-16 w-16 text-primary/50 animate-tree-process", `animation-delay-${i * 500}ms`)} />
-                                <span className="text-xs font-semibold">Tree {i + 1}</span>
-                           </div>
-                        ))}
-                    </div>
+                <div className="flex items-center justify-center">
+                    <Loader2 className="h-10 w-10 animate-spin text-primary"/>
                 </div>
             </div>
           )}
 
           {animationState === 'finished' && predictionResult && (
-            <div className="w-full max-w-4xl mt-12 text-center animate-fade-in">
+            <div className="w-full max-w-5xl mt-12 text-center animate-fade-in">
                 <h2 className="text-2xl font-bold tracking-tight">Prediction Complete</h2>
-                <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-                     {predictionResult.individualPredictions?.slice(0, 3).map((pred, i) => (
-                        <Card key={i}>
-                            <CardHeader>
-                                <CardTitle>Decision Tree {i + 1}</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="p-4 bg-muted rounded-lg">
-                                    <p className="text-sm text-muted-foreground">Prediction</p>
-                                    <p className={cn("text-3xl font-bold", pred === 1 ? 'text-green-500' : 'text-red-500')}>
-                                        {pred === 1 ? 'Risk Less' : 'Risky'}
-                                    </p>
-                                </div>
-                            </CardContent>
-                        </Card>
-                     ))}
-                </div>
+                <PredictionAnimation formValues={form.getValues() as any} predictionResult={predictionResult} />
                 <div className="mt-8 p-4 bg-background rounded-lg border">
                     <p className="text-muted-foreground">Final Prediction (Majority Vote)</p>
                     <p className={cn("text-4xl font-bold", predictionResult.prediction === 1 ? 'text-green-600' : 'text-red-600')}>

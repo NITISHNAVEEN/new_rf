@@ -121,6 +121,10 @@ export default {
             '0%': { opacity: '0' },
             '100%': { opacity: '1' },
         },
+        'line-flow': {
+          '0%': { 'stroke-dashoffset': '200' },
+          '100%': { 'stroke-dashoffset': '0' },
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -131,6 +135,7 @@ export default {
         'data-packet': 'data-packet 3s ease-out forwards',
         'tree-process': 'tree-process 1.5s ease-in-out infinite',
         'fade-in': 'fade-in 0.5s ease-in-out forwards',
+        'line-flow': 'line-flow 1s ease-out forwards',
       },
     },
   },
