@@ -79,7 +79,7 @@ const domainSpecificText = {
     residualPlot: "Checks if the model's prediction errors are random. If the dots form a pattern, the model might have a hidden bias (e.g., always underestimating for older patients).",
     errorHistogram: "Visualizes how far off the predictions are. Ideally, you want a big spike at zero, meaning most predictions were spot-on.",
     cumulativeError: "Shows how many predictions were within a certain range of the true score. A steep curve is good, showing high accuracy for most cases.",
-    pdp: "Isolates one factor, like BMI, to see its direct impact on the predicted disease progression, independent of other measurements. This helps understand what the model has learned about each factor on its own.",
+    pdp: "Isolates one factor, like 'BMI,' to see its direct impact on the predicted disease progression, independent of other measurements. This helps understand what the model has learned about each factor on its own.",
     summary: "Provides key statistics for each clinical measurement, such as the average BMI and blood pressure in the patient group.",
     correlation: "Shows relationships between different clinical markers. For instance, is higher BMI usually associated with higher blood pressure in this dataset?",
     aggregation: {
@@ -393,14 +393,13 @@ export default function DashboardPage() {
             <p className="mt-2 text-muted-foreground">Select a persona to see how different professionals can benefit from this powerful algorithm.</p>
             <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
                 {roles.map((role) => (
-                    <Card key={role.name} className="text-center hover:shadow-xl transition-shadow">
-                        <CardHeader>
-                            <div className="mx-auto bg-primary/10 rounded-full p-4 w-20 h-20 flex items-center justify-center">
-                                <Image src={role.image} alt={`${role.name} icon`} width={48} height={48} className="w-12 h-12" />
-                            </div>
-                            <CardTitle className='pt-2'>{role.name}</CardTitle>
-                        </CardHeader>
-                        <CardContent className="flex flex-col flex-1">
+                    <Card key={role.name} className="flex flex-col text-left overflow-hidden hover:shadow-xl transition-shadow">
+                        <div className="relative h-40 w-full">
+                            <Image src={role.image} alt={`${role.name} icon`} layout="fill" objectFit="cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                            <h3 className="absolute bottom-4 left-4 text-2xl font-bold text-white">{role.name}</h3>
+                        </div>
+                        <CardContent className="p-6 flex flex-col flex-1">
                             <p className="text-muted-foreground flex-1">{role.description}</p>
                             <Button 
                                 variant="outline" 
