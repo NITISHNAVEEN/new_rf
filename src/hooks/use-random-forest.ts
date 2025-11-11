@@ -17,6 +17,7 @@ import type {
   DatasetOption,
   DatasetMetadata,
   LeafNode,
+  UserLevel,
 } from '@/lib/types';
 import housingDataset from '@/lib/data/california-housing.json';
 import wineDataset from '@/lib/data/wine-quality.json';
@@ -56,7 +57,7 @@ const DATASETS: Record<TaskType, DatasetOption[]> = {
     ]
 };
 
-const getInitialStateForTask = (task: TaskType, datasetName: string): State => {
+const getInitialStateForTask = (task: TaskType, datasetName: string): Omit<State, 'userLevel'> => {
     const datasetOption = DATASETS[task].find(d => d.value === datasetName) ?? DATASETS[task][0];
     const dataset = datasetOption.data;
     const allHeaders = Object.keys(dataset[0] ?? {});
@@ -81,6 +82,7 @@ type State = {
   selectedFeatures: string[];
   targetColumn: string;
   testSize: number;
+  userLevel: UserLevel;
 };
 
 type Data = {
@@ -108,17 +110,21 @@ type Action =
   | { type: 'SET_HYPERPARAMETERS'; payload: Partial<Hyperparameters> }
   | { type: 'SET_SELECTED_FEATURES'; payload: string[] }
   | { type: 'SET_TARGET_COLUMN'; payload: string }
-  | { type: 'SET_TEST_SIZE'; payload: number };
+  | { type: 'SET_TEST_SIZE'; payload: number }
+  | { type: 'SET_USER_LEVEL'; payload: UserLevel };
 
-const initialState: State = getInitialStateForTask('classification', 'wine-quality');
+const initialState: State = {
+    ...getInitialStateForTask('classification', 'wine-quality'),
+    userLevel: 'advanced'
+};
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'SET_TASK': {
-        return getInitialStateForTask(action.payload, DATASETS[action.payload][0].value);
+        return { ...state, ...getInitialStateForTask(action.payload, DATASETS[action.payload][0].value) };
     }
     case 'SET_DATASET': {
-        return getInitialStateForTask(state.task, action.payload);
+        return { ...state, ...getInitialStateForTask(state.task, action.payload) };
     }
     case 'SET_HYPERPARAMETERS':
       return { ...state, hyperparameters: { ...state.hyperparameters, ...action.payload } };
@@ -129,6 +135,8 @@ const reducer = (state: State, action: Action): State => {
     }
     case 'SET_TEST_SIZE':
         return { ...state, testSize: action.payload };
+    case 'SET_USER_LEVEL':
+        return { ...state, userLevel: action.payload };
     default:
       return state;
   }
@@ -205,7 +213,7 @@ const generateMockTree = (
 };
 
 
-const createSeed = (state: State, salt: string = '') => {
+const createSeed = (state: Omit<State, 'userLevel'>, salt: string = '') => {
     let seed = 0;
     const str = JSON.stringify(state.hyperparameters) + state.testSize + state.targetColumn + state.task + state.datasetName + salt;
     for (let i = 0; i < str.length; i++) {
@@ -290,7 +298,7 @@ const generatePdpData = (features: string[], dataset: Record<string, any>[], tas
     return pdp;
 };
 
-const generateForestSimulation = (state: State, seed: number): ForestSimulation => {
+const generateForestSimulation = (state: Omit<State, 'userLevel'>, seed: number): ForestSimulation => {
     const { selectedFeatures, task, hyperparameters } = state;
     const numTrees = hyperparameters.n_estimators;
 
@@ -325,7 +333,7 @@ const generateForestSimulation = (state: State, seed: number): ForestSimulation 
 
 
 const mockTrainModel = async (
-  state: State,
+  state: Omit<State, 'userLevel'>,
   dataset: Record<string, any>[],
   isBaseline: boolean = false,
 ): Promise<Omit<Data, 'dataset' | 'insights' | 'baselineMetrics' | 'baselineFeatureImportance' | 'baselineChartData' | 'metadata' | 'placeholderValues'>> => {
@@ -408,7 +416,7 @@ const mockTrainModel = async (
 
 const mockPredict = (
     values: Record<string, number>,
-    state: State,
+    state: Omit<State, 'userLevel'>,
 ): Prediction => {
   const { task, selectedFeatures } = state;
   const seedState = { ...state, selectedFeatures: Object.keys(values) };
@@ -484,11 +492,12 @@ export const useRandomForest = () => {
       }
       setStatus('loading');
       try {
-        const currentDataset = DATASETS[state.task].find(d => d.value === state.datasetName)?.data ?? [];
+        const { userLevel, ...stateForTraining } = state;
+        const currentDataset = DATASETS[stateForTraining.task].find(d => d.value === stateForTraining.datasetName)?.data ?? [];
         
-        const stateForTraining = isBaseline ? { ...state, hyperparameters: BASELINE_HYPERPARAMETERS } : state;
+        const effectiveState = isBaseline ? { ...stateForTraining, hyperparameters: BASELINE_HYPERPARAMETERS } : stateForTraining;
 
-        const trainedData = await mockTrainModel(stateForTraining, currentDataset, isBaseline);
+        const trainedData = await mockTrainModel(effectiveState, currentDataset, isBaseline);
         
         const updateInsights = (featureImportance: FeatureImportance[]) => {
             if (featureImportance.length === 0) {
@@ -549,6 +558,14 @@ export const useRandomForest = () => {
     }, [state, toast]);
 
     useEffect(() => {
+        if (state.userLevel === 'beginner') {
+            const beginnerUrl = 'https://forest-explorer-git-main-nitishnaveens-projects.vercel.app?_vercel_share=z8WXMPyTl9AOXNXLvgWkHMjILghhKwkl';
+            window.open(beginnerUrl, '_blank');
+            // Reset to advanced to avoid being stuck in a loop if the user comes back
+            dispatch({ type: 'SET_USER_LEVEL', payload: 'advanced' });
+            return;
+        }
+
         const newDatasetOption = DATASETS[state.task].find(d => d.value === state.datasetName);
         const newDataset = newDatasetOption ? newDatasetOption.data : [];
         const newMetadata = (datasetsMetadata as Record<string, DatasetMetadata>)[state.datasetName] ?? null;
@@ -573,7 +590,7 @@ export const useRandomForest = () => {
             forestSimulation: null,
         });
         setStatus('idle');
-    }, [state.task, state.datasetName]);
+    }, [state.task, state.datasetName, state.userLevel]);
 
     useEffect(() => {
         // Only auto-train if a baseline has been set and the hyperparameters have changed.
@@ -586,7 +603,8 @@ export const useRandomForest = () => {
     
     const predict = useCallback(async (values: Record<string, number>): Promise<Prediction> => {
         await new Promise(res => setTimeout(res, 1000));
-        return mockPredict(values, state);
+        const { userLevel, ...stateForPrediction } = state;
+        return mockPredict(values, stateForPrediction);
     }, [state]);
 
   const actions = {
@@ -596,6 +614,7 @@ export const useRandomForest = () => {
     setSelectedFeatures: handleStateChange('SET_SELECTED_FEATURES'),
     setTargetColumn: handleStateChange('SET_TARGET_COLUMN'),
     setTestSize: handleStateChange('SET_TEST_SIZE'),
+    setUserLevel: handleStateChange('SET_USER_LEVEL'),
     trainModel: () => trainModel(false),
     trainBaselineModel: () => trainModel(true),
     predict,

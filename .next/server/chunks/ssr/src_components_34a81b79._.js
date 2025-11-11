@@ -484,7 +484,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$s
 ;
 ;
 function DashboardSidebar({ state, actions, status, datasetHeaders, availableDatasets }) {
-    const { hyperparameters, task, testSize } = state;
+    const { hyperparameters, task, testSize, userLevel } = state;
     const { setHyperparameters, setTestSize } = actions;
     const HelpTooltip = ({ children })=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tooltip$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Tooltip"], {
             children: [
@@ -541,116 +541,67 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SidebarGroup"], {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SidebarGroupLabel"], {
-                                    children: "Task Selection"
+                                    children: "User Level"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
                                     lineNumber: 42,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SidebarGroupContent"], {
-                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "flex items-center space-x-2",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$radio$2d$group$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["RadioGroup"], {
+                                        value: userLevel,
+                                        onValueChange: (value)=>actions.setUserLevel(value),
+                                        className: "flex",
                                         children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$radio$2d$group$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["RadioGroup"], {
-                                                value: task,
-                                                onValueChange: (value)=>actions.setTask(value),
-                                                className: "flex",
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "flex items-center space-x-2",
                                                 children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "flex items-center space-x-2",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$radio$2d$group$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["RadioGroupItem"], {
-                                                                value: "classification",
-                                                                id: "r2"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                lineNumber: 51,
-                                                                columnNumber: 21
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
-                                                                htmlFor: "r2",
-                                                                children: "Classification"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                lineNumber: 52,
-                                                                columnNumber: 21
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$radio$2d$group$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["RadioGroupItem"], {
+                                                        value: "beginner",
+                                                        id: "level_beginner"
+                                                    }, void 0, false, {
                                                         fileName: "[project]/src/components/dashboard-sidebar.tsx",
                                                         lineNumber: 50,
-                                                        columnNumber: 19
+                                                        columnNumber: 21
                                                     }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "flex items-center space-x-2",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$radio$2d$group$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["RadioGroupItem"], {
-                                                                value: "regression",
-                                                                id: "r1"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                lineNumber: 55,
-                                                                columnNumber: 21
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
-                                                                htmlFor: "r1",
-                                                                children: "Regression"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                lineNumber: 56,
-                                                                columnNumber: 21
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
+                                                        htmlFor: "level_beginner",
+                                                        children: "Beginner"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/dashboard-sidebar.tsx",
+                                                        lineNumber: 51,
+                                                        columnNumber: 21
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/dashboard-sidebar.tsx",
+                                                lineNumber: 49,
+                                                columnNumber: 19
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "flex items-center space-x-2",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$radio$2d$group$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["RadioGroupItem"], {
+                                                        value: "advanced",
+                                                        id: "level_advanced"
+                                                    }, void 0, false, {
                                                         fileName: "[project]/src/components/dashboard-sidebar.tsx",
                                                         lineNumber: 54,
-                                                        columnNumber: 19
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                lineNumber: 45,
-                                                columnNumber: 17
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(HelpTooltip, {
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("b", {
-                                                                children: "Classification"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                lineNumber: 60,
-                                                                columnNumber: 22
-                                                            }, this),
-                                                            " predicts a category (e.g., wine is 'good' or 'bad', a tumor is 'malignant' or 'benign')."
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                        lineNumber: 60,
-                                                        columnNumber: 19
+                                                        columnNumber: 21
                                                     }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("b", {
-                                                                children: "Regression"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                lineNumber: 61,
-                                                                columnNumber: 22
-                                                            }, this),
-                                                            " predicts a continuous value (e.g., a house price, a patient's weight)."
-                                                        ]
-                                                    }, void 0, true, {
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
+                                                        htmlFor: "level_advanced",
+                                                        children: "Advanced"
+                                                    }, void 0, false, {
                                                         fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                        lineNumber: 61,
-                                                        columnNumber: 19
+                                                        lineNumber: 55,
+                                                        columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                lineNumber: 59,
-                                                columnNumber: 17
+                                                lineNumber: 53,
+                                                columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
@@ -672,10 +623,141 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SidebarGroup"], {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SidebarGroupLabel"], {
+                                    children: "Task Selection"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/dashboard-sidebar.tsx",
+                                    lineNumber: 61,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SidebarGroupContent"], {
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "flex items-center space-x-2",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$radio$2d$group$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["RadioGroup"], {
+                                                value: task,
+                                                onValueChange: (value)=>actions.setTask(value),
+                                                className: "flex",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "flex items-center space-x-2",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$radio$2d$group$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["RadioGroupItem"], {
+                                                                value: "classification",
+                                                                id: "r2"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/dashboard-sidebar.tsx",
+                                                                lineNumber: 70,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
+                                                                htmlFor: "r2",
+                                                                children: "Classification"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/dashboard-sidebar.tsx",
+                                                                lineNumber: 71,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/dashboard-sidebar.tsx",
+                                                        lineNumber: 69,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "flex items-center space-x-2",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$radio$2d$group$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["RadioGroupItem"], {
+                                                                value: "regression",
+                                                                id: "r1"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/dashboard-sidebar.tsx",
+                                                                lineNumber: 74,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
+                                                                htmlFor: "r1",
+                                                                children: "Regression"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/dashboard-sidebar.tsx",
+                                                                lineNumber: 75,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/dashboard-sidebar.tsx",
+                                                        lineNumber: 73,
+                                                        columnNumber: 19
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/dashboard-sidebar.tsx",
+                                                lineNumber: 64,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(HelpTooltip, {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("b", {
+                                                                children: "Classification"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/dashboard-sidebar.tsx",
+                                                                lineNumber: 79,
+                                                                columnNumber: 22
+                                                            }, this),
+                                                            " predicts a category (e.g., wine is 'good' or 'bad', a tumor is 'malignant' or 'benign')."
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/dashboard-sidebar.tsx",
+                                                        lineNumber: 79,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("b", {
+                                                                children: "Regression"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/dashboard-sidebar.tsx",
+                                                                lineNumber: 80,
+                                                                columnNumber: 22
+                                                            }, this),
+                                                            " predicts a continuous value (e.g., a house price, a patient's weight)."
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/dashboard-sidebar.tsx",
+                                                        lineNumber: 80,
+                                                        columnNumber: 19
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/dashboard-sidebar.tsx",
+                                                lineNumber: 78,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/dashboard-sidebar.tsx",
+                                        lineNumber: 63,
+                                        columnNumber: 15
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/dashboard-sidebar.tsx",
+                                    lineNumber: 62,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/components/dashboard-sidebar.tsx",
+                            lineNumber: 60,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SidebarGroup"], {
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SidebarGroupLabel"], {
                                     children: "Data Configuration"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                    lineNumber: 68,
+                                    lineNumber: 87,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SidebarGroupContent"], {
@@ -690,20 +772,20 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                             children: "Select Dataset"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 72,
+                                                            lineNumber: 91,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(HelpTooltip, {
                                                             children: "Choose the dataset to train the model on. The available datasets will change based on the selected task."
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 73,
+                                                            lineNumber: 92,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 71,
+                                                    lineNumber: 90,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Select"], {
@@ -715,12 +797,12 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                 placeholder: "Select dataset..."
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                lineNumber: 76,
+                                                                lineNumber: 95,
                                                                 columnNumber: 40
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 76,
+                                                            lineNumber: 95,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -729,24 +811,24 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                     children: dataset.name
                                                                 }, dataset.value, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 79,
+                                                                    lineNumber: 98,
                                                                     columnNumber: 29
                                                                 }, this))
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 77,
+                                                            lineNumber: 96,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 75,
+                                                    lineNumber: 94,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                            lineNumber: 70,
+                                            lineNumber: 89,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -758,7 +840,7 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                             children: "Target Column"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 86,
+                                                            lineNumber: 105,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(HelpTooltip, {
@@ -767,7 +849,7 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                     children: "The variable the model is trying to predict. This is pre-set for each dataset."
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 88,
+                                                                    lineNumber: 107,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -779,14 +861,14 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                                     children: "Housing:"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                                    lineNumber: 90,
+                                                                                    lineNumber: 109,
                                                                                     columnNumber: 29
                                                                                 }, this),
                                                                                 " Median House Value"
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                            lineNumber: 90,
+                                                                            lineNumber: 109,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
@@ -795,14 +877,14 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                                     children: "Wine:"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                                    lineNumber: 91,
+                                                                                    lineNumber: 110,
                                                                                     columnNumber: 29
                                                                                 }, this),
                                                                                 " Quality Score"
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                            lineNumber: 91,
+                                                                            lineNumber: 110,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
@@ -811,32 +893,32 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                                     children: "Diabetes:"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                                    lineNumber: 92,
+                                                                                    lineNumber: 111,
                                                                                     columnNumber: 29
                                                                                 }, this),
                                                                                 " Disease Progression"
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                            lineNumber: 92,
+                                                                            lineNumber: 111,
                                                                             columnNumber: 25
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 89,
+                                                                    lineNumber: 108,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 87,
+                                                            lineNumber: 106,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 85,
+                                                    lineNumber: 104,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Select"], {
@@ -849,12 +931,12 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                 placeholder: "Select target..."
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                lineNumber: 97,
+                                                                lineNumber: 116,
                                                                 columnNumber: 40
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 97,
+                                                            lineNumber: 116,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -863,24 +945,24 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                     children: header
                                                                 }, header, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 100,
+                                                                    lineNumber: 119,
                                                                     columnNumber: 29
                                                                 }, this))
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 98,
+                                                            lineNumber: 117,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 96,
+                                                    lineNumber: 115,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                            lineNumber: 84,
+                                            lineNumber: 103,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -892,7 +974,7 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                             children: "Feature Columns"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 107,
+                                                            lineNumber: 126,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(HelpTooltip, {
@@ -900,18 +982,18 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                 children: "The input variables the model uses to make predictions (e.g., for housing, this includes number of rooms, house age, etc.)."
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                lineNumber: 109,
+                                                                lineNumber: 128,
                                                                 columnNumber: 23
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 108,
+                                                            lineNumber: 127,
                                                             columnNumber: 22
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 106,
+                                                    lineNumber: 125,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -919,13 +1001,13 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                     children: "All columns except the target are used as features."
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 112,
+                                                    lineNumber: 131,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                            lineNumber: 105,
+                                            lineNumber: 124,
                                             columnNumber: 18
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -941,20 +1023,20 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                     children: "Test Set Size"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 117,
+                                                                    lineNumber: 136,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(HelpTooltip, {
                                                                     children: "The percentage of data reserved for testing the model's performance. The rest is used for training. For example, 20% means the model is tested on data it has never seen before."
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 118,
+                                                                    lineNumber: 137,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 116,
+                                                            lineNumber: 135,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -965,13 +1047,13 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 120,
+                                                            lineNumber: 139,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 115,
+                                                    lineNumber: 134,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$slider$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Slider"], {
@@ -984,30 +1066,30 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                     step: 0.05
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 122,
+                                                    lineNumber: 141,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                            lineNumber: 114,
+                                            lineNumber: 133,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                    lineNumber: 69,
+                                    lineNumber: 88,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                            lineNumber: 67,
+                            lineNumber: 86,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SidebarSeparator"], {}, void 0, false, {
                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                            lineNumber: 131,
+                            lineNumber: 150,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1020,12 +1102,12 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                 children: status === 'loading' ? 'Training...' : 'Train Baseline Model'
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                lineNumber: 134,
+                                lineNumber: 153,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                            lineNumber: 133,
+                            lineNumber: 152,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SidebarGroup"], {
@@ -1034,7 +1116,7 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                     children: "Hyperparameter Tuning"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                    lineNumber: 140,
+                                    lineNumber: 159,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$sidebar$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SidebarGroupContent"], {
@@ -1053,20 +1135,20 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                     children: "Number of Trees"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 145,
+                                                                    lineNumber: 164,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(HelpTooltip, {
                                                                     children: "The number of individual decision trees in the forest. More trees can improve accuracy but increase training time. Think of it as asking more 'experts' for their opinion."
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 146,
+                                                                    lineNumber: 165,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 144,
+                                                            lineNumber: 163,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1074,13 +1156,13 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                             children: hyperparameters.n_estimators
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 148,
+                                                            lineNumber: 167,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 143,
+                                                    lineNumber: 162,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$slider$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Slider"], {
@@ -1095,13 +1177,13 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                     step: 10
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 150,
+                                                    lineNumber: 169,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                            lineNumber: 142,
+                                            lineNumber: 161,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1117,20 +1199,20 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                     children: "Max Depth"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 159,
+                                                                    lineNumber: 178,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(HelpTooltip, {
                                                                     children: "The maximum number of levels (or questions) each tree can have. Deeper trees can capture more complex patterns but risk 'overfitting'—memorizing the training data instead of learning general patterns."
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 160,
+                                                                    lineNumber: 179,
                                                                     columnNumber: 22
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 158,
+                                                            lineNumber: 177,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1138,13 +1220,13 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                             children: hyperparameters.max_depth || 'None'
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 162,
+                                                            lineNumber: 181,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 157,
+                                                    lineNumber: 176,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$slider$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Slider"], {
@@ -1159,13 +1241,13 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                     step: 1
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 164,
+                                                    lineNumber: 183,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                            lineNumber: 156,
+                                            lineNumber: 175,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1181,20 +1263,20 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                     children: "Min Samples Split"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 173,
+                                                                    lineNumber: 192,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(HelpTooltip, {
                                                                     children: "The minimum number of data points required in a group before the tree is allowed to split it further. Higher values prevent the model from learning from very small, potentially noisy groups."
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 174,
+                                                                    lineNumber: 193,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 172,
+                                                            lineNumber: 191,
                                                             columnNumber: 20
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1202,13 +1284,13 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                             children: hyperparameters.min_samples_split
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 176,
+                                                            lineNumber: 195,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 171,
+                                                    lineNumber: 190,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$slider$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Slider"], {
@@ -1223,13 +1305,13 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                     step: 1
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 178,
+                                                    lineNumber: 197,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                            lineNumber: 170,
+                                            lineNumber: 189,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1245,20 +1327,20 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                     children: "Min Samples Leaf"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 187,
+                                                                    lineNumber: 206,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(HelpTooltip, {
                                                                     children: "The minimum number of data points allowed in a final leaf node (a final prediction). This helps smooth the model and avoid making predictions based on just one or two examples."
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 188,
+                                                                    lineNumber: 207,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 186,
+                                                            lineNumber: 205,
                                                             columnNumber: 20
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1266,13 +1348,13 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                             children: hyperparameters.min_samples_leaf
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 190,
+                                                            lineNumber: 209,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 185,
+                                                    lineNumber: 204,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$slider$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Slider"], {
@@ -1287,13 +1369,13 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                     step: 1
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 192,
+                                                    lineNumber: 211,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                            lineNumber: 184,
+                                            lineNumber: 203,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1306,20 +1388,20 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                             children: "Max Features"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 200,
+                                                            lineNumber: 219,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(HelpTooltip, {
                                                             children: "The number of features (e.g., 'alcohol content', 'house age') to consider when looking for the best split at each node. Limiting this encourages diversity among the trees."
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 201,
+                                                            lineNumber: 220,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 199,
+                                                    lineNumber: 218,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Select"], {
@@ -1333,12 +1415,12 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                 placeholder: "Select..."
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                lineNumber: 207,
+                                                                lineNumber: 226,
                                                                 columnNumber: 36
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 207,
+                                                            lineNumber: 226,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -1348,7 +1430,7 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                     children: "Square Root"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 209,
+                                                                    lineNumber: 228,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
@@ -1356,7 +1438,7 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                     children: "Log2"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 210,
+                                                                    lineNumber: 229,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
@@ -1364,25 +1446,25 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                     children: "None (All Features)"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 211,
+                                                                    lineNumber: 230,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 208,
+                                                            lineNumber: 227,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 203,
+                                                    lineNumber: 222,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                            lineNumber: 198,
+                                            lineNumber: 217,
                                             columnNumber: 16
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1395,20 +1477,20 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                             children: "Bootstrap Samples"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 217,
+                                                            lineNumber: 236,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(HelpTooltip, {
                                                             children: "If enabled, each tree is trained on a random subsample of the data. This randomness is key to why Random Forests work well, as it prevents all trees from being identical."
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 218,
+                                                            lineNumber: 237,
                                                             columnNumber: 20
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 216,
+                                                    lineNumber: 235,
                                                     columnNumber: 18
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$switch$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Switch"], {
@@ -1418,13 +1500,13 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                         })
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 220,
+                                                    lineNumber: 239,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                            lineNumber: 215,
+                                            lineNumber: 234,
                                             columnNumber: 15
                                         }, this),
                                         task === 'regression' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1440,20 +1522,20 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                     children: "Min Impurity Decrease"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 230,
+                                                                    lineNumber: 249,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(HelpTooltip, {
                                                                     children: "A node will only be split if it significantly improves the model's purity (i.e., reduces prediction error). This parameter sets the threshold for what is considered a 'significant' improvement."
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 231,
+                                                                    lineNumber: 250,
                                                                     columnNumber: 24
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 229,
+                                                            lineNumber: 248,
                                                             columnNumber: 22
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1461,13 +1543,13 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                             children: hyperparameters.min_impurity_decrease.toFixed(2)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 233,
+                                                            lineNumber: 252,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 228,
+                                                    lineNumber: 247,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$slider$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Slider"], {
@@ -1482,13 +1564,13 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                     step: 0.01
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 235,
+                                                    lineNumber: 254,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                            lineNumber: 227,
+                                            lineNumber: 246,
                                             columnNumber: 17
                                         }, this),
                                         task === 'classification' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -1503,20 +1585,20 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                     children: "Criterion"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 247,
+                                                                    lineNumber: 266,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(HelpTooltip, {
                                                                     children: "The function to measure the quality of a split. 'Gini' and 'Entropy' are two different mathematical ways to measure how 'pure' or 'mixed' a group of samples is."
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 248,
+                                                                    lineNumber: 267,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 246,
+                                                            lineNumber: 265,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Select"], {
@@ -1528,12 +1610,12 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectTrigger"], {
                                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectValue"], {}, void 0, false, {
                                                                         fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                        lineNumber: 254,
+                                                                        lineNumber: 273,
                                                                         columnNumber: 44
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 254,
+                                                                    lineNumber: 273,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -1543,7 +1625,7 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                             children: "Gini"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                            lineNumber: 256,
+                                                                            lineNumber: 275,
                                                                             columnNumber: 33
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
@@ -1551,25 +1633,25 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                             children: "Entropy"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                            lineNumber: 257,
+                                                                            lineNumber: 276,
                                                                             columnNumber: 33
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 255,
+                                                                    lineNumber: 274,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 250,
+                                                            lineNumber: 269,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 245,
+                                                    lineNumber: 264,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1582,20 +1664,20 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                     children: "Class Weight"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 263,
+                                                                    lineNumber: 282,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(HelpTooltip, {
                                                                     children: "This option is useful for imbalanced datasets (e.g., 95% 'good' wine, 5% 'bad' wine). 'Balanced' automatically gives more weight to the minority class, preventing the model from simply ignoring it."
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 264,
+                                                                    lineNumber: 283,
                                                                     columnNumber: 26
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 262,
+                                                            lineNumber: 281,
                                                             columnNumber: 24
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Select"], {
@@ -1607,12 +1689,12 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectTrigger"], {
                                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectValue"], {}, void 0, false, {
                                                                         fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                        lineNumber: 270,
+                                                                        lineNumber: 289,
                                                                         columnNumber: 44
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 270,
+                                                                    lineNumber: 289,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -1622,7 +1704,7 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                             children: "None"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                            lineNumber: 272,
+                                                                            lineNumber: 291,
                                                                             columnNumber: 33
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
@@ -1630,7 +1712,7 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                             children: "Balanced"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                            lineNumber: 273,
+                                                                            lineNumber: 292,
                                                                             columnNumber: 33
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
@@ -1638,25 +1720,25 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                                                             children: "Balanced Subsample"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                            lineNumber: 274,
+                                                                            lineNumber: 293,
                                                                             columnNumber: 33
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                                    lineNumber: 271,
+                                                                    lineNumber: 290,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                            lineNumber: 266,
+                                                            lineNumber: 285,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                                    lineNumber: 261,
+                                                    lineNumber: 280,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
@@ -1664,13 +1746,13 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                                    lineNumber: 141,
+                                    lineNumber: 160,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                            lineNumber: 139,
+                            lineNumber: 158,
                             columnNumber: 11
                         }, this)
                     ]
@@ -1694,19 +1776,19 @@ function DashboardSidebar({ state, actions, status, datasetHeaders, availableDat
                             className: "mr-2 h-4 w-4 animate-spin"
                         }, void 0, false, {
                             fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                            lineNumber: 286,
+                            lineNumber: 305,
                             columnNumber: 36
                         }, this),
                         status === 'loading' ? 'Training...' : 'Train Tuned Model'
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                    lineNumber: 285,
+                    lineNumber: 304,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/dashboard-sidebar.tsx",
-                lineNumber: 284,
+                lineNumber: 303,
                 columnNumber: 7
             }, this)
         ]

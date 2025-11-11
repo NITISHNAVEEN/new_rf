@@ -17,7 +17,7 @@ type DashboardSidebarProps = ReturnType<typeof useRandomForest> & {
 };
 
 export function DashboardSidebar({ state, actions, status, datasetHeaders, availableDatasets }: DashboardSidebarProps) {
-  const { hyperparameters, task, testSize } = state;
+  const { hyperparameters, task, testSize, userLevel } = state;
   const { setHyperparameters, setTestSize } = actions;
 
   const HelpTooltip = ({ children }: { children: React.ReactNode }) => (
@@ -38,6 +38,25 @@ export function DashboardSidebar({ state, actions, status, datasetHeaders, avail
       </SidebarHeader>
       <SidebarContent className="p-0">
         <TooltipProvider>
+          <SidebarGroup>
+            <SidebarGroupLabel>User Level</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <RadioGroup
+                  value={userLevel}
+                  onValueChange={(value) => actions.setUserLevel(value as 'beginner' | 'advanced')}
+                  className="flex"
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="beginner" id="level_beginner" />
+                    <Label htmlFor="level_beginner">Beginner</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="advanced" id="level_advanced" />
+                    <Label htmlFor="level_advanced">Advanced</Label>
+                  </div>
+                </RadioGroup>
+            </SidebarGroupContent>
+          </SidebarGroup>
           <SidebarGroup>
             <SidebarGroupLabel>Task Selection</SidebarGroupLabel>
             <SidebarGroupContent>

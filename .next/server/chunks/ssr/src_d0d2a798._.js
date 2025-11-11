@@ -180,16 +180,25 @@ const getInitialStateForTask = (task, datasetName)=>{
         testSize: 0.2
     };
 };
-const initialState = getInitialStateForTask('classification', 'wine-quality');
+const initialState = {
+    ...getInitialStateForTask('classification', 'wine-quality'),
+    userLevel: 'advanced'
+};
 const reducer = (state, action)=>{
     switch(action.type){
         case 'SET_TASK':
             {
-                return getInitialStateForTask(action.payload, DATASETS[action.payload][0].value);
+                return {
+                    ...state,
+                    ...getInitialStateForTask(action.payload, DATASETS[action.payload][0].value)
+                };
             }
         case 'SET_DATASET':
             {
-                return getInitialStateForTask(state.task, action.payload);
+                return {
+                    ...state,
+                    ...getInitialStateForTask(state.task, action.payload)
+                };
             }
         case 'SET_HYPERPARAMETERS':
             return {
@@ -215,6 +224,11 @@ const reducer = (state, action)=>{
             return {
                 ...state,
                 testSize: action.payload
+            };
+        case 'SET_USER_LEVEL':
+            return {
+                ...state,
+                userLevel: action.payload
             };
         default:
             return state;
@@ -584,12 +598,13 @@ const useRandomForest = ()=>{
         }
         setStatus('loading');
         try {
-            const currentDataset = DATASETS[state.task].find((d)=>d.value === state.datasetName)?.data ?? [];
-            const stateForTraining = isBaseline ? {
-                ...state,
+            const { userLevel, ...stateForTraining } = state;
+            const currentDataset = DATASETS[stateForTraining.task].find((d)=>d.value === stateForTraining.datasetName)?.data ?? [];
+            const effectiveState = isBaseline ? {
+                ...stateForTraining,
                 hyperparameters: BASELINE_HYPERPARAMETERS
-            } : state;
-            const trainedData = await mockTrainModel(stateForTraining, currentDataset, isBaseline);
+            } : stateForTraining;
+            const trainedData = await mockTrainModel(effectiveState, currentDataset, isBaseline);
             const updateInsights = (featureImportance)=>{
                 if (featureImportance.length === 0) {
                     setData((d)=>({
@@ -677,6 +692,16 @@ const useRandomForest = ()=>{
         toast
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        if (state.userLevel === 'beginner') {
+            const beginnerUrl = 'https://forest-explorer-git-main-nitishnaveens-projects.vercel.app?_vercel_share=z8WXMPyTl9AOXNXLvgWkHMjILghhKwkl';
+            window.open(beginnerUrl, '_blank');
+            // Reset to advanced to avoid being stuck in a loop if the user comes back
+            dispatch({
+                type: 'SET_USER_LEVEL',
+                payload: 'advanced'
+            });
+            return;
+        }
         const newDatasetOption = DATASETS[state.task].find((d)=>d.value === state.datasetName);
         const newDataset = newDatasetOption ? newDatasetOption.data : [];
         const newMetadata = __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$datasets$2d$metadata$2e$json__$28$json$29$__["default"][state.datasetName] ?? null;
@@ -702,7 +727,8 @@ const useRandomForest = ()=>{
         setStatus('idle');
     }, [
         state.task,
-        state.datasetName
+        state.datasetName,
+        state.userLevel
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         // Only auto-train if a baseline has been set and the hyperparameters have changed.
@@ -717,7 +743,8 @@ const useRandomForest = ()=>{
     ]);
     const predict = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(async (values)=>{
         await new Promise((res)=>setTimeout(res, 1000));
-        return mockPredict(values, state);
+        const { userLevel, ...stateForPrediction } = state;
+        return mockPredict(values, stateForPrediction);
     }, [
         state
     ]);
@@ -728,6 +755,7 @@ const useRandomForest = ()=>{
         setSelectedFeatures: handleStateChange('SET_SELECTED_FEATURES'),
         setTargetColumn: handleStateChange('SET_TARGET_COLUMN'),
         setTestSize: handleStateChange('SET_TEST_SIZE'),
+        setUserLevel: handleStateChange('SET_USER_LEVEL'),
         trainModel: ()=>trainModel(false),
         trainBaselineModel: ()=>trainModel(true),
         predict

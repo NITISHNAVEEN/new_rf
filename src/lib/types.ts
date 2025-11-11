@@ -1,6 +1,7 @@
 
 
 export type TaskType = 'regression' | 'classification';
+export type UserLevel = 'beginner' | 'advanced';
 
 export type Hyperparameters = {
   n_estimators: number;
