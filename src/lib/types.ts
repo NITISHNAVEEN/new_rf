@@ -145,3 +145,12 @@ export type HeartAttackPredictionInput = {
     "Heart Rate": number;
     "Blood Sugar": number;
 }
+
+export type TennisWeatherData = {
+    "Day": string;
+    "Outlook": "Sunny" | "Overcast" | "Rainy";
+    "Temp": "Hot" | "Mild" | "Cool";
+    "Humidity": "High" | "Normal";
+    "Wind": "Weak" | "Strong";
+    "Play Tennis?": "No" | "Yes";
+};

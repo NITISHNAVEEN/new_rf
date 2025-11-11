@@ -1,0 +1,17 @@
+
+[
+    { "Day": "d1", "Outlook": "Sunny", "Temp": "Hot", "Humidity": "High", "Wind": "Weak", "Play Tennis?": "No" },
+    { "Day": "d2", "Outlook": "Sunny", "Temp": "Hot", "Humidity": "High", "Wind": "Strong", "Play Tennis?": "No" },
+    { "Day": "d3", "Outlook": "Overcast", "Temp": "Hot", "Humidity": "High", "Wind": "Weak", "Play Tennis?": "Yes" },
+    { "Day": "d4", "Outlook": "Rainy", "Temp": "Mild", "Humidity": "High", "Wind": "Weak", "Play Tennis?": "Yes" },
+    { "Day": "d5", "Outlook": "Rainy", "Temp": "Cool", "Humidity": "Normal", "Wind": "Weak", "Play Tennis?": "Yes" },
+    { "Day": "d6", "Outlook": "Rainy", "Temp": "Cool", "Humidity": "Normal", "Wind": "Strong", "Play Tennis?": "No" },
+    { "Day": "d7", "Outlook": "Overcast", "Temp": "Cool", "Humidity": "Normal", "Wind": "Strong", "Play Tennis?": "Yes" },
+    { "Day": "d8", "Outlook": "Sunny", "Temp": "Mild", "Humidity": "High", "Wind": "Weak", "Play Tennis?": "No" },
+    { "Day": "d9", "Outlook": "Sunny", "Temp": "Cool", "Humidity": "Normal", "Wind": "Weak", "Play Tennis?": "Yes" },
+    { "Day": "d10", "Outlook": "Rainy", "Temp": "Mild", "Humidity": "Normal", "Wind": "Weak", "Play Tennis?": "Yes" },
+    { "Day": "d11", "Outlook": "Sunny", "Temp": "Mild", "Humidity": "Normal", "Wind": "Strong", "Play Tennis?": "Yes" },
+    { "Day": "d12", "Outlook": "Overcast", "Temp": "Mild", "Humidity": "High", "Wind": "Strong", "Play Tennis?": "Yes" },
+    { "Day": "d13", "Outlook": "Overcast", "Temp": "Hot", "Humidity": "Normal", "Wind": "Weak", "Play Tennis?": "Yes" },
+    { "Day": "d14", "Outlook": "Rainy", "Temp": "Mild", "Humidity": "High", "Wind": "Strong", "Play Tennis?": "No" }
+]
