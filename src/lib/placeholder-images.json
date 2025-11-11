@@ -1,6 +1,12 @@
 {
   "placeholderImages": [
     {
+      "id": "tennis_court",
+      "description": "A tennis court",
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJUKF3U2ouVOvpDVPlpX7l0N8cyur9k8ikIw&s",
+      "imageHint": "tennis court"
+    },
+    {
       "id": "california-housing",
       "description": "A modern house in California with a pool",
       "imageUrl": "https://images.unsplash.com/photo-1613977257363-707ba9348227?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxtb2Rlcm4lMjBob3VzZXxlbnwwfHx8fDE3NjE4MjA0MTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
