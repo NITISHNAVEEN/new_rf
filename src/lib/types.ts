@@ -138,3 +138,10 @@ export type SyntheticPatientData = {
     "Blood Sugar": number;
     "Risk": "risky" | "risk less";
 };
+
+export type HeartAttackPredictionInput = {
+    "Blood Pressure": number;
+    "Cholesterol": number;
+    "Heart Rate": number;
+    "Blood Sugar": number;
+}

@@ -3,7 +3,7 @@
 'use client';
 
 import Image from 'next/image';
-import { TreePine, BarChart3, Target, PanelLeft, LineChart, BeakerIcon, AreaChart, Lightbulb, GitMerge, BrainCircuit, Activity, TestTube2, HelpCircle, BookOpen, HeartPulse, ShieldCheck, User, Laptop, ArrowLeft, Database, Zap, FileText, FlaskConical, Trees, ArrowRight } from 'lucide-react';
+import { TreePine, BarChart3, Target, PanelLeft, LineChart, BeakerIcon, AreaChart, Lightbulb, GitMerge, BrainCircuit, Activity, TestTube2, HelpCircle, BookOpen, HeartPulse, ShieldCheck, User, Laptop, ArrowLeft, Database, Zap, FileText, FlaskConical, Trees, ArrowRight, Info } from 'lucide-react';
 import { useRandomForest } from '@/hooks/use-random-forest';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -44,6 +44,12 @@ import { cn } from '@/lib/utils';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import patientData from '@/lib/data/synthetic-patient-data.json';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Slider } from '@/components/ui/slider';
 
 
 const domainSpecificText = {
@@ -454,9 +460,7 @@ export default function DashboardPage() {
                 <Button 
                   className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white"
                   onClick={() => {
-                    setActiveTab('prediction');
-                    actions.setUserLevel('advanced');
-                    actions.trainBaselineModel();
+                    actions.setShowHeartAttackPrediction(true);
                   }}
                 >
                   <HeartPulse className="mr-2 h-4 w-4" />
@@ -752,9 +756,125 @@ export default function DashboardPage() {
       </div>
     );
   };
+  
+  const renderHeartAttackPredictionPage = () => {
+    const predictionFeatures = ['Blood Pressure', 'Cholesterol', 'Heart Rate', 'Blood Sugar'];
+    const formSchema = z.object(
+        predictionFeatures.reduce((acc, feature) => {
+            acc[feature.replace(/\s+/g, '')] = z.string().refine(val => !isNaN(parseFloat(val)), { message: "Must be a number" });
+            return acc;
+        }, {} as Record<string, z.ZodType<any, any>>)
+    );
+    type FormValues = z.infer<typeof formSchema>;
+    const form = useForm<FormValues>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            BloodPressure: '120',
+            Cholesterol: '200',
+            HeartRate: '75',
+            BloodSugar: '99',
+        }
+    });
+    
+    const [numTrees, setNumTrees] = useState(3);
+
+    const onSubmit = (values: FormValues) => {
+        console.log(values);
+        // Here you would call the prediction logic
+    };
+
+    const inputFields = [
+        { name: 'Blood Pressure', icon: Activity, placeholder: '120' },
+        { name: 'Cholesterol', icon: TestTube2, placeholder: '200' },
+        { name: 'Heart Rate', icon: HeartPulse, placeholder: '75' },
+        { name: 'Blood Sugar', icon: FlaskConical, placeholder: '99' }
+    ];
+
+    return (
+      <div className="flex-1 flex flex-col bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+        <header className="flex items-center h-16 px-6 border-b bg-red-200 dark:bg-red-800/20 rounded-t-lg">
+          <Button variant="ghost" size="icon" onClick={() => actions.setShowHeartAttackPrediction(false)}>
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+          <h2 className="ml-4 text-xl font-semibold">Heart Attack Prediction</h2>
+        </header>
+        <main className="flex-1 p-6 md:p-10 flex flex-col items-center">
+          <h1 className="text-3xl font-bold tracking-tight">Patient Vitals Input</h1>
+          <p className="mt-2 text-muted-foreground">Enter the patient's vitals to predict the risk of a heart attack.</p>
+          
+          <Card className="mt-8 w-full max-w-4xl p-6">
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div className="relative w-full h-64 md:h-full rounded-lg overflow-hidden">
+                <Image
+                  src="https://images.medicinenet.com/images/article/main_image/circulatory-system-pulmonary-hypertension-heart-illustration-rendering.jpg?output-quality=75"
+                  alt="Heart Illustration"
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </div>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                  {inputFields.map(({ name, icon: Icon, placeholder }) => (
+                     <FormField
+                        key={name}
+                        control={form.control}
+                        name={name.replace(/\s+/g, '') as any}
+                        render={({ field }) => (
+                            <FormItem>
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                        <Icon className="h-5 w-5 text-muted-foreground" />
+                                        <FormLabel>{name}</FormLabel>
+                                    </div>
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                                            </TooltipTrigger>
+                                            <TooltipContent>
+                                                <p>Enter the {name.toLowerCase()} value.</p>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                </div>
+                                <FormControl>
+                                    <Input placeholder={placeholder} {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                  ))}
+                </form>
+              </Form>
+            </div>
+          </Card>
+          <div className="mt-8 w-full max-w-xl space-y-4">
+            <div className="flex justify-between items-center">
+                <Label>Number of Decision Trees: {numTrees}</Label>
+            </div>
+            <Slider
+                value={[numTrees]}
+                onValueChange={(value) => setNumTrees(value[0])}
+                min={1}
+                max={10}
+                step={1}
+            />
+            <Button className="w-full bg-blue-600 hover:bg-blue-700" onClick={form.handleSubmit(onSubmit)}>
+                <Zap className="mr-2 h-4 w-4" />
+                Predict
+            </Button>
+          </div>
+        </main>
+      </div>
+    );
+  };
 
 
   const renderContent = () => {
+    if (state.showHeartAttackPrediction) {
+      return renderHeartAttackPredictionPage();
+    }
      if (state.showSyntheticData) {
       return renderSyntheticDataPage();
     }
@@ -991,8 +1111,7 @@ export default function DashboardPage() {
                       <Card>
                           <CardHeader>
                               <CardTitle className='flex items-center gap-2'><AreaChart className='w-5 h-5' />Cumulative Error Chart</CardTitle>
-                              <CardDescription>{descriptions.cumulativeError}</CardDescription>
-                          </CardHeader>
+                              <CardDescription>{descriptions.cumulativeError}</CardDescription>                          </CardHeader>
                           <CardContent>
                               <CumulativeErrorChart data={data.chartData} />
                           </CardContent>
