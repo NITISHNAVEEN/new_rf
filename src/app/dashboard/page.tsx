@@ -15,7 +15,7 @@ import { ConfusionMatrix } from '@/components/confusion-matrix';
 import { ExplainPrediction } from '@/components/explain-prediction';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Metric, RegressionMetric, ClassificationMetric, DatasetMetadata, DecisionNode, LeafNode } from '@/lib/types';
+import { Metric, RegressionMetric, ClassificationMetric, DatasetMetadata, DecisionNode, LeafNode, Prediction } from '@/lib/types';
 import { FeatureDistributionChart } from '@/components/feature-distribution-chart';
 import { CorrelationHeatmap } from '@/components/correlation-heatmap';
 import { SummaryStatistics } from '@/components/summary-statistics';
@@ -48,6 +48,7 @@ import * as z from 'zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
+import { PredictionDetails } from '@/components/prediction-details';
 
 
 const domainSpecificText = {
@@ -265,9 +266,11 @@ export default function DashboardPage() {
   const isLoading = status === 'loading';
   const [activeTab, setActiveTab] = useState('dashboard');
   const [numTrees, setNumTrees] = useState(3);
+  const [maxDepth, setMaxDepth] = useState(3);
   const [predictionResult, setPredictionResult] = useState<Prediction | null>(null);
   const [isPredicting, setIsPredicting] = useState(false);
   const [animationState, setAnimationState] = useState<'idle' | 'predicting' | 'finished'>('idle');
+  const [selectedTreeIndex, setSelectedTreeIndex] = useState(0);
 
   const descriptions = domainSpecificText[state.datasetName as keyof typeof domainSpecificText] || domainSpecificText.default;
   const metricDescriptions = descriptions.metrics;
@@ -777,143 +780,16 @@ export default function DashboardPage() {
     );
   };
   
-    const PredictionAnimation = ({ formValues, predictionResult }: { formValues: FormValues, predictionResult: Prediction | null }) => {
-        const [visibleTrees, setVisibleTrees] = useState(0);
-
-        useEffect(() => {
-            if (predictionResult) {
-                const timer1 = setTimeout(() => setVisibleTrees(1), 500);
-                const timer2 = setTimeout(() => setVisibleTrees(2), 1500);
-                const timer3 = setTimeout(() => setVisibleTrees(3), 2500);
-                return () => {
-                    clearTimeout(timer1);
-                    clearTimeout(timer2);
-                    clearTimeout(timer3);
-                };
-            } else {
-                setVisibleTrees(0);
-            }
-        }, [predictionResult]);
-        
-        if (!predictionResult || !predictionResult.forestSimulation) return null;
-
-        const SimpleDecisionTree = ({ tree, userInput }: { tree: DecisionNode | LeafNode, userInput: Record<string, number>}) => {
-            const renderNode = (node: DecisionNode | LeafNode, depth = 0): JSX.Element => {
-                const isLeaf = node.type === 'leaf';
-                
-                let evaluationResult: boolean | undefined = undefined;
-                if (!isLeaf) {
-                    const featureName = (node as DecisionNode).feature;
-                    const featureKey = featureName.replace(/\s+/g, '');
-                    const userValue = userInput[featureKey];
-                    if (userValue !== undefined) {
-                        evaluationResult = userValue <= (node as DecisionNode).threshold;
-                    }
-                }
-                
-                const nodeIsActive = (path: 'left' | 'right') => {
-                    if (evaluationResult === undefined) return false;
-                    return (path === 'left' && evaluationResult) || (path === 'right' && !evaluationResult);
-                }
-
-                const getLeafValue = (leafNode: LeafNode) => {
-                    return leafNode.value.indexOf(Math.max(...leafNode.value)) === 0 ? 'Risky' : 'Risk Less';
-                };
-
-                const isFinalPath = (n: DecisionNode | LeafNode): boolean => {
-                    if (n.type === 'leaf') return true;
-
-                    const featureName = (n as DecisionNode).feature;
-                    const featureKey = featureName.replace(/\s+/g, '');
-                    const userValue = userInput[featureKey];
-
-                     if (userValue === undefined) return false;
-
-                    const evaluation = userValue <= (n as DecisionNode).threshold;
-                    const child = evaluation ? (n as DecisionNode).children[0] : (n as DecisionNode).children[1];
-                    return isFinalPath(child);
-                };
-
-
-                if (isLeaf) {
-                     const isFinalLeaf = isFinalPath(node);
-                    return (
-                        <div className="flex flex-col items-center">
-                            <Badge variant="outline" className={cn("border-2", isFinalLeaf ? "border-red-500 text-red-500 font-bold" : "border-gray-300")}>
-                                {getLeafValue(node as LeafNode)}
-                            </Badge>
-                        </div>
-                    );
-                }
-        
-                return (
-                    <div className="flex flex-col items-center">
-                        <Badge className="bg-blue-100 text-blue-800 border-2 border-blue-400 hover:bg-blue-200">
-                            {(node as DecisionNode).feature} &lt;= {(node as DecisionNode).threshold.toFixed(2)}?
-                        </Badge>
-                        <div className="flex mt-2 w-full justify-center relative">
-                            <div className="absolute top-0 h-4 w-px bg-gray-300"></div>
-                            <div className={cn("absolute top-4 h-px w-1/2", nodeIsActive('left') ? 'bg-red-500' : 'bg-gray-300')}></div>
-                             <div className={cn("absolute top-4 h-px w-1/2 left-1/2", nodeIsActive('right') ? 'bg-red-500' : 'bg-gray-300')}></div>
-                        </div>
-                        <div className="flex mt-2 w-full justify-around pt-6 relative">
-                            <div className="absolute top-0 left-[25%] -translate-x-1/2 text-xs">Yes</div>
-                            <div className="absolute top-0 right-[25%] translate-x-1/2 text-xs">No</div>
-                            <div className="w-1/2 flex justify-center">
-                                {renderNode((node as DecisionNode).children[0], depth + 1)}
-                            </div>
-                            <div className="w-1/2 flex justify-center">
-                                {renderNode((node as DecisionNode).children[1], depth + 1)}
-                            </div>
-                        </div>
-                    </div>
-                );
-            };
-        
-            return renderNode(tree);
-        };
-
-
-        return (
-            <div className="w-full max-w-5xl mt-8 text-center animate-fade-in">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-                    {predictionResult.forestSimulation.trees.slice(0, 3).map((treeSim, i) => (
-                        <div key={i} className={cn("transition-opacity duration-500", i < visibleTrees ? "opacity-100" : "opacity-0")}>
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Decision Tree {i + 1}</CardTitle>
-                                </CardHeader>
-                                <CardContent className="min-h-[200px] flex items-center justify-center">
-                                    <SimpleDecisionTree tree={treeSim.tree} userInput={form.getValues() as any} />
-                                </CardContent>
-                                <div className='text-center p-4 border-t'>
-                                    <span className='font-semibold'>Prediction: </span>
-                                    <span className={cn(treeSim.prediction === 0 ? 'text-red-500' : 'text-green-500', 'font-bold')}>
-                                        {treeSim.prediction === 0 ? 'Risky' : 'Risk Less'}
-                                    </span>
-                                </div>
-                            </Card>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        );
-    };
-
-
   const renderHeartAttackPredictionPage = () => {
     const onSubmit = async (values: FormValues) => {
         setIsPredicting(true);
-        setAnimationState('predicting');
+        setPredictionResult(null); 
+        
         // Await prediction result
-        const result = await actions.predict(values as any, numTrees);
+        const result = await actions.predict(values as any, numTrees, maxDepth);
         setPredictionResult(result);
         
-        // Start animation after getting result
-        setTimeout(() => {
-            setAnimationState('finished');
-            setIsPredicting(false);
-        }, 3000); 
+        setIsPredicting(false);
     };
 
     const inputFields = [
@@ -923,12 +799,6 @@ export default function DashboardPage() {
         { name: 'Blood Sugar', icon: FlaskConical, placeholder: '99' }
     ];
     
-    const handleRunNewPrediction = () => {
-        setAnimationState('idle');
-        setPredictionResult(null);
-        form.reset();
-    };
-
     return (
       <div className="flex-1 flex flex-col bg-slate-50 dark:bg-slate-900/50 rounded-lg">
         <header className="flex items-center h-16 px-6 border-b bg-red-200 dark:bg-red-800/20 rounded-t-lg">
@@ -938,14 +808,12 @@ export default function DashboardPage() {
           <h2 className="ml-4 text-xl font-semibold">Heart Attack Prediction</h2>
         </header>
         <main className="flex-1 p-6 md:p-10 flex flex-col items-center">
-          {animationState !== 'finished' && (
             <>
               <h1 className="text-3xl font-bold tracking-tight">Patient Vitals Input</h1>
               <p className="mt-2 text-muted-foreground">Enter the patient's vitals to predict the risk of a heart attack.</p>
             </>
-          )}
 
-          <Card className={cn("mt-8 w-full max-w-4xl p-6 transition-opacity duration-500", animationState !== 'idle' && 'opacity-50 pointer-events-none')}>
+          <Card className={cn("mt-8 w-full max-w-4xl p-6")}>
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div className="relative w-full h-64 md:h-full rounded-lg overflow-hidden">
                 <Image
@@ -992,24 +860,42 @@ export default function DashboardPage() {
               </Form>
             </div>
           </Card>
-          <div className={cn("mt-8 w-full max-w-xl space-y-4 transition-opacity duration-500", animationState !== 'idle' && 'opacity-50 pointer-events-none')}>
-            <div className="flex justify-between items-center">
-                <Label>Number of Decision Trees: {numTrees}</Label>
+          <div className={cn("mt-8 w-full max-w-xl space-y-4")}>
+             <div className="grid grid-cols-2 gap-4">
+                 <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                        <Label>Number of Decision Trees</Label>
+                        <span className="text-sm text-muted-foreground">{numTrees}</span>
+                    </div>
+                    <Slider
+                        value={[numTrees]}
+                        onValueChange={(value) => setNumTrees(value[0])}
+                        min={1}
+                        max={10}
+                        step={1}
+                    />
+                </div>
+                 <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                        <Label>Max Depth</Label>
+                         <span className="text-sm text-muted-foreground">{maxDepth}</span>
+                    </div>
+                    <Slider
+                        value={[maxDepth]}
+                        onValueChange={(value) => setMaxDepth(value[0])}
+                        min={1}
+                        max={10}
+                        step={1}
+                    />
+                </div>
             </div>
-            <Slider
-                value={[numTrees]}
-                onValueChange={(value) => setNumTrees(value[0])}
-                min={1}
-                max={10}
-                step={1}
-            />
             <Button className="w-full bg-blue-600 hover:bg-blue-700" onClick={form.handleSubmit(onSubmit)} disabled={isPredicting}>
                 {isPredicting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Zap className="mr-2 h-4 w-4" />}
                 {isPredicting ? 'Predicting...' : 'Predict'}
             </Button>
           </div>
           
-          {animationState === 'predicting' && (
+          {isPredicting && (
             <div className="w-full max-w-4xl mt-12 text-center">
                 <p className="text-muted-foreground mb-4">Feeding patient data to the Random Forest model...</p>
                 <div className="flex items-center justify-center">
@@ -1017,22 +903,11 @@ export default function DashboardPage() {
                 </div>
             </div>
           )}
-
-          {animationState === 'finished' && predictionResult && (
-            <div className="w-full max-w-5xl mt-12 text-center animate-fade-in">
-                <h2 className="text-2xl font-bold tracking-tight">Prediction Complete</h2>
-                <PredictionAnimation formValues={form.getValues() as any} predictionResult={predictionResult} />
-                <div className="mt-8 p-4 bg-background rounded-lg border">
-                    <p className="text-muted-foreground">Final Prediction (Majority Vote)</p>
-                    <p className={cn("text-4xl font-bold", predictionResult.prediction === 1 ? 'text-green-600' : 'text-red-600')}>
-                        {predictionResult.prediction === 1 ? 'Risk Less' : 'Risky'}
-                    </p>
-                </div>
-                 <Button onClick={handleRunNewPrediction} className="mt-8">
-                    Run New Prediction
-                </Button>
-            </div>
+          
+          {predictionResult && (
+            <PredictionDetails predictionResult={predictionResult} userInput={form.getValues() as any} />
           )}
+
         </main>
       </div>
     );
