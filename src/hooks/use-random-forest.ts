@@ -63,7 +63,7 @@ const DATASETS: Record<TaskType, DatasetOption[]> = {
     ]
 };
 
-const getInitialStateForTask = (task: TaskType, datasetName: string): Omit<State, 'userLevel' | 'selectedRole' | 'showSyntheticData' | 'showHeartAttackPrediction' | 'showTennisData' | 'showCustomerData'> => {
+const getInitialStateForTask = (task: TaskType, datasetName: string): Omit<State, 'userLevel' | 'selectedRole' | 'showSyntheticData' | 'showHeartAttackPrediction' | 'showTennisData' | 'showCustomerPurchasePrediction' | 'showCustomerPurchaseData'> => {
     const datasetOption = DATASETS[task].find(d => d.value === datasetName) ?? DATASETS[task][0];
     const dataset = datasetOption.data;
     const allHeaders = Object.keys(dataset[0] ?? {});
@@ -93,7 +93,8 @@ type State = {
   showSyntheticData: boolean;
   showHeartAttackPrediction: boolean;
   showTennisData: boolean;
-  showCustomerData: boolean;
+  showCustomerPurchasePrediction: boolean;
+  showCustomerPurchaseData: boolean;
 };
 
 type Data = {
@@ -127,7 +128,8 @@ type Action =
   | { type: 'SET_SHOW_SYNTHETIC_DATA', payload: boolean }
   | { type: 'SET_SHOW_HEART_ATTACK_PREDICTION', payload: boolean }
   | { type: 'SET_SHOW_TENNIS_DATA', payload: boolean }
-  | { type: 'SET_SHOW_CUSTOMER_DATA', payload: boolean };
+  | { type: 'SET_SHOW_CUSTOMER_PURCHASE_PREDICTION', payload: boolean }
+  | { type: 'SET_SHOW_CUSTOMER_PURCHASE_DATA', payload: boolean };
 
 const initialState: State = {
     ...getInitialStateForTask('classification', 'wine-quality'),
@@ -136,7 +138,8 @@ const initialState: State = {
     showSyntheticData: false,
     showHeartAttackPrediction: false,
     showTennisData: false,
-    showCustomerData: false,
+    showCustomerPurchasePrediction: false,
+    showCustomerPurchaseData: false,
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -185,15 +188,17 @@ const reducer = (state: State, action: Action): State => {
     case 'SET_USER_LEVEL':
         return { ...state, userLevel: action.payload, selectedRole: null }; // Reset role on level change
     case 'SET_SELECTED_ROLE':
-        return { ...state, selectedRole: action.payload, showHeartAttackPrediction: false, showSyntheticData: false, showTennisData: false };
+        return { ...state, selectedRole: action.payload, showHeartAttackPrediction: false, showSyntheticData: false, showTennisData: false, showCustomerPurchasePrediction: false, showCustomerPurchaseData: false };
     case 'SET_SHOW_SYNTHETIC_DATA':
         return { ...state, showSyntheticData: action.payload };
     case 'SET_SHOW_HEART_ATTACK_PREDICTION':
         return { ...state, showHeartAttackPrediction: action.payload };
     case 'SET_SHOW_TENNIS_DATA':
         return { ...state, showTennisData: action.payload };
-    case 'SET_SHOW_CUSTOMER_DATA':
-        return { ...state, showCustomerData: action.payload };
+    case 'SET_SHOW_CUSTOMER_PURCHASE_PREDICTION':
+        return { ...state, showCustomerPurchasePrediction: action.payload };
+    case 'SET_SHOW_CUSTOMER_PURCHASE_DATA':
+        return { ...state, showCustomerPurchaseData: action.payload };
     default:
       return state;
   }
@@ -270,7 +275,7 @@ const generateMockTree = (
 };
 
 
-const createSeed = (state: Omit<State, 'userLevel' | 'selectedRole' | 'showSyntheticData' | 'showHeartAttackPrediction' | 'showTennisData' | 'showCustomerData'>, salt: string = '') => {
+const createSeed = (state: Omit<State, 'userLevel' | 'selectedRole' | 'showSyntheticData' | 'showHeartAttackPrediction' | 'showTennisData' | 'showCustomerPurchasePrediction' | 'showCustomerPurchaseData'>, salt: string = '') => {
     let seed = 0;
     const str = JSON.stringify(state.hyperparameters) + state.testSize + state.targetColumn + state.task + state.datasetName + salt;
     for (let i = 0; i < str.length; i++) {
@@ -355,7 +360,7 @@ const generatePdpData = (features: string[], dataset: Record<string, any>[], tas
     return pdp;
 };
 
-const generateForestSimulation = (state: Omit<State, 'userLevel' | 'selectedRole' | 'showSyntheticData' | 'showHeartAttackPrediction' | 'showTennisData' | 'showCustomerData'>, seed: number, numTreesOverride?: number, maxDepthOverride?: number): ForestSimulation => {
+const generateForestSimulation = (state: Omit<State, 'userLevel' | 'selectedRole' | 'showSyntheticData' | 'showHeartAttackPrediction' | 'showTennisData' | 'showCustomerPurchasePrediction' | 'showCustomerPurchaseData'>, seed: number, numTreesOverride?: number, maxDepthOverride?: number): ForestSimulation => {
     const { selectedFeatures, task } = state;
     let { hyperparameters } = state;
     const numTrees = numTreesOverride ?? hyperparameters.n_estimators;
@@ -395,7 +400,7 @@ const generateForestSimulation = (state: Omit<State, 'userLevel' | 'selectedRole
 
 
 const mockTrainModel = async (
-  state: Omit<State, 'userLevel' | 'selectedRole' | 'showSyntheticData' | 'showHeartAttackPrediction' | 'showTennisData' | 'showCustomerData'>,
+  state: Omit<State, 'userLevel' | 'selectedRole' | 'showSyntheticData' | 'showHeartAttackPrediction' | 'showTennisData' | 'showCustomerPurchasePrediction' | 'showCustomerPurchaseData'>,
   dataset: Record<string, any>[],
   isBaseline: boolean = false,
 ): Promise<Omit<Data, 'dataset' | 'insights' | 'baselineMetrics' | 'baselineFeatureImportance' | 'baselineChartData' | 'metadata' | 'placeholderValues'>> => {
@@ -478,7 +483,7 @@ const mockTrainModel = async (
 
 const mockPredict = (
     values: Record<string, number>,
-    state: Omit<State, 'userLevel' | 'selectedRole' | 'showSyntheticData' | 'showHeartAttackPrediction' | 'showTennisData' | 'showCustomerData'>,
+    state: Omit<State, 'userLevel' | 'selectedRole' | 'showSyntheticData' | 'showHeartAttackPrediction' | 'showTennisData' | 'showCustomerPurchasePrediction' | 'showCustomerPurchaseData'>,
     numTrees: number,
     maxDepth: number
 ): Prediction => {
@@ -546,7 +551,7 @@ export const useRandomForest = () => {
       }
       setStatus('loading');
       try {
-        const { userLevel, selectedRole, showSyntheticData, showHeartAttackPrediction, showTennisData, showCustomerData, ...stateForTraining } = state;
+        const { userLevel, selectedRole, showSyntheticData, showHeartAttackPrediction, showTennisData, showCustomerPurchasePrediction, showCustomerPurchaseData, ...stateForTraining } = state;
         const currentDataset = DATASETS[stateForTraining.task].find(d => d.value === stateForTraining.datasetName)?.data ?? [];
         
         const effectiveState = isBaseline ? { ...stateForTraining, hyperparameters: BASELINE_HYPERPARAMETERS } : stateForTraining;
@@ -653,7 +658,7 @@ export const useRandomForest = () => {
     
     const predict = useCallback(async (values: Record<string, number>, numTrees: number, maxDepth: number): Promise<Prediction> => {
         await new Promise(res => setTimeout(res, 1000));
-        const { userLevel, selectedRole, showSyntheticData, showHeartAttackPrediction, showTennisData, showCustomerData, ...stateForPrediction } = state;
+        const { userLevel, selectedRole, showSyntheticData, showHeartAttackPrediction, showTennisData, showCustomerPurchasePrediction, showCustomerPurchaseData, ...stateForPrediction } = state;
         return mockPredict(values, stateForPrediction, numTrees, maxDepth);
     }, [state]);
 
@@ -669,7 +674,8 @@ export const useRandomForest = () => {
     setShowSyntheticData: handleStateChange('SET_SHOW_SYNTHETIC_DATA'),
     setShowHeartAttackPrediction: handleStateChange('SET_SHOW_HEART_ATTACK_PREDICTION'),
     setShowTennisData: handleStateChange('SET_SHOW_TENNIS_DATA'),
-    setShowCustomerData: handleStateChange('SET_SHOW_CUSTOMER_DATA'),
+    setShowCustomerPurchasePrediction: handleStateChange('SET_SHOW_CUSTOMER_PURCHASE_PREDICTION'),
+    setShowCustomerPurchaseData: handleStateChange('SET_SHOW_CUSTOMER_PURCHASE_DATA'),
     trainModel: () => trainModel(false),
     trainBaselineModel: () => trainModel(true),
     predict,
@@ -677,3 +683,5 @@ export const useRandomForest = () => {
 
   return { state, data, status, actions, availableDatasets: DATASETS[state.task] };
 };
+
+    

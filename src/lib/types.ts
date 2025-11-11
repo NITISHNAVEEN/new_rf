@@ -162,3 +162,5 @@ export type CustomerPurchaseData = {
     "Credit Rating": "Fair" | "Excellent";
     "Buys Computer?": "No" | "Yes";
 };
+
+    

@@ -236,7 +236,8 @@ const initialState = {
     showSyntheticData: false,
     showHeartAttackPrediction: false,
     showTennisData: false,
-    showCustomerData: false
+    showCustomerPurchasePrediction: false,
+    showCustomerPurchaseData: false
 };
 const reducer = (state, action)=>{
     switch(action.type){
@@ -306,7 +307,9 @@ const reducer = (state, action)=>{
                 selectedRole: action.payload,
                 showHeartAttackPrediction: false,
                 showSyntheticData: false,
-                showTennisData: false
+                showTennisData: false,
+                showCustomerPurchasePrediction: false,
+                showCustomerPurchaseData: false
             };
         case 'SET_SHOW_SYNTHETIC_DATA':
             return {
@@ -323,10 +326,15 @@ const reducer = (state, action)=>{
                 ...state,
                 showTennisData: action.payload
             };
-        case 'SET_SHOW_CUSTOMER_DATA':
+        case 'SET_SHOW_CUSTOMER_PURCHASE_PREDICTION':
             return {
                 ...state,
-                showCustomerData: action.payload
+                showCustomerPurchasePrediction: action.payload
+            };
+        case 'SET_SHOW_CUSTOMER_PURCHASE_DATA':
+            return {
+                ...state,
+                showCustomerPurchaseData: action.payload
             };
         default:
             return state;
@@ -699,7 +707,7 @@ const useRandomForest = ()=>{
             }
             setStatus('loading');
             try {
-                const { userLevel, selectedRole, showSyntheticData, showHeartAttackPrediction, showTennisData, showCustomerData, ...stateForTraining } = state;
+                const { userLevel, selectedRole, showSyntheticData, showHeartAttackPrediction, showTennisData, showCustomerPurchasePrediction, showCustomerPurchaseData, ...stateForTraining } = state;
                 const currentDataset = DATASETS[stateForTraining.task].find({
                     "useRandomForest.useCallback[trainModel]": (d)=>d.value === stateForTraining.datasetName
                 }["useRandomForest.useCallback[trainModel]"])?.data ?? [];
@@ -875,7 +883,7 @@ const useRandomForest = ()=>{
             await new Promise({
                 "useRandomForest.useCallback[predict]": (res)=>setTimeout(res, 1000)
             }["useRandomForest.useCallback[predict]"]);
-            const { userLevel, selectedRole, showSyntheticData, showHeartAttackPrediction, showTennisData, showCustomerData, ...stateForPrediction } = state;
+            const { userLevel, selectedRole, showSyntheticData, showHeartAttackPrediction, showTennisData, showCustomerPurchasePrediction, showCustomerPurchaseData, ...stateForPrediction } = state;
             return mockPredict(values, stateForPrediction, numTrees, maxDepth);
         }
     }["useRandomForest.useCallback[predict]"], [
@@ -893,7 +901,8 @@ const useRandomForest = ()=>{
         setShowSyntheticData: handleStateChange('SET_SHOW_SYNTHETIC_DATA'),
         setShowHeartAttackPrediction: handleStateChange('SET_SHOW_HEART_ATTACK_PREDICTION'),
         setShowTennisData: handleStateChange('SET_SHOW_TENNIS_DATA'),
-        setShowCustomerData: handleStateChange('SET_SHOW_CUSTOMER_DATA'),
+        setShowCustomerPurchasePrediction: handleStateChange('SET_SHOW_CUSTOMER_PURCHASE_PREDICTION'),
+        setShowCustomerPurchaseData: handleStateChange('SET_SHOW_CUSTOMER_PURCHASE_DATA'),
         trainModel: ()=>trainModel(false),
         trainBaselineModel: ()=>trainModel(true),
         predict
