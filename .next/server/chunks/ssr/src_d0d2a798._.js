@@ -188,16 +188,31 @@ const reducer = (state, action)=>{
     switch(action.type){
         case 'SET_TASK':
             {
+                if (state.userLevel === 'beginner') {
+                    return state; // In beginner mode, task is locked to dataset
+                }
+                const newDatasetOption = DATASETS[action.payload][0];
                 return {
                     ...state,
-                    ...getInitialStateForTask(action.payload, DATASETS[action.payload][0].value)
+                    task: action.payload,
+                    datasetName: newDatasetOption.value,
+                    targetColumn: newDatasetOption.target,
+                    selectedFeatures: Object.keys(newDatasetOption.data[0] ?? {}).filter((h)=>h !== newDatasetOption.target)
                 };
             }
         case 'SET_DATASET':
             {
+                const selectedDataset = Object.values(DATASETS).flat().find((d)=>d.value === action.payload) ?? DATASETS[state.task][0];
+                const newTask = Object.keys(DATASETS.classification).some((key)=>DATASETS.classification[key].value === action.payload) ? 'classification' : 'regression';
+                const allHeaders = Object.keys(selectedDataset.data[0] ?? {});
+                const targetColumn = selectedDataset.target;
+                const selectedFeatures = allHeaders.filter((h)=>h !== targetColumn);
                 return {
                     ...state,
-                    ...getInitialStateForTask(state.task, action.payload)
+                    task: newTask,
+                    datasetName: action.payload,
+                    targetColumn,
+                    selectedFeatures
                 };
             }
         case 'SET_HYPERPARAMETERS':
@@ -693,13 +708,7 @@ const useRandomForest = ()=>{
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         if (state.userLevel === 'beginner') {
-            const beginnerUrl = 'https://forest-explorer-git-main-nitishnaveens-projects.vercel.app?_vercel_share=z8WXMPyTl9AOXNXLvgWkHMjILghhKwkl';
-            window.open(beginnerUrl, '_blank');
-            // Reset to advanced to avoid being stuck in a loop if the user comes back
-            dispatch({
-                type: 'SET_USER_LEVEL',
-                payload: 'advanced'
-            });
+            // This is handled in the UI now
             return;
         }
         const newDatasetOption = DATASETS[state.task].find((d)=>d.value === state.datasetName);
@@ -732,7 +741,7 @@ const useRandomForest = ()=>{
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         // Only auto-train if a baseline has been set and the hyperparameters have changed.
-        if (data.baselineMetrics) {
+        if (data.baselineMetrics && state.userLevel === 'advanced') {
             const handler = setTimeout(()=>trainModel(false), 500);
             return ()=>clearTimeout(handler);
         }

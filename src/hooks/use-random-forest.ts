@@ -121,10 +121,36 @@ const initialState: State = {
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'SET_TASK': {
-        return { ...state, ...getInitialStateForTask(action.payload, DATASETS[action.payload][0].value) };
+        if (state.userLevel === 'beginner') {
+            return state; // In beginner mode, task is locked to dataset
+        }
+        const newDatasetOption = DATASETS[action.payload][0];
+        return { 
+            ...state, 
+            task: action.payload,
+            datasetName: newDatasetOption.value,
+            targetColumn: newDatasetOption.target,
+            selectedFeatures: Object.keys(newDatasetOption.data[0] ?? {}).filter(h => h !== newDatasetOption.target),
+        };
     }
     case 'SET_DATASET': {
-        return { ...state, ...getInitialStateForTask(state.task, action.payload) };
+        const selectedDataset = 
+            Object.values(DATASETS).flat().find(d => d.value === action.payload)
+            ?? DATASETS[state.task][0];
+
+        const newTask = Object.keys(DATASETS.classification).some(key => DATASETS.classification[key].value === action.payload) ? 'classification' : 'regression';
+        
+        const allHeaders = Object.keys(selectedDataset.data[0] ?? {});
+        const targetColumn = selectedDataset.target;
+        const selectedFeatures = allHeaders.filter(h => h !== targetColumn);
+
+        return {
+            ...state,
+            task: newTask,
+            datasetName: action.payload,
+            targetColumn,
+            selectedFeatures,
+        };
     }
     case 'SET_HYPERPARAMETERS':
       return { ...state, hyperparameters: { ...state.hyperparameters, ...action.payload } };
@@ -559,10 +585,7 @@ export const useRandomForest = () => {
 
     useEffect(() => {
         if (state.userLevel === 'beginner') {
-            const beginnerUrl = 'https://forest-explorer-git-main-nitishnaveens-projects.vercel.app?_vercel_share=z8WXMPyTl9AOXNXLvgWkHMjILghhKwkl';
-            window.open(beginnerUrl, '_blank');
-            // Reset to advanced to avoid being stuck in a loop if the user comes back
-            dispatch({ type: 'SET_USER_LEVEL', payload: 'advanced' });
+            // This is handled in the UI now
             return;
         }
 
@@ -594,7 +617,7 @@ export const useRandomForest = () => {
 
     useEffect(() => {
         // Only auto-train if a baseline has been set and the hyperparameters have changed.
-        if (data.baselineMetrics) {
+        if (data.baselineMetrics && state.userLevel === 'advanced') {
           const handler = setTimeout(() => trainModel(false), 500);
           return () => clearTimeout(handler);
         }

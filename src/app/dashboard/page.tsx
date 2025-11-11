@@ -3,7 +3,7 @@
 'use client';
 
 import Image from 'next/image';
-import { TreePine, BarChart3, Target, PanelLeft, LineChart, BeakerIcon, AreaChart, Lightbulb, GitMerge, BrainCircuit, Activity, TestTube2, HelpCircle, BookOpen } from 'lucide-react';
+import { TreePine, BarChart3, Target, PanelLeft, LineChart, BeakerIcon, AreaChart, Lightbulb, GitMerge, BrainCircuit, Activity, TestTube2, HelpCircle, BookOpen, HeartPulse, ShieldCheck, User, Laptop } from 'lucide-react';
 import { useRandomForest } from '@/hooks/use-random-forest';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -38,6 +38,9 @@ import { AggregationResultsDashboard } from '@/components/aggregation-results-da
 import { ProblemStatement } from '@/components/problem-statement';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useState } from 'react';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
 
 const domainSpecificText = {
   'california-housing': {
@@ -324,8 +327,105 @@ export default function DashboardPage() {
       </>
     );
   };
+  
+  const renderBeginnerPage = () => {
+    const roles = [
+      {
+        name: 'Doctor',
+        icon: HeartPulse,
+        description: 'Doctors can predict heart attack risk using random forest rather than considering complex numerous features.',
+        dataset: 'breast-cancer',
+      },
+      {
+        name: 'Sports Coach',
+        icon: Target,
+        description: 'Coach can decide a good day to play tennis without worrying about the factors which influence play.',
+        dataset: 'linnerud',
+      },
+      {
+        name: 'Computer Seller',
+        icon: Laptop,
+        description: 'Computer seller can predict whether the customer will buy a computer or not.',
+        dataset: 'wine-quality',
+      }
+    ];
+
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center p-4 text-center">
+        <h1 className="text-4xl font-bold tracking-tight">Explore RANDOM FOREST</h1>
+        <p className="mt-4 text-lg text-primary font-semibold">Why use Random Forest?</p>
+        <p className="mt-2 max-w-2xl text-muted-foreground">
+          Random Forest can help you predict the accurate and reliable results of your daily life situations.
+        </p>
+
+        <div className="mt-8">
+            <RadioGroup
+                value={state.userLevel}
+                onValueChange={(value) => actions.setUserLevel(value as 'beginner' | 'advanced')}
+                className="flex items-center space-x-1 rounded-full p-1 bg-muted"
+            >
+                <RadioGroupItem value="beginner" id="level_beginner_main" className="sr-only" />
+                <Label 
+                    htmlFor="level_beginner_main"
+                    className={cn(
+                        "px-6 py-2 rounded-full cursor-pointer transition-colors",
+                        state.userLevel === 'beginner' && 'bg-background shadow-md'
+                    )}
+                >
+                    Beginner
+                </Label>
+                
+                <RadioGroupItem value="advanced" id="level_advanced_main" className="sr-only" />
+                <Label 
+                    htmlFor="level_advanced_main"
+                    className={cn(
+                        "px-6 py-2 rounded-full cursor-pointer transition-colors",
+                        state.userLevel === 'advanced' && 'bg-background shadow-md'
+                    )}
+                >
+                    Advanced
+                </Label>
+            </RadioGroup>
+        </div>
+
+        <div className="mt-12 w-full max-w-4xl">
+            <h2 className="text-2xl font-bold">Choose Your Role</h2>
+            <p className="mt-2 text-muted-foreground">Select a persona to see how different professionals can benefit from this powerful algorithm.</p>
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+                {roles.map((role) => (
+                    <Card key={role.name} className="text-center hover:shadow-xl transition-shadow">
+                        <CardHeader>
+                            <div className="mx-auto bg-primary/10 rounded-full p-4 w-fit">
+                                <role.icon className="w-8 h-8 text-primary" />
+                            </div>
+                            <CardTitle className='pt-2'>{role.name}</CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex flex-col flex-1">
+                            <p className="text-muted-foreground flex-1">{role.description}</p>
+                            <Button 
+                                variant="outline" 
+                                className="mt-6 w-full"
+                                onClick={() => {
+                                    actions.setDataset(role.dataset);
+                                    actions.setUserLevel('advanced');
+                                }}
+                            >
+                                Select Role
+                            </Button>
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
+        </div>
+      </div>
+    )
+  }
 
   const renderContent = () => {
+    if (state.userLevel === 'beginner') {
+      return renderBeginnerPage();
+    }
+    
     if (status === 'idle' && !data.metrics) {
       return (
         <div className="flex flex-1 justify-center rounded-lg border border-dashed shadow-sm pt-10">
@@ -685,7 +785,7 @@ export default function DashboardPage() {
       <SidebarInset className="flex flex-col">
         <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 mb-4">
           <div className="flex items-center gap-2">
-            <SidebarTrigger className="md:hidden">
+            <SidebarTrigger className={cn("md:hidden", state.userLevel === 'beginner' && 'hidden')} >
               <PanelLeft />
             </SidebarTrigger>
             <div className="flex items-center gap-2">
@@ -702,5 +802,3 @@ export default function DashboardPage() {
     </>
   );
 }
-
-    
