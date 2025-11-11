@@ -128,3 +128,5 @@ export type Data = {
   metadata: DatasetMetadata | null;
   placeholderValues: Record<string, any> | null;
 };
+
+export type Role = 'doctor' | 'coach' | 'seller';

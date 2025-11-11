@@ -182,7 +182,8 @@ const getInitialStateForTask = (task, datasetName)=>{
 };
 const initialState = {
     ...getInitialStateForTask('classification', 'wine-quality'),
-    userLevel: 'beginner'
+    userLevel: 'beginner',
+    selectedRole: null
 };
 const reducer = (state, action)=>{
     switch(action.type){
@@ -243,7 +244,13 @@ const reducer = (state, action)=>{
         case 'SET_USER_LEVEL':
             return {
                 ...state,
-                userLevel: action.payload
+                userLevel: action.payload,
+                selectedRole: null
+            }; // Reset role on level change
+        case 'SET_SELECTED_ROLE':
+            return {
+                ...state,
+                selectedRole: action.payload
             };
         default:
             return state;
@@ -613,7 +620,7 @@ const useRandomForest = ()=>{
         }
         setStatus('loading');
         try {
-            const { userLevel, ...stateForTraining } = state;
+            const { userLevel, selectedRole, ...stateForTraining } = state;
             const currentDataset = DATASETS[stateForTraining.task].find((d)=>d.value === stateForTraining.datasetName)?.data ?? [];
             const effectiveState = isBaseline ? {
                 ...stateForTraining,
@@ -708,7 +715,6 @@ const useRandomForest = ()=>{
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         if (state.userLevel === 'beginner') {
-            // This is handled in the UI now
             return;
         }
         const newDatasetOption = DATASETS[state.task].find((d)=>d.value === state.datasetName);
@@ -752,7 +758,7 @@ const useRandomForest = ()=>{
     ]);
     const predict = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(async (values)=>{
         await new Promise((res)=>setTimeout(res, 1000));
-        const { userLevel, ...stateForPrediction } = state;
+        const { userLevel, selectedRole, ...stateForPrediction } = state;
         return mockPredict(values, stateForPrediction);
     }, [
         state
@@ -765,6 +771,7 @@ const useRandomForest = ()=>{
         setTargetColumn: handleStateChange('SET_TARGET_COLUMN'),
         setTestSize: handleStateChange('SET_TEST_SIZE'),
         setUserLevel: handleStateChange('SET_USER_LEVEL'),
+        setSelectedRole: handleStateChange('SET_SELECTED_ROLE'),
         trainModel: ()=>trainModel(false),
         trainBaselineModel: ()=>trainModel(true),
         predict
