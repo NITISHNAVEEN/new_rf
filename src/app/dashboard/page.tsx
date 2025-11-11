@@ -48,7 +48,6 @@ import * as z from 'zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
-import { PredictionDetails } from '@/components/prediction-details';
 
 
 const domainSpecificText = {
@@ -807,13 +806,13 @@ export default function DashboardPage() {
           </Button>
           <h2 className="ml-4 text-xl font-semibold">Heart Attack Prediction</h2>
         </header>
-        <main className="flex-1 p-6 md:p-10 flex flex-col items-center">
+        <main className="flex-1 p-6 md:p-10 flex flex-col items-center space-y-8">
             <>
               <h1 className="text-3xl font-bold tracking-tight">Patient Vitals Input</h1>
               <p className="mt-2 text-muted-foreground">Enter the patient's vitals to predict the risk of a heart attack.</p>
             </>
 
-          <Card className={cn("mt-8 w-full max-w-4xl p-6")}>
+          <Card className={cn("w-full max-w-4xl p-6")}>
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div className="relative w-full h-64 md:h-full rounded-lg overflow-hidden">
                 <Image
@@ -860,7 +859,7 @@ export default function DashboardPage() {
               </Form>
             </div>
           </Card>
-          <div className={cn("mt-8 w-full max-w-xl space-y-4")}>
+          <div className={cn("w-full max-w-xl space-y-4")}>
              <div className="grid grid-cols-2 gap-4">
                  <div className="space-y-2">
                     <div className="flex justify-between items-center">
@@ -905,7 +904,24 @@ export default function DashboardPage() {
           )}
           
           {predictionResult && (
-            <PredictionDetails predictionResult={predictionResult} userInput={form.getValues() as any} />
+            <div className="w-full max-w-6xl space-y-8">
+                <ForestVisualization
+                    simulationData={predictionResult.forestSimulation}
+                    taskType={state.task}
+                    isLoading={isPredicting}
+                    onRetrain={() => {}}
+                    datasetName={"synthetic-patient-data"}
+                    description="The Random Forest below is made of multiple decision trees. Each tree makes its own prediction, and the final result is determined by a majority vote."
+                />
+                <div className="mt-8 p-4 bg-background rounded-lg border text-center">
+                    <p className="text-4xl font-bold">
+                        Final Prediction: <span className={cn(predictionResult.prediction === 1 ? 'text-green-600' : 'text-red-600')}>
+                            {predictionResult.prediction === 1 ? 'Risk Less' : 'Risky'}
+                        </span>
+                    </p>
+                    <p className="text-muted-foreground mt-2">Based on the majority vote from all decision trees.</p>
+                </div>
+            </div>
           )}
 
         </main>
