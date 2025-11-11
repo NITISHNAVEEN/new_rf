@@ -1511,6 +1511,11 @@ body {
   background-color: rgb(248 250 252 / var(--tw-bg-opacity, 1));
 }
 
+.bg-red-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(239 68 68 / var(--tw-bg-opacity, 1));
+}
+
 .bg-gradient-to-t {
   background-image: linear-gradient(to top, var(--tw-gradient-stops));
 }
@@ -2910,6 +2915,10 @@ body {
 
 .dark\:bg-slate-900\/50:is(.dark *) {
   background-color: #0f172a80;
+}
+
+.dark\:bg-red-700\/50:is(.dark *) {
+  background-color: #b91c1c80;
 }
 
 .dark\:text-blue-400:is(.dark *) {
