@@ -1,3 +1,4 @@
+
 'use client';
 
 import Image from 'next/image';
@@ -402,7 +403,7 @@ export default function DashboardPage() {
                 {roles.map((role) => (
                     <Card key={role.name} className="flex flex-col text-left overflow-hidden hover:shadow-xl transition-shadow">
                         <div className="relative h-48 w-full">
-                            <Image src={role.image} alt={`${role.name} icon`} layout="fill" objectFit="cover" />
+                            <Image src={role.image} alt={`${role.name} icon`} fill objectFit="cover" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                             <h3 className="absolute bottom-4 left-4 text-2xl font-bold text-white">{role.name}</h3>
                         </div>

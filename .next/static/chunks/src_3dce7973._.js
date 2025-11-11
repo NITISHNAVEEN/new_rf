@@ -211,7 +211,7 @@ __turbopack_context__.s({
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/client/app-dir/link.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/image.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/button.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/card.tsx [app-client] (ecmascript)");
@@ -538,6 +538,7 @@ _s(DecisionTree, "wtfgru0Q/XcDZ6CYxaGH1VDKa5w=");
 _c1 = DecisionTree;
 function PredictPage() {
     _s1();
+    const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
     const [vitals, setVitals] = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useState({
         bloodPressure: '120',
         cholesterol: '200',
@@ -691,26 +692,20 @@ function PredictPage() {
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
                 className: "sticky top-0 z-30 flex items-center h-16 px-4 border-b bg-header-background/80 backdrop-blur-sm",
                 children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                        href: "/dashboard",
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                            variant: "ghost",
-                            size: "icon",
-                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$left$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowLeft$3e$__["ArrowLeft"], {
-                                className: "w-5 h-5"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                lineNumber: 396,
-                                columnNumber: 13
-                            }, this)
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                        variant: "ghost",
+                        size: "icon",
+                        onClick: ()=>router.back(),
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$left$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowLeft$3e$__["ArrowLeft"], {
+                            className: "w-5 h-5"
                         }, void 0, false, {
                             fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                            lineNumber: 395,
-                            columnNumber: 11
+                            lineNumber: 396,
+                            columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                        lineNumber: 394,
+                        lineNumber: 395,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -718,13 +713,13 @@ function PredictPage() {
                         children: "Heart Attack Prediction"
                     }, void 0, false, {
                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                        lineNumber: 399,
+                        lineNumber: 398,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                lineNumber: 393,
+                lineNumber: 394,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -741,7 +736,7 @@ function PredictPage() {
                                         children: "Patient Vitals Input"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                        lineNumber: 406,
+                                        lineNumber: 405,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -749,13 +744,13 @@ function PredictPage() {
                                         children: "Enter the patient's vitals to predict the risk of a heart attack."
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                        lineNumber: 409,
+                                        lineNumber: 408,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                lineNumber: 405,
+                                lineNumber: 404,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tooltip$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TooltipProvider"], {
@@ -775,12 +770,12 @@ function PredictPage() {
                                                     className: "object-cover rounded-md"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                    lineNumber: 417,
+                                                    lineNumber: 416,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                lineNumber: 416,
+                                                lineNumber: 415,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -794,12 +789,12 @@ function PredictPage() {
                                                                     className: "w-5 h-5 text-primary"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                    lineNumber: 431,
+                                                                    lineNumber: 430,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                lineNumber: 430,
+                                                                lineNumber: 429,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -814,7 +809,7 @@ function PredictPage() {
                                                                                 children: label
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                                lineNumber: 435,
+                                                                                lineNumber: 434,
                                                                                 columnNumber: 29
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tooltip$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Tooltip"], {
@@ -826,17 +821,17 @@ function PredictPage() {
                                                                                                 className: "w-4 h-4 text-muted-foreground"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                                                lineNumber: 441,
+                                                                                                lineNumber: 440,
                                                                                                 columnNumber: 35
                                                                                             }, this)
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                                            lineNumber: 440,
+                                                                                            lineNumber: 439,
                                                                                             columnNumber: 33
                                                                                         }, this)
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                                        lineNumber: 439,
+                                                                                        lineNumber: 438,
                                                                                         columnNumber: 31
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tooltip$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TooltipContent"], {
@@ -844,24 +839,24 @@ function PredictPage() {
                                                                                             children: tooltip
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                                            lineNumber: 445,
+                                                                                            lineNumber: 444,
                                                                                             columnNumber: 33
                                                                                         }, this)
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                                        lineNumber: 444,
+                                                                                        lineNumber: 443,
                                                                                         columnNumber: 31
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                                lineNumber: 438,
+                                                                                lineNumber: 437,
                                                                                 columnNumber: 29
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                        lineNumber: 434,
+                                                                        lineNumber: 433,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -872,40 +867,40 @@ function PredictPage() {
                                                                         className: "bg-background/80"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                        lineNumber: 449,
+                                                                        lineNumber: 448,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                lineNumber: 433,
+                                                                lineNumber: 432,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, id, true, {
                                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                        lineNumber: 429,
+                                                        lineNumber: 428,
                                                         columnNumber: 23
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                lineNumber: 426,
+                                                lineNumber: 425,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                        lineNumber: 415,
+                                        lineNumber: 414,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                    lineNumber: 414,
+                                    lineNumber: 413,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                lineNumber: 413,
+                                lineNumber: 412,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -921,7 +916,7 @@ function PredictPage() {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                            lineNumber: 472,
+                                            lineNumber: 471,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$slider$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Slider"], {
@@ -939,18 +934,18 @@ function PredictPage() {
                                             disabled: isPredicting
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                            lineNumber: 475,
+                                            lineNumber: 474,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                    lineNumber: 471,
+                                    lineNumber: 470,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                lineNumber: 470,
+                                lineNumber: 469,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -964,25 +959,25 @@ function PredictPage() {
                                             className: "w-5 h-5 mr-2"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                            lineNumber: 496,
+                                            lineNumber: 495,
                                             columnNumber: 15
                                         }, this),
                                         isPredicting ? 'Analyzing...' : prediction ? 'Run New Prediction' : 'Predict'
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                    lineNumber: 491,
+                                    lineNumber: 490,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                lineNumber: 490,
+                                lineNumber: 489,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                        lineNumber: 404,
+                        lineNumber: 403,
                         columnNumber: 9
                     }, this),
                     (isPredicting || prediction) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -993,7 +988,7 @@ function PredictPage() {
                                 children: prediction ? 'Prediction Details' : 'Analyzing Patient Data...'
                             }, void 0, false, {
                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                lineNumber: 508,
+                                lineNumber: 507,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1011,12 +1006,12 @@ function PredictPage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                    lineNumber: 521,
+                                                    lineNumber: 520,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                lineNumber: 520,
+                                                lineNumber: 519,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1027,12 +1022,12 @@ function PredictPage() {
                                                     isActive: !!vitalsForPrediction
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                    lineNumber: 526,
+                                                    lineNumber: 525,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                lineNumber: 525,
+                                                lineNumber: 524,
                                                 columnNumber: 19
                                             }, this),
                                             prediction && treeResults.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardFooter"], {
@@ -1048,24 +1043,24 @@ function PredictPage() {
                                                         children: treeResults[i] || '...'
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                        lineNumber: 535,
+                                                        lineNumber: 534,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                lineNumber: 533,
+                                                lineNumber: 532,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, i, true, {
                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                        lineNumber: 519,
+                                        lineNumber: 518,
                                         columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                lineNumber: 512,
+                                lineNumber: 511,
                                 columnNumber: 13
                             }, this),
                             prediction && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -1081,19 +1076,19 @@ function PredictPage() {
                                                             className: "w-6 h-6"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                            lineNumber: 554,
+                                                            lineNumber: 553,
                                                             columnNumber: 23
                                                         }, this),
                                                         "How the Final Prediction is Made"
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                    lineNumber: 553,
+                                                    lineNumber: 552,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                lineNumber: 552,
+                                                lineNumber: 551,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1110,18 +1105,18 @@ function PredictPage() {
                                                                             className: "w-8 h-8"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                            lineNumber: 574,
+                                                                            lineNumber: 573,
                                                                             columnNumber: 31
                                                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$heart$2d$pulse$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__HeartPulse$3e$__["HeartPulse"], {
                                                                             className: "w-8 h-8"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                            lineNumber: 576,
+                                                                            lineNumber: 575,
                                                                             columnNumber: 31
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                        lineNumber: 565,
+                                                                        lineNumber: 564,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1132,7 +1127,7 @@ function PredictPage() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                        lineNumber: 579,
+                                                                        lineNumber: 578,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1143,25 +1138,25 @@ function PredictPage() {
                                                                         children: result
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                        lineNumber: 582,
+                                                                        lineNumber: 581,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, index, true, {
                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                lineNumber: 561,
+                                                                lineNumber: 560,
                                                                 columnNumber: 25
                                                             }, this))
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                        lineNumber: 559,
+                                                        lineNumber: 558,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowDown$3e$__["ArrowDown"], {
                                                         className: "w-12 h-12 text-muted-foreground"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                        lineNumber: 594,
+                                                        lineNumber: 593,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1178,7 +1173,7 @@ function PredictPage() {
                                                                                 children: riskyVotes
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                                lineNumber: 599,
+                                                                                lineNumber: 598,
                                                                                 columnNumber: 27
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1186,13 +1181,13 @@ function PredictPage() {
                                                                                 children: "Risky Votes"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                                lineNumber: 602,
+                                                                                lineNumber: 601,
                                                                                 columnNumber: 27
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                        lineNumber: 598,
+                                                                        lineNumber: 597,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1203,7 +1198,7 @@ function PredictPage() {
                                                                                 children: notRiskyVotes
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                                lineNumber: 607,
+                                                                                lineNumber: 606,
                                                                                 columnNumber: 27
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1211,19 +1206,19 @@ function PredictPage() {
                                                                                 children: "Not Risky Votes"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                                lineNumber: 610,
+                                                                                lineNumber: 609,
                                                                                 columnNumber: 27
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                        lineNumber: 606,
+                                                                        lineNumber: 605,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                lineNumber: 597,
+                                                                lineNumber: 596,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1231,7 +1226,7 @@ function PredictPage() {
                                                                 children: prediction
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                lineNumber: 615,
+                                                                lineNumber: 614,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1247,31 +1242,31 @@ function PredictPage() {
                                                                         children: prediction
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                        lineNumber: 627,
+                                                                        lineNumber: 626,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                lineNumber: 625,
+                                                                lineNumber: 624,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                        lineNumber: 596,
+                                                        lineNumber: 595,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                lineNumber: 558,
+                                                lineNumber: 557,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                        lineNumber: 551,
+                                        lineNumber: 550,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -1286,27 +1281,27 @@ function PredictPage() {
                                                                 className: "w-6 h-6 text-primary"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                lineNumber: 643,
+                                                                lineNumber: 642,
                                                                 columnNumber: 23
                                                             }, this),
                                                             "Why Random Forest Works"
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                        lineNumber: 642,
+                                                        lineNumber: 641,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
                                                         children: 'The "Random Forest" method provides a more reliable prediction by combining multiple decision trees.'
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                        lineNumber: 646,
+                                                        lineNumber: 645,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                lineNumber: 641,
+                                                lineNumber: 640,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1321,12 +1316,12 @@ function PredictPage() {
                                                                     className: "w-8 h-8 text-primary"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                    lineNumber: 654,
+                                                                    lineNumber: 653,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                lineNumber: 653,
+                                                                lineNumber: 652,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -1334,7 +1329,7 @@ function PredictPage() {
                                                                 children: "Multiple Perspectives"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                lineNumber: 656,
+                                                                lineNumber: 655,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1342,13 +1337,13 @@ function PredictPage() {
                                                                 children: "Each tree votes, providing a broader analysis than a single opinion."
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                lineNumber: 657,
+                                                                lineNumber: 656,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                        lineNumber: 652,
+                                                        lineNumber: 651,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1360,12 +1355,12 @@ function PredictPage() {
                                                                     className: "w-8 h-8 text-primary"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                    lineNumber: 664,
+                                                                    lineNumber: 663,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                lineNumber: 663,
+                                                                lineNumber: 662,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -1373,7 +1368,7 @@ function PredictPage() {
                                                                 children: "Reduces Errors"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                lineNumber: 666,
+                                                                lineNumber: 665,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1381,13 +1376,13 @@ function PredictPage() {
                                                                 children: "Averaging many trees cancels out individual errors."
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                lineNumber: 667,
+                                                                lineNumber: 666,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                        lineNumber: 662,
+                                                        lineNumber: 661,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1399,12 +1394,12 @@ function PredictPage() {
                                                                     className: "w-8 h-8 text-primary"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                    lineNumber: 673,
+                                                                    lineNumber: 672,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                lineNumber: 672,
+                                                                lineNumber: 671,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -1412,7 +1407,7 @@ function PredictPage() {
                                                                 children: "Higher Accuracy"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                lineNumber: 675,
+                                                                lineNumber: 674,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1420,19 +1415,19 @@ function PredictPage() {
                                                                 children: "The collective decision is more accurate and reliable, leading to better patient outcomes."
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                                lineNumber: 676,
+                                                                lineNumber: 675,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                        lineNumber: 671,
+                                                        lineNumber: 670,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                lineNumber: 651,
+                                                lineNumber: 650,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardFooter"], {
@@ -1444,18 +1439,18 @@ function PredictPage() {
                                                     children: prediction === 'Risky' ? 'This collective approach gives higher confidence in the "Risky" prediction.' : 'This collective approach confirms the patient is likely not at immediate risk.'
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                    lineNumber: 683,
+                                                    lineNumber: 682,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                                lineNumber: 682,
+                                                lineNumber: 681,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                                        lineNumber: 640,
+                                        lineNumber: 639,
                                         columnNumber: 17
                                     }, this)
                                 ]
@@ -1463,23 +1458,27 @@ function PredictPage() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                        lineNumber: 507,
+                        lineNumber: 506,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-                lineNumber: 403,
+                lineNumber: 402,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/dashboard/heart-attack-prediction/page.tsx",
-        lineNumber: 392,
+        lineNumber: 393,
         columnNumber: 5
     }, this);
 }
-_s1(PredictPage, "b+58mACC36JakYk4Ap/2brxXQ6M=");
+_s1(PredictPage, "98aO0QvQcKs4oiukaBbPBXGL7dM=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"]
+    ];
+});
 _c2 = PredictPage;
 var _c, _c1, _c2;
 __turbopack_context__.k.register(_c, "TreeNode");
