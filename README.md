@@ -12,8 +12,13 @@ An interactive and beginner-friendly web app to **learn Random Forest** — one 
 🧩 Beginner View
 <div align="center" style="display: flex; justify-content: center; gap: 10px;"> <img src="public/beginner-preview1.png" alt="Beginner Interface 1" width=full/> </div>
 <div align="center" style="display: flex; justify-content: center; gap: 10px;"> <img src="public/beginner-preview2.png" alt="Beginner Interface 2" width=full/> </div>
+<div align="center" style="display: flex; justify-content: center; gap: 10px;"> <img src="public/beginner-preview3.png" alt="Beginner Interface 3" width=full/> </div>
 🚀 Advanced View
-<div align="center" style="display: flex; justify-content: center; gap: 10px;"> <img src="public/advanced-preview1.png" alt="Advanced Interface 1" width="400"/> <img src="public/advanced-preview2.png" alt="Advanced Interface 2" width="400"/> </div>
+<div align="center" style="display: flex; justify-content: center; gap: 10px;"> <img src="public/advanced-preview1.png" alt="Advanced Interface 1" width=full/> </div>
+<div align="center" style="display: flex; justify-content: center; gap: 10px;"> <img src="public/advanced-preview2.png" alt="Advanced Interface 2" width=full/> </div>
+<div align="center" style="display: flex; justify-content: center; gap: 10px;"> <img src="public/advanced-preview3.png" alt="Advanced Interface 3" width=full/> </div>
+<div align="center" style="display: flex; justify-content: center; gap: 10px;"> <img src="public/advanced-preview4.png" alt="Advanced Interface 4" width=full/> </div>
+<div align="center" style="display: flex; justify-content: center; gap: 10px;"> <img src="public/advanced-preview5.png" alt="Advanced Interface 5" width=full/> </div>
 
 ---
 
@@ -131,6 +136,4 @@ Built with ❤️ using **Next.js**, **TypeScript**, and **Tailwind CSS**.
 
 ---
 
-[![Live Demo](https://img.shields.io/badge/Demo-Live-green?style=for-the-badge&logo=vercel)](https://forest-insights-git-main-chandan-kumars-projects-dc82feb1.vercel.app)
-[![GitHub Stars](https://img.shields.io/github/stars/chandank013/random-forest-visualization?style=for-the-badge)](https://github.com/chandank013/random-forest-visualization/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/chandank013/random-forest-visualization?style=for-the-badge)](https://github.com/chandank013/random-forest-visualization/network/members)
+[![Live Demo](https://new-rf-git-main-nitishnaveens-projects.vercel.app?_vercel_share=K6jTsnDMHsfVQ0aOnfa8x7aQkxYQwnax)](https://new-rf-git-main-nitishnaveens-projects.vercel.app?_vercel_share=K6jTsnDMHsfVQ0aOnfa8x7aQkxYQwnax)
