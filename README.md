@@ -10,8 +10,8 @@ An interactive and beginner-friendly web app to **learn Random Forest** — one 
 ## 🖼️ Project Preview
 
 🧩 Beginner View
-<div align="center" style="display: flex; justify-content: center; gap: 10px;"> <img src="public/beginner-preview1.png" alt="Beginner Interface 1" width="400"/> </div>
-<div align="center" style="display: flex; justify-content: center; gap: 10px;"> <img src="public/beginner-preview2.png" alt="Beginner Interface 2" width="400"/> </div>
+<div align="center" style="display: flex; justify-content: center; gap: 10px;"> <img src="public/beginner-preview1.png" alt="Beginner Interface 1" width=full/> </div>
+<div align="center" style="display: flex; justify-content: center; gap: 10px;"> <img src="public/beginner-preview2.png" alt="Beginner Interface 2" width=full/> </div>
 🚀 Advanced View
 <div align="center" style="display: flex; justify-content: center; gap: 10px;"> <img src="public/advanced-preview1.png" alt="Advanced Interface 1" width="400"/> <img src="public/advanced-preview2.png" alt="Advanced Interface 2" width="400"/> </div>
 
