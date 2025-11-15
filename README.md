@@ -3,7 +3,7 @@
 An interactive and beginner-friendly web app to **learn Random Forest** — one of the most powerful ensemble learning algorithms in Machine Learning — **through visualization**.  
 
 🎯 **Live Demo:**  
-👉 [https://forest-insights-git-main-chandan-kumars-projects-dc82feb1.vercel.app](https://forest-insights-git-main-chandan-kumars-projects-dc82feb1.vercel.app)
+👉 [https://new-rf-git-main-nitishnaveens-projects.vercel.app?_vercel_share=K6jTsnDMHsfVQ0aOnfa8x7aQkxYQwnax](https://new-rf-git-main-nitishnaveens-projects.vercel.app?_vercel_share=K6jTsnDMHsfVQ0aOnfa8x7aQkxYQwnax)
 
 ---
 
@@ -104,8 +104,7 @@ Forest-Insights/
 
 Clone the repository
 
-git clone https://github.com/chandank013/random-forest-visualization.git
-
+git clone https://github.com/NITISHNAVEEN/new_rf.git
 cd Forest-Insight
 
 Install dependencies
@@ -128,7 +127,7 @@ http://localhost:9002
 
 Team Forest-Insights
 
-Built with ❤️ using Next.js, TypeScript, and Tailwind CSS.
+Built with ❤️ using **Next.js**, **TypeScript**, and **Tailwind CSS**.
 
 ---
 
